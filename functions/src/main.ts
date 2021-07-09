@@ -12,7 +12,7 @@ async function bootstrap(expressInstance:any) {
   const app = await NestFactory.create(MossemAppModule, new ExpressAdapter(expressInstance));
   const config = new DocumentBuilder()
     .addServer("https://asia-northeast1-mossem.cloudfunctions.net/restapi")
-    .addServer("/mossem/asia-northeast1/restapi")
+    .addServer("/mossem-dfa21/asia-northeast1/restapi")
     .setTitle('ITSMarawi Mossem API')
     .setDescription('REST API for ITSMarawi Mossem')
     .setVersion('1.0')

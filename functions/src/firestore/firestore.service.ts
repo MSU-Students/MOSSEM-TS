@@ -13,7 +13,7 @@ export class FirestoreService {
     return this.db.collection('songs');
   }
   dances() {
-    return this.db.collection('dances');
+    return this.db.collection('dance');
   }
   pictures() {
     return this.db.collection('picture');

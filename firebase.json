@@ -6,6 +6,29 @@
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
   },
+  "emulators": {
+    "auth": {
+      "port": 9010
+    },
+    "functions": {
+      "port": 9011
+    },
+    "firestore": {
+      "port": 9012
+    },
+    "database": {
+      "port": 9013
+    },
+    "hosting": {
+      "port": 9014
+    },
+    "storage": {
+      "port": 9015
+    },
+    "ui": {
+      "enabled": true
+    }
+  },
   "database": {
     "rules": "database.rules.json"
   },
@@ -14,7 +37,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "public",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -29,29 +52,5 @@
   },
   "storage": {
     "rules": "storage.rules"
-  },
-  "emulators": {
-    "auth": {
-      "port": 9055
-    },
-    "functions": {
-      "port": 9054
-    },
-    "firestore": {
-      "port": 9053
-    },
-    "database": {
-      "port": 9052
-    },
-    "hosting": {
-      "port": 9051
-    },
-    "storage": {
-      "port": 9050
-    },
-    "ui": {
-      "enabled": true,
-      "port": 9000
-    }
   }
 }
