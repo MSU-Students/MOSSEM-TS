@@ -22,9 +22,7 @@
                 <q-card-section class="bg-card" horizontal>
                   <q-card-section class="q-pt-xs text-white">
                     <div class="text-overline">Overline</div>
-                    <div
-                      class="text-h2 text-white text-capitalize q-mt-sm q-mb-xs"
-                    >
+                    <div class="text-h2 text-white text-capitalize q-mt-sm q-mb-xs">
                       {{ instrument.title }}
                     </div>
                     <div class="text-subtitle1 text-white">
@@ -73,44 +71,41 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      slide: "sarimanok",
-      instruments: [
-        {
-          title: "sarimanok",
-          description: `2Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo consectetur
-          doloribus autem, sit officiis adipisci nostrum quisquam quam vel
-          cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
-          autem iste quod!`,
-          img: "landingpage.jpg",
-        },
-        {
-          title: "debakan",
-          description: ` 1Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo consectetur
-          doloribus autem, sit officiis adipisci nostrum quisquam quam vel
-          cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
-          autem iste quod!`,
-          img: "sarimanok.png",
-        },
-      ],
-    };
-  },
+<script lang="ts">
+import {Vue, Component} from 'vue-property-decorator';
 
-  methods: {
-    moveCarousel(newVal, oldVal) {
-      console.log(newVal, oldVal);
-      this.title = newVal;
+@Component({})
+export default class Instrument extends Vue {
+  slide = 'sarimanok';
+  title = '';
+  instruments = [
+    {
+      title: 'sarimanok',
+      description: `2Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo consectetur
+          doloribus autem, sit officiis adipisci nostrum quisquam quam vel
+          cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
+          autem iste quod!`,
+      img: 'landingpage.jpg',
     },
-  },
-};
+    {
+      title: 'debakan',
+      description: ` 1Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo consectetur
+          doloribus autem, sit officiis adipisci nostrum quisquam quam vel
+          cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
+          autem iste quod!`,
+      img: 'sarimanok.png',
+    },
+  ];
+
+  moveCarousel(newVal: string) {
+    this.title = newVal;
+  }
+}
 </script>
 
 <style scoped>
 .bg-img {
-  background-image: url("~assets/background/BackGroundBlur.jpg");
+  background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
 }
 </style>

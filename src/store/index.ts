@@ -1,8 +1,8 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
-// import example from './module-example';
-// import { ExampleStateInterface } from './module-example/state';
+import dance from './dance-module';
+import { IDance } from './dance-module/state';
 
 /*
  * If not building with SSR mode, you can
@@ -11,7 +11,7 @@ import Vuex from 'vuex';
 
 export interface StateInterface {
   // Define your own store structure, using submodules if needed
-  // example: ExampleStateInterface;
+  dance: IDance;
 }
 
 export default store(function({ Vue }) {
@@ -19,7 +19,7 @@ export default store(function({ Vue }) {
 
   const Store = new Vuex.Store<StateInterface>({
     modules: {
-      // example
+      dance
     },
 
     // enable strict mode (adds overhead!)

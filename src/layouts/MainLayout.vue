@@ -173,20 +173,16 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      drawer: false,
-      miniState: true,
-      link: 'Songs',
-      link: 'Pictures',
-      link: 'Instruments',
-      link: 'Dances',
-      text: ''
-    };
-  }
-};
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({})
+export default class MainLayout extends Vue {
+  drawer = false;
+  miniState = true;
+  link = '';
+  text = '';
+}
 </script>
 
 <style scoped>

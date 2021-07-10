@@ -76,46 +76,43 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      slide: "“INIYA-I”",
-      Songs: [
-        {
-          title: "“INIYA-I”",
-          description: `Iniya-I anda ka song? Nasaya bo sa siringan. Na oba ka pakawatan, ka maylay ka so gadong 
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({})
+export default class Song extends Vue {
+  slide = '“INIYA-I”';
+  title = '';
+  Songs = [
+    {
+      title: '“INIYA-I”',
+      description: `Iniya-I anda ka song? Nasaya bo sa siringan. Na oba ka pakawatan, ka maylay ka so gadong
           a manisan a di sakun. Na kalipatan na akongka, a
           gaganatan sa walay, ka aya pusana angko ka oba ka kalipati so kiya ginawa-ita.
           Bolawan ko dika kawan ka suka man so gadong ko, a pinalotan ko sa bo’k, adi ko pakisasambur ko
           pisarimbara n’ndo. Bolawan ko sarig kadun, ka suka man so liyamin, a bologa kalombayan, a tihaya ko
           mata ko, ko gagawi-I dawn-daw.`,
-          img: "landingpage.jpg",
-        },
-        {
-          title: "“TAW KO MAGI’NGUD”",
-          description: ` Hmmmm….Hmmmmm…. Ahhhhh…. Ahhhh…. Suka kami so taw ko magi’ngud ilaya niyo ka pipiya-piya,
+      img: 'landingpage.jpg'
+    },
+    {
+      title: '“TAW KO MAGI’NGUD”',
+      description: ` Hmmmm….Hmmmmm…. Ahhhhh…. Ahhhh…. Suka kami so taw ko magi’ngud ilaya niyo ka pipiya-piya,
           Barasin niyo so taw ko magi’ngud ilaya niyo ka tatagompiya. Sukami so taw ko magi’ngud ilaya niyo ka
           giginawa-i. Sukami so taw ko magi’ngud…. Makagaganat sa mipapantaw a ingud(2x). Ahhhhh…..
           ahah…ahhhh….`,
-          img: "sarimanok.png",
-        },
-      ],
-    };
-  },
+      img: 'sarimanok.png'
+    }
+  ];
 
-  methods: {
-    moveCarousel(newVal, oldVal) {
-      console.log(newVal, oldVal);
-      this.title = newVal;
-    },
-  },
-};
+  moveCarousel(newVal: string) {
+    this.title = newVal;
+  }
+}
 </script>
 
 <style scoped>
 .bg-img {
-  background-image: url("~assets/background/BackGroundBlur.jpg");
+  background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
 }
 </style>

@@ -1,0 +1,151 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mossem API",
+    "description": "REST API for Mossem",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [{ "name": "food mossem", "description": "" }],
+  "servers": [
+    { "url": "/mossem-dfa21/asia-northeast1/restapi" },
+    { "url": "https://asia-northeast1-mossem-dfa21.cloudfunctions.net/restapi" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": { "scheme": "bearer", "bearerFormat": "JWT", "type": "http" }
+    },
+    "schemas": {
+      "DanceDto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["id", "url", "name", "description"]
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "about",
+        "summary": "About this REST API",
+        "parameters": [],
+        "responses": { "200": { "description": "" } }
+      }
+    },
+    "/dance": {
+      "post": {
+        "operationId": "AddDance",
+        "summary": "Add new dance",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DanceDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DanceDto" }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "GetDances",
+        "summary": "Get information of all dance",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/DanceDto" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "UpdateDance",
+        "summary": "update dance",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/DanceDto" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "" } }
+      }
+    },
+    "/dance/{id}": {
+      "get": {
+        "operationId": "GetDance",
+        "summary": "Get information of dance with id {id}",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DanceDto" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteDance",
+        "summary": "Delete dance with id {id}",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DanceDto" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

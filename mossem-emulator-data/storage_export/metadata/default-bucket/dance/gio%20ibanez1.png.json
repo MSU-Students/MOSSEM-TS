@@ -1,0 +1,19 @@
+{
+  "name": "dance/gio ibanez1.png",
+  "bucket": "default-bucket",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1625924510121,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "a668165b-f820-453f-b24b-dce716ba4c36"
+  ],
+  "timeCreated": "2021-07-10T13:41:50.120Z",
+  "updated": "2021-07-10T13:41:50.127Z",
+  "size": 224178,
+  "md5Hash": "xsQ2YxSJ/J1j+9Mj1ICO6w==",
+  "crc32c": "2960329591"
+}

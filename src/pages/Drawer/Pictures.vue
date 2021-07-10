@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area style="height: 750px; max-width: 3000px;">
+  <q-scroll-area style="height: 750px; max-width: 3000px">
     <div class="q-pa-md">
       <div class="row justify-center q-gutter-sm">
         <q-intersection
@@ -49,10 +49,7 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <img
-              src="~assets/background/TribalPattern.jpg"
-              style="max-width:100%"
-            />
+            <img src="~assets/background/TribalPattern.jpg" style="max-width: 100%" />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -60,21 +57,19 @@
   </q-scroll-area>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showImage: false,
-      description: ""
-    };
-  },
-  methods: {
-    showDialog(index) {
-      this.showImage = true;
-      this.description = index;
-    }
+<script lang="ts">
+import {Vue, Component} from 'vue-property-decorator';
+
+@Component({})
+export default class Picture extends Vue {
+  showImage = false;
+  description = '';
+
+  showDialog(index: string) {
+    this.showImage = true;
+    this.description = index;
   }
-};
+}
 </script>
 
 <style scoped>

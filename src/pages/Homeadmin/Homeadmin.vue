@@ -1,7 +1,7 @@
 <template>
-  <q-scroll-area style="height: 650px;">
+  <q-scroll-area style="height: 650px">
     <q-page class="text-center text-h4 q-pa-lg">
-      <q-card class=" q-pa-md">
+      <q-card class="q-pa-md">
         <div class="row">
           <div class="col">
             <q-avatar>
@@ -22,14 +22,14 @@
           align="justify"
           narrow-indicator
         >
-          <q-tab name="dances" label="Dances" />
+          <q-tab name="dance" label="Dances" />
           <q-tab name="instruments" label="Instruments" />
           <q-tab name="pictures" label="Pictures" />
           <q-tab name="songs" label="Songs" />
         </q-tabs>
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="dances">
+          <q-tab-panel name="dance">
             <div class="q-pa-md">
               <div class="q-pa-md">
                 <q-input v-model="search" filled type="search" hint="Search">
@@ -74,9 +74,7 @@
                 >
                   <q-item>
                     <q-item-section top class="col-2 gt-sm">
-                      <q-item-label class="q-mt-sm">{{
-                        dance.Id
-                      }}</q-item-label>
+                      <q-item-label class="q-mt-sm">{{ dance.Id }}</q-item-label>
                     </q-item-section>
 
                     <q-item-section top>
@@ -86,22 +84,8 @@
                     </q-item-section>
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -143,9 +127,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -161,22 +143,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -195,9 +163,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -213,22 +179,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -268,9 +220,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -286,22 +236,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -320,9 +256,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -338,22 +272,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -393,9 +313,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -411,22 +329,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -445,9 +349,7 @@
 
                     <q-item-section top>
                       <q-item-label lines="1">
-                        <span class="text-weight-medium"
-                          >[quasarframework/quasar]</span
-                        >
+                        <span class="text-weight-medium">[quasarframework/quasar]</span>
                         <span class="text-grey-8"> - GitHub repository</span>
                       </q-item-label>
                       <q-item-label caption lines="1">
@@ -463,22 +365,8 @@
 
                     <q-item-section top side>
                       <div class="text-grey-8 q-gutter-xs">
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="delete"
-                        />
-                        <q-btn
-                          class="gt-xs"
-                          size="12px"
-                          flat
-                          dense
-                          round
-                          icon="done"
-                        />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
+                        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
                         <q-btn size="12px" flat dense round icon="more_vert" />
                       </div>
                     </q-item-section>
@@ -493,26 +381,26 @@
   </q-scroll-area>
 </template>
 
-<script>
+<script lang='ts'>
 export default {
   data() {
     return {
-      tab: "dances",
+      tab: 'dance',
       dancelist: [
         {
-          Id: "1",
-          Name: "Malong-Malong"
+          Id: '1',
+          Name: 'Malong-Malong',
         },
         {
-          Id: "2",
-          Name: "Sagayan"
+          Id: '2',
+          Name: 'Sagayan',
         },
         {
-          Id: "3",
-          Name: "Kapag-apir"
-        }
-      ]
+          Id: '3',
+          Name: 'Kapag-apir',
+        },
+      ],
     };
-  }
+  },
 };
 </script>

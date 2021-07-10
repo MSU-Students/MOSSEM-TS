@@ -2,7 +2,7 @@
   <q-page class="flex flex-center bg-img q-px-md">
     <q-card
       class="shadow-24 text-white flex flex-center Glassmorphismlogin"
-      style="background: linear-gradient(to top right, #fe7a15 55%, #d9d9d9 110%);"
+      style="background: linear-gradient(to top right, #fe7a15 55%, #d9d9d9 110%)"
       :class="$q.screen.lt.md ? '' : 'row'"
       :style="$q.screen.lt.md ? '' : 'width: 800px;'"
     >
@@ -14,19 +14,11 @@
         />
       </transition>
 
-      <div
-        class="q-px-xl"
-        :class="$q.screen.lt.md ? ' q-pa-xl' : 'login-field'"
-      >
+      <div class="q-px-xl" :class="$q.screen.lt.md ? ' q-pa-xl' : 'login-field'">
         <transition appear enter-active-class="animated fadeInUp">
-          <q-img
-            style="max-width: 400px; height: 170px;"
-            src="~assets/logo/splogo1.png"
-          />
+          <q-img style="max-width: 400px; height: 170px" src="~assets/logo/splogo1.png" />
         </transition>
-        <div class="text-center text-h3">
-          Login
-        </div>
+        <div class="text-center text-h3">Login</div>
 
         <q-card-section class="q-gutter-y-md">
           <q-input
@@ -82,15 +74,14 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      user: {},
-      hidePassword: false
-    };
-  }
-};
+<script lang='ts'>
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({})
+export default class Login extends Vue {
+  user = {};
+  hidePasswor = false;
+}
 </script>
 
 <style scoped>

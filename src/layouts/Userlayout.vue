@@ -1,10 +1,7 @@
 <template>
   <q-layout view="hHh lpR fff">
     <transition appear enter-active-class="animated fadeInDown">
-      <q-header
-        v-if="$route.name != 'login-page'"
-        class="backdrop-filter text-white"
-      >
+      <q-header v-if="$route.name != 'login-page'" class="backdrop-filter text-white">
         <div :class="$q.screen.lt.md ? '' : 'row'">
           <div
             :class="
@@ -18,11 +15,7 @@
             </q-icon>
             MOSSEM
           </div>
-          <div
-            :class="
-              $q.screen.lt.md ? 'col q-pl-md q-pt-md' : 'col q-pl-md q-pt-lg'
-            "
-          >
+          <div :class="$q.screen.lt.md ? 'col q-pl-md q-pt-md' : 'col q-pl-md q-pt-lg'">
             <q-toolbar>
               <q-toolbar-title> </q-toolbar-title>
               <q-btn
@@ -73,8 +66,11 @@
   </q-layout>
 </template>
 
-<script>
-export default {};
+<script lang='ts'>
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({})
+export default class UserLayout extends Vue {}
 </script>
 
 <style scoped>
