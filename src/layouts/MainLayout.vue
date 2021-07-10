@@ -34,7 +34,7 @@
           </q-input>
           <!-- Menu -->
           <q-btn
-            v-if="this.$route.name == 'Homeadmin-page'"
+            v-if="$route.name == 'Homeadmin-page'"
             outline
             icon="person"
             label="Account"
@@ -160,28 +160,33 @@
     </q-drawer>
 
     <q-page-container class="custom-page-container">
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
-        <router-view> </router-view>
-      </transition>
+      <router-view v-slot="{ Component }">
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
+          leave-active-class="animated fadeOut"
+        >
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
 
-<script lang="ts">
-import { Vue, Options } from "vue-class-component";
-export default class MainLayout extends Vue {
-  drawer = false;
-  miniState = true;
-  link = "Songs";
-  link = "Pictures";
-  link = "Instruments";
-  link = "Dances";
-  text = "";
-}
+<script>
+export default {
+  data() {
+    return {
+      drawer: false,
+      miniState: true,
+      link: 'Songs',
+      link: 'Pictures',
+      link: 'Instruments',
+      link: 'Dances',
+      text: ''
+    };
+  }
+};
 </script>
 
 <style scoped>
@@ -189,16 +194,16 @@ export default class MainLayout extends Vue {
   background: linear-gradient(to top, #68130288 1%, #8b8373a2 64%);
 }
 .bg-img {
-  background-image: url("~assets/background/BackGroundBlur.jpg");
+  background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
 }
 .header-bg {
-  background-image: url("~assets/background/TribalPattern.jpg");
+  background-image: url('~assets/background/TribalPattern.jpg');
   background-position: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
 .drawer-bg {
-  background-image: url("~assets/background/TribalPattern.jpg");
+  background-image: url('~assets/background/TribalPattern.jpg');
   background-position-y: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }

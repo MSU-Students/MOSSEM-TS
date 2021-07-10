@@ -1,25 +1,37 @@
 {
-  "name": "mossem-ts",
+  "name": "mossem",
   "version": "0.0.1",
   "description": "A Capstone Project",
   "productName": "Mossem App",
-  "author": "abdulmatinmorenomaruhom <maruhomabdulmatin@gmail.com>",
+  "author": "abdulmatin <abdulmatin@gmail.com>",
   "private": true,
   "scripts": {
+    "start": "quasar dev",
+    "build": "quasar build",
+    "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "aos": "^3.0.0-beta.6",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "firebase": "^8.7.0",
-    "quasar": "^2.0.0",
-    "vue-class-component": "^8.0.0-rc.1",
-    "vuex": "^4.0.1"
+    "firebase": "^8.6.8",
+    "quasar": "^1.0.0",
+    "vue-class-component": "^7.2.2",
+    "vue-property-decorator": "^8.3.0"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0",
-    "@types/node": "^10.17.15"
+    "@quasar/app": "^2.0.0",
+    "@types/aos": "^3.0.4",
+    "@types/node": "^10.17.15",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^7.7.0",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "last 10 Chrome versions",
@@ -33,7 +45,7 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }

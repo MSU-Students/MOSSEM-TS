@@ -1,8 +1,17 @@
 <template>
-  <router-view />
+  <div id="q-app">
+    <router-view />
+  </div>
 </template>
 <script lang="ts">
-import { Vue } from 'vue-class-component'
+import { Vue, Component } from 'vue-property-decorator';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-export default class App extends Vue {}
+@Component
+export default class App extends Vue {
+  created() {
+    AOS.init();
+  }
+}
 </script>

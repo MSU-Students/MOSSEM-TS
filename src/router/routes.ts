@@ -1,21 +1,71 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteConfig } from 'vue-router';
 
-const routes: RouteRecordRaw[] = [
+import UserLayout from 'src/layouts/UserLayout.vue';
+import Landingpage from 'src/pages/LandingPage.vue';
+import MainLayout from 'src/layouts/MainLayout.vue';
+import Login from 'src/pages/auth/Login.vue';
+import Homeadmin from 'src/pages/Homeadmin/Homeadmin.vue';
+import Dances from 'src/pages/Drawer/Dances.vue';
+import Instruments from 'src/pages/Drawer/Instruments.vue';
+import Songs from 'src/pages/Drawer/Songs.vue';
+import Pictures from 'src/pages/Drawer/Pictures.vue';
+
+const routes: RouteConfig[] = [
   {
     path: '/',
-    component: () => import('layouts/Userlayout.vue'),
+    component: UserLayout,
     children: [
-      { path: '', component: () => import('pages/Landingpage.vue') },
-      { path: 'login', component: () => import('pages/auth/Login.vue')}
-  ],
+      {
+        path: '/',
+        name: 'landing-page',
+        component: Landingpage
+      },
+      {
+        path: 'login',
+        name: 'login-page',
+        component: Login
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: MainLayout,
+    children: [
+      {
+        path: 'Homeadmin',
+        name: 'Homeadmin-page',
+        component: Homeadmin
+      },
+
+      {
+        path: 'Dances',
+        name: 'Dances-page',
+        component: Dances
+      },
+      {
+        path: 'Songs',
+        name: 'Songs-page',
+        component: Songs
+      },
+      {
+        path: 'Instruments',
+        name: 'Instruments-page',
+        component: Instruments
+      },
+      {
+        path: 'Pictures',
+        name: 'Pictures-page',
+        component: Pictures
+      }
+    ]
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue'),
-  },
+    path: '*',
+    component: () => import('pages/Error404.vue')
+  }
 ];
 
 export default routes;

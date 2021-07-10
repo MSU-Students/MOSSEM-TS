@@ -1,7 +1,7 @@
 <template>
   <q-page class="bg-img">
     <div class="q-gutter-md">
-      <div class="row justify-between ">
+      <div class="row justify-between">
         <div class="col">
           <q-img
             :class="$q.screen.lt.md ? '' : ''"
@@ -18,7 +18,7 @@
                     : 'font1 col text-left text-h4 text-white text-weight-bolder q-mt-xl q-pt-lg'
                 "
               >
-                <h1 v-if="!$q.screen.lt.md" class="text-center text-white ">
+                <h1 v-if="!$q.screen.lt.md" class="text-center text-white">
                   Sining Pananadem
                 </h1>
                 <div v-else="$q.screen.lt.md" class="q-mt-xl q-pt-md">
@@ -46,16 +46,14 @@
         >
           <q-img
             src="~assets/background/landingpage.jpg"
-            style="max-width: 1000px; height: 400px; "
-            :fit="mode"
+            style="max-width: 1000px; height: 400px"
           >
           </q-img>
         </div>
-        <div data-aos="fade-up" data-aos-duration="2500"
-        data-aos-delay="500">
+        <div data-aos="fade-up" data-aos-duration="2500" data-aos-delay="500">
           <q-card class="my-card Glassmorphismright col">
             <q-card-section class="q-gutter-md text-white">
-              <div class="font3 text-bold text-h4 ">What Is Culture?</div>
+              <div class="font3 text-bold text-h4">What Is Culture?</div>
               <div class="font1 text-subtitle2">
                 Culture is the characteristics and knowledge of a particular
                 group of people, encompassing language, religion, cuisine,
@@ -74,16 +72,20 @@
             data-aos-easing="ease-out-cubic"
             data-aos-duration="2000"
             src="~assets/background/landingpage.jpg"
-            style="max-width: 1000px; height: 400px; position: relative; top: 10px; left: 450px;"
-            :fit="mode"
+            style="
+              max-width: 1000px;
+              height: 400px;
+              position: relative;
+              top: 10px;
+              left: 450px;
+            "
           >
           </q-img>
         </div>
-        <div data-aos="fade-up" data-aos-duration="2000"
-        data-aos-delay="500">
+        <div data-aos="fade-up" data-aos-duration="2000" data-aos-delay="500">
           <q-card class="my-card-next Glassmorphism col">
             <q-card-section class="q-gutter-md text-white">
-              <div class="font3 text-h4 ">What Is Sining Pananadem?</div>
+              <div class="font3 text-h4">What Is Sining Pananadem?</div>
               <div class="font1 text-subtitle2">
                 Sining Pananadem is composed of young M’ranao artists, and its
                 primary objectives are: to Preserve, Promote, to Protect and to
@@ -224,29 +226,30 @@
           </q-timeline-entry>
         </q-timeline>
       </div>
-        </div>
-      </div>
     </div>
   </q-page>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({
   computed: {
     layout() {
       return this.$q.screen.lt.sm
-        ? "dense"
+        ? 'dense'
         : this.$q.screen.lt.md
-        ? "comfortable"
-        : "loose";
+        ? 'comfortable'
+        : 'loose';
     }
   }
-};
+})
+export default class LandingPage extends Vue {}
 </script>
 
 <style scopes>
 .landing-bg {
-  background-image: url("~assets/background/landingpage.jpg");
+  background-image: url('~assets/background/landingpage.jpg');
   background-position: center;
 }
 
@@ -268,33 +271,38 @@ export default {
   left: -200px;
 }
 .bg-img {
-  background-image: url("~assets/background/BackGroundBlur.jpg");
+  background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
 }
-.radius
-{
+.radius {
   border-radius: 28px;
 }
-.Glassmorphism
-{
-backdrop-filter: blur(1px);
--webkit-backdrop-filter:blur(1px);
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-background-image: linear-gradient(155deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0) 100%);
-border-radius: 28px;
-border-bottom: 1.8px solid rgba( 255, 255, 255, 0.79 );
-border-left: 1.8px solid rgba( 255, 255, 255, 0.79 );
-text-shadow: 2px 2px 10px #000000;
+.Glassmorphism {
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background-image: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 28px;
+  border-bottom: 1.8px solid rgba(255, 255, 255, 0.79);
+  border-left: 1.8px solid rgba(255, 255, 255, 0.79);
+  text-shadow: 2px 2px 10px #000000;
 }
-.Glassmorphismright
-{
-backdrop-filter: blur(1px);
--webkit-backdrop-filter:blur(1px);
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-background-image: linear-gradient(155deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0) 100%);
-border-radius: 28px;
-border-bottom: 1.8px solid rgba( 255, 255, 255, 0.79 );
-border-right: 1.8px solid rgba( 255, 255, 255, 0.79 );
-text-shadow: 2px 2px 10px #000000;
+.Glassmorphismright {
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background-image: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 28px;
+  border-bottom: 1.8px solid rgba(255, 255, 255, 0.79);
+  border-right: 1.8px solid rgba(255, 255, 255, 0.79);
+  text-shadow: 2px 2px 10px #000000;
 }
 </style>
