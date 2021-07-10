@@ -1,0 +1,19 @@
+{
+  "name": "instrument/kulintang.png",
+  "bucket": "default-bucket",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1625855556597,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "bdd3e0a9-9949-448d-9985-6564ba4229ad"
+  ],
+  "timeCreated": "2021-07-09T18:32:36.596Z",
+  "updated": "2021-07-09T18:32:36.599Z",
+  "size": 622399,
+  "md5Hash": "pmys5Z5MCfpmdwsvb2egTQ==",
+  "crc32c": "1371729493"
+}

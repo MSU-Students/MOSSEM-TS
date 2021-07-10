@@ -1,0 +1,19 @@
+{
+  "name": "picture/Sagayan.jpeg",
+  "bucket": "default-bucket",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1625855568757,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "8080d21f-ee97-4eb8-920a-8c7491f68d88"
+  ],
+  "timeCreated": "2021-07-09T18:32:48.756Z",
+  "updated": "2021-07-09T18:32:48.757Z",
+  "size": 135302,
+  "md5Hash": "fxg3bOzgiWmLjZTwO1Egjw==",
+  "crc32c": "2158630291"
+}

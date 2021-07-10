@@ -1,0 +1,19 @@
+{
+  "name": "picture/Apir.jpeg",
+  "bucket": "default-bucket",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1625855568886,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "7203280c-5ca6-43ec-aabc-d05905ca6d86"
+  ],
+  "timeCreated": "2021-07-09T18:32:48.885Z",
+  "updated": "2021-07-09T18:32:48.896Z",
+  "size": 1273588,
+  "md5Hash": "YHLzSh319Z55k8Gagjp83Q==",
+  "crc32c": "4052207010"
+}
