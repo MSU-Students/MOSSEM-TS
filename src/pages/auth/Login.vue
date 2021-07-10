@@ -6,15 +6,12 @@
       :class="$q.screen.lt.md ? '' : 'row'"
       :style="$q.screen.lt.md ? '' : 'width: 800px;'"
     >
-      <transition
-        appear
-        enter-active-class="animated fadeInRight"
-      >
-      <q-img
-        v-if="!$q.screen.lt.md"
-        src="~assets/background/splogincover.jpg"
-        class="col-6 login-photo"
-              />
+      <transition appear enter-active-class="animated fadeInRight">
+        <q-img
+          v-if="!$q.screen.lt.md"
+          src="~assets/background/splogincover.jpg"
+          class="col-6 login-photo"
+        />
       </transition>
 
       <div
@@ -106,19 +103,21 @@ export default {
   width: 50%;
 }
 .bg-img {
-  background-image: url("~assets/background/loginbackground.jpg");
+  background-image: url('~assets/background/loginbackground.jpg');
   height: 100%;
   width: 100%;
 }
 
-.Glassmorphismlogin
-{
-backdrop-filter: blur(5px);
--webkit-backdrop-filter:blur(5px);
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-background-image: linear-gradient(155deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0) 100%);
-border-bottom: 1.8px solid rgba( 255, 255, 255, 0.79 );
-border-right: 1.8px solid rgba( 255, 255, 255, 0.79 );
+.Glassmorphismlogin {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  background-image: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-bottom: 1.8px solid rgba(255, 255, 255, 0.79);
+  border-right: 1.8px solid rgba(255, 255, 255, 0.79);
 }
-
 </style>

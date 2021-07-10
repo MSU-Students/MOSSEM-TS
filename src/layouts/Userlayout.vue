@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fff">
     <transition appear enter-active-class="animated fadeInDown">
       <q-header
-        v-if="this.$route.name != 'login-page'"
+        v-if="$route.name != 'login-page'"
         class="backdrop-filter text-white"
       >
         <div :class="$q.screen.lt.md ? '' : 'row'">
@@ -54,7 +54,7 @@
       </q-header>
     </transition>
 
-    <q-footer v-if="this.$route.name != 'login-page'" class="backdrop-filter">
+    <q-footer v-if="$route.name != 'login-page'" class="backdrop-filter">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>

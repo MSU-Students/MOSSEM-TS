@@ -1,1 +1,1 @@
-firebase emulators:start --export-on-exit="./mossem-emulator-data" --import="./mossem-emulator-data"
+firebase emulators:start --import="./mossem-emulator-data" --export-on-exit="./mossem-emulator-data"

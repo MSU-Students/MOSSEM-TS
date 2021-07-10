@@ -1,10 +1,16 @@
 <template>
-  <q-page class="q-pa-md ">
-    <q-scroll-area style="height: 700px;">
+  <q-page class="q-pa-md">
+    <q-scroll-area style="height: 700px">
       <div :class="$q.screen.lt.md ? '' : 'row'">
         <template>
-          <div class=" col-6 flex flex-center text-center">
-            <div :class="$q.screen.lt.md ? 'text-h4 text-center text-white': 'absolute-top text-white text-h2 text-center'">
+          <div class="col-6 flex flex-center text-center">
+            <div
+              :class="
+                $q.screen.lt.md
+                  ? 'text-h4 text-center text-white'
+                  : 'absolute-top text-white text-h2 text-center'
+              "
+            >
               INSTRUMENTS
             </div>
             <template v-for="(instrument, index) in instruments">
@@ -30,10 +36,7 @@
             </template>
           </div>
           <div class="col-6">
-            <transition
-              appear
-              enter-active-class="animated fadeInRight"
-            >
+            <transition appear enter-active-class="animated fadeInRight">
               <q-carousel
                 v-model="slide"
                 transition-prev="jump-left"
@@ -50,18 +53,17 @@
                 class="bg-transparent text-white rounded-borders"
                 @transition="moveCarousel(slide)"
               >
-                <template v-for="(instrument, index) in instruments">
-                  <q-carousel-slide
-                    :name="instrument.title"
-                    class="column no-wrap flex-center"
-                    :key="index"
-                  >
-                    <img
-                      :src="require(`../../assets/${instrument.img}`)"
-                      style="max-width: 350px; height: 250px;"
-                    />
-                  </q-carousel-slide>
-                </template>
+                <q-carousel-slide
+                  v-for="(instrument, index) in instruments"
+                  :name="instrument.title"
+                  class="column no-wrap flex-center"
+                  :key="index"
+                >
+                  <img
+                    :src="require(`../../assets/${instrument.img}`)"
+                    style="max-width: 350px; height: 250px"
+                  />
+                </q-carousel-slide>
               </q-carousel>
             </transition>
           </div>
@@ -83,7 +85,7 @@ export default {
           doloribus autem, sit officiis adipisci nostrum quisquam quam vel
           cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
           autem iste quod!`,
-          img: "landingpage.jpg"
+          img: "landingpage.jpg",
         },
         {
           title: "debakan",
@@ -91,9 +93,9 @@ export default {
           doloribus autem, sit officiis adipisci nostrum quisquam quam vel
           cupiditate repudiandae voluptatibus ea! Impedit, numquam eius tempore
           autem iste quod!`,
-          img: "sarimanok.png"
-        }
-      ]
+          img: "sarimanok.png",
+        },
+      ],
     };
   },
 
@@ -101,8 +103,8 @@ export default {
     moveCarousel(newVal, oldVal) {
       console.log(newVal, oldVal);
       this.title = newVal;
-    }
-  }
+    },
+  },
 };
 </script>
 
