@@ -1,0 +1,19 @@
+{
+  "name": "instrument/agong.png",
+  "bucket": "default-bucket",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1625855556570,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "6f3bd4f3-c22c-41e5-88cd-af39bd863bce"
+  ],
+  "timeCreated": "2021-07-09T18:32:36.569Z",
+  "updated": "2021-07-09T18:32:36.571Z",
+  "size": 350742,
+  "md5Hash": "LGjSH19+4hkIU6SKIqrG/Q==",
+  "crc32c": "496689846"
+}

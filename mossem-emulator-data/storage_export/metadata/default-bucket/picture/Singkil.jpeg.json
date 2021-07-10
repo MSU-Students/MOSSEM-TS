@@ -1,0 +1,19 @@
+{
+  "name": "picture/Singkil.jpeg",
+  "bucket": "default-bucket",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1625855568776,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "9c4e3f86-950f-408b-a349-209db94d4565"
+  ],
+  "timeCreated": "2021-07-09T18:32:48.775Z",
+  "updated": "2021-07-09T18:32:48.775Z",
+  "size": 81481,
+  "md5Hash": "4XWDFz6PzvAyXwEMjWBTYg==",
+  "crc32c": "759550659"
+}
