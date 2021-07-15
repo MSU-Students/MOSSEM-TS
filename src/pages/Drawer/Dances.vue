@@ -29,7 +29,7 @@
             <q-btn
               v-if="active"
               size="lg"
-              icon="home"
+              icon="Tv"
               color="yellow"
               flat
               round
