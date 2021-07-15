@@ -1,16 +1,13 @@
+import { DanceDto } from 'src/services/rest-api';
+
 export interface IDance {
-  dance: {
-    id?: string;
-    url: string;
-    name: string;
-    description: string;
-  };
-  dances: string[];
+  createDance: DanceDto;
+  dances: DanceDto[];
 }
 
 function state(): IDance {
   return {
-    dance: {
+    createDance: {
       id: '',
       url: '',
       name: '',

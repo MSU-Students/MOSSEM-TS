@@ -1,17 +1,16 @@
 <template>
-  <q-page class="bg-img">
+  <q-page class="bg-img q-pb-lg">
     <div class="q-gutter-md">
       <div class="row justify-between">
         <div class="col">
           <q-img
+          elevated
             :class="$q.screen.lt.md ? '' : ''"
             src="~assets/background/landingpage.jpg"
             :ratio="16 / 9"
-          >
+          ><transition appear enter-active-class="animated fadeIn">
             <div class="transparent q-mt-xl">
               <div
-                data-aos="zoom-out"
-                data-aos-duration="1500"
                 :class="
                   $q.screen.lt.md
                     ? 'font1 full text-center text-h6 text-white text-weight-bolder'
@@ -34,6 +33,7 @@
                 </div>
               </div>
             </div>
+            </transition>
           </q-img>
         </div>
       </div>
@@ -230,7 +230,7 @@ export default class LandingPage extends Vue {}
   max-width: 550px;
   position: relative;
   top: 150px;
-  left: -750px;
+  left: -690px;
 }
 
 .my-card {

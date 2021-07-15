@@ -1,0 +1,19 @@
+{
+  "name": "dance/undefined",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "application/octet-stream",
+  "metageneration": 1,
+  "generation": 1626271189427,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "ad063e8a-e0bd-45aa-988e-a07368661c9a"
+  ],
+  "timeCreated": "2021-07-14T13:59:49.426Z",
+  "updated": "2021-07-14T13:59:49.426Z",
+  "size": 9,
+  "md5Hash": "XlQyVsSArFd9MPdvkSDrdA==",
+  "crc32c": "1385702548"
+}

@@ -9,6 +9,7 @@ import Dances from 'src/pages/Drawer/Dances.vue';
 import Instruments from 'src/pages/Drawer/Instruments.vue';
 import Songs from 'src/pages/Drawer/Songs.vue';
 import Pictures from 'src/pages/Drawer/Pictures.vue';
+import AdminLayout from 'src/layouts/AdminLayout.vue';
 
 const routes: RouteConfig[] = [
   {
@@ -29,14 +30,19 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/',
-    component: MainLayout,
+    component: AdminLayout,
     children: [
       {
         path: 'Homeadmin',
         name: 'Homeadmin-page',
         component: Homeadmin
-      },
-
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: MainLayout,
+    children: [
       {
         path: 'Dances',
         name: 'Dances-page',

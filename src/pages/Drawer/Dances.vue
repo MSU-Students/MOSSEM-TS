@@ -1,5 +1,13 @@
 <template>
   <q-page class="q-px-lg flex flex-center">
+    <q-ajax-bar
+      class="absolute-top"
+      ref="bar"
+      position="top"
+      color="white"
+      size="5px"
+      skip-hijack
+    />
     <div class="q-gutter-md">
       <transition appear enter-active-class="animated fadeInRight">
         <q-carousel
@@ -44,7 +52,6 @@
             :key="index"
             :name="dance.name"
           >
-            {{ convertUrl(dance.url) }}
             <div class="q-pa-md">
               <q-video class="absolute-full" :src="convertUrl(dance.url)" />
             </div>
@@ -97,6 +104,11 @@ interface IDance {
   description: string;
 }
 
+interface RefsVue extends Vue {
+  start(): void;
+  stop(): void;
+}
+
 @Component({
   computed: {
     ...mapState('dance', ['dances'])
@@ -106,6 +118,9 @@ interface IDance {
   }
 })
 export default class Dance extends Vue {
+  $refs!: {
+    bar: RefsVue;
+  };
   // vuex here
   dances!: IDance[];
   getAllDances!: () => Promise<IDance[]>;
@@ -113,11 +128,14 @@ export default class Dance extends Vue {
   // local data here
   slide = 'Maranao';
   fullscreen = false;
+  loading = false;
   title = '';
 
-  async created() {
+  async mounted() {
+    this.$refs.bar.start();
     const dance = await this.getAllDances();
     this.slide = dance[0].name;
+    this.$refs.bar.stop();
   }
 
   convertUrl(url: string) {

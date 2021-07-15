@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DanceDto } from '../dto/dance.dto';
 import { FirestoreService } from '../firestore/firestore.service';
+import firebase from 'firebase';
 
 @Injectable()
 export class DanceService {

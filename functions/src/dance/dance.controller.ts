@@ -6,8 +6,17 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
+import { UploadDto } from '../dto/upload.dto';
 import { DanceDto } from '../dto/dance.dto';
 import { DanceService } from './dance.service';
 
@@ -18,9 +27,7 @@ export class DanceController {
   @ApiOperation({ summary: 'Add new dance', operationId: 'AddDance' })
   @ApiResponse({ status: 200, type: DanceDto })
   @Post()
-  async create(
-    @Body() newDance: DanceDto,
-  ): Promise<DanceDto> {
+  async create(@Body() newDance: DanceDto): Promise<DanceDto> {
     return this.danceService.create(newDance);
   }
 

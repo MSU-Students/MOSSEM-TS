@@ -52,6 +52,99 @@ export interface DanceDto {
      */
     description: string;
 }
+/**
+ * 
+ * @export
+ * @interface InstrumentDto
+ */
+export interface InstrumentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    description: string;
+}
+/**
+ * 
+ * @export
+ * @interface PictureDto
+ */
+export interface PictureDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof PictureDto
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PictureDto
+     */
+    url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PictureDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PictureDto
+     */
+    description: string;
+}
+/**
+ * 
+ * @export
+ * @interface SongDto
+ */
+export interface SongDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    description: string;
+}
 
 /**
  * DefaultApi - axios parameter creator
@@ -127,6 +220,114 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Add new instrument
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addInstrument: async (instrumentDto: InstrumentDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'instrumentDto' is not null or undefined
+            assertParamExists('addInstrument', 'instrumentDto', instrumentDto)
+            const localVarPath = `/instrument`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(instrumentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Add new picture
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addPicture: async (pictureDto: PictureDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'pictureDto' is not null or undefined
+            assertParamExists('addPicture', 'pictureDto', pictureDto)
+            const localVarPath = `/picture`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(pictureDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Add new song
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addSong: async (songDto: SongDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'songDto' is not null or undefined
+            assertParamExists('addSong', 'songDto', songDto)
+            const localVarPath = `/song`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(songDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Delete dance with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -136,6 +337,108 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteDance', 'id', id)
             const localVarPath = `/dance/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteInstrument: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteInstrument', 'id', id)
+            const localVarPath = `/instrument/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePicture: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deletePicture', 'id', id)
+            const localVarPath = `/picture/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSong: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteSong', 'id', id)
+            const localVarPath = `/song/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -225,6 +528,198 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Get information of instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInstrument: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getInstrument', 'id', id)
+            const localVarPath = `/instrument/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of all instrument
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInstruments: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/instrument`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPicture: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getPicture', 'id', id)
+            const localVarPath = `/picture/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of all picture
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPictures: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/picture`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSong: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getSong', 'id', id)
+            const localVarPath = `/song/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of all song
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSongs: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/song`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary update dance
          * @param {string} id 
          * @param {DanceDto} danceDto 
@@ -257,6 +752,126 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(danceDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary update instrument
+         * @param {string} id 
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateInstrument: async (id: string, instrumentDto: InstrumentDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateInstrument', 'id', id)
+            // verify required parameter 'instrumentDto' is not null or undefined
+            assertParamExists('updateInstrument', 'instrumentDto', instrumentDto)
+            const localVarPath = `/instrument`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(instrumentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary update picture
+         * @param {string} id 
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePicture: async (id: string, pictureDto: PictureDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updatePicture', 'id', id)
+            // verify required parameter 'pictureDto' is not null or undefined
+            assertParamExists('updatePicture', 'pictureDto', pictureDto)
+            const localVarPath = `/picture`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(pictureDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary update song
+         * @param {string} id 
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSong: async (id: string, songDto: SongDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateSong', 'id', id)
+            // verify required parameter 'songDto' is not null or undefined
+            assertParamExists('updateSong', 'songDto', songDto)
+            const localVarPath = `/song`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(songDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -296,6 +911,39 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Add new instrument
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addInstrument(instrumentDto: InstrumentDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InstrumentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addInstrument(instrumentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Add new picture
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addPicture(pictureDto: PictureDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PictureDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addPicture(pictureDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Add new song
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addSong(songDto: SongDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SongDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addSong(songDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Delete dance with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -303,6 +951,39 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async deleteDance(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DanceDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDance(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteInstrument(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InstrumentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteInstrument(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deletePicture(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PictureDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePicture(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteSong(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SongDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSong(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -328,6 +1009,69 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get information of instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getInstrument(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InstrumentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getInstrument(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of all instrument
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getInstruments(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<InstrumentDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getInstruments(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPicture(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PictureDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPicture(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of all picture
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPictures(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PictureDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPictures(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSong(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SongDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSong(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of all song
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSongs(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SongDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSongs(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary update dance
          * @param {string} id 
          * @param {DanceDto} danceDto 
@@ -336,6 +1080,42 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async updateDance(id: string, danceDto: DanceDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateDance(id, danceDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary update instrument
+         * @param {string} id 
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateInstrument(id: string, instrumentDto: InstrumentDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateInstrument(id, instrumentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary update picture
+         * @param {string} id 
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updatePicture(id: string, pictureDto: PictureDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePicture(id, pictureDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary update song
+         * @param {string} id 
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateSong(id: string, songDto: SongDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSong(id, songDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -369,6 +1149,36 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Add new instrument
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addInstrument(instrumentDto: InstrumentDto, options?: any): AxiosPromise<InstrumentDto> {
+            return localVarFp.addInstrument(instrumentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Add new picture
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addPicture(pictureDto: PictureDto, options?: any): AxiosPromise<PictureDto> {
+            return localVarFp.addPicture(pictureDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Add new song
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addSong(songDto: SongDto, options?: any): AxiosPromise<SongDto> {
+            return localVarFp.addSong(songDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Delete dance with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -376,6 +1186,36 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteDance(id: string, options?: any): AxiosPromise<DanceDto> {
             return localVarFp.deleteDance(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteInstrument(id: string, options?: any): AxiosPromise<InstrumentDto> {
+            return localVarFp.deleteInstrument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePicture(id: string, options?: any): AxiosPromise<PictureDto> {
+            return localVarFp.deletePicture(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteSong(id: string, options?: any): AxiosPromise<SongDto> {
+            return localVarFp.deleteSong(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -398,6 +1238,63 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Get information of instrument with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInstrument(id: string, options?: any): AxiosPromise<InstrumentDto> {
+            return localVarFp.getInstrument(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of all instrument
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInstruments(options?: any): AxiosPromise<Array<InstrumentDto>> {
+            return localVarFp.getInstruments(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of picture with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPicture(id: string, options?: any): AxiosPromise<PictureDto> {
+            return localVarFp.getPicture(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of all picture
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPictures(options?: any): AxiosPromise<Array<PictureDto>> {
+            return localVarFp.getPictures(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of song with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSong(id: string, options?: any): AxiosPromise<SongDto> {
+            return localVarFp.getSong(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of all song
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSongs(options?: any): AxiosPromise<Array<SongDto>> {
+            return localVarFp.getSongs(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary update dance
          * @param {string} id 
          * @param {DanceDto} danceDto 
@@ -406,6 +1303,39 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         updateDance(id: string, danceDto: DanceDto, options?: any): AxiosPromise<void> {
             return localVarFp.updateDance(id, danceDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary update instrument
+         * @param {string} id 
+         * @param {InstrumentDto} instrumentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateInstrument(id: string, instrumentDto: InstrumentDto, options?: any): AxiosPromise<void> {
+            return localVarFp.updateInstrument(id, instrumentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary update picture
+         * @param {string} id 
+         * @param {PictureDto} pictureDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePicture(id: string, pictureDto: PictureDto, options?: any): AxiosPromise<void> {
+            return localVarFp.updatePicture(id, pictureDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary update song
+         * @param {string} id 
+         * @param {SongDto} songDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSong(id: string, songDto: SongDto, options?: any): AxiosPromise<void> {
+            return localVarFp.updateSong(id, songDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -442,6 +1372,42 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @summary Add new instrument
+     * @param {InstrumentDto} instrumentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addInstrument(instrumentDto: InstrumentDto, options?: any) {
+        return DefaultApiFp(this.configuration).addInstrument(instrumentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Add new picture
+     * @param {PictureDto} pictureDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addPicture(pictureDto: PictureDto, options?: any) {
+        return DefaultApiFp(this.configuration).addPicture(pictureDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Add new song
+     * @param {SongDto} songDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addSong(songDto: SongDto, options?: any) {
+        return DefaultApiFp(this.configuration).addSong(songDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Delete dance with id {id}
      * @param {string} id 
      * @param {*} [options] Override http request option.
@@ -450,6 +1416,42 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteDance(id: string, options?: any) {
         return DefaultApiFp(this.configuration).deleteDance(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete instrument with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteInstrument(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).deleteInstrument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete picture with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deletePicture(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).deletePicture(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete song with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteSong(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).deleteSong(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -477,6 +1479,75 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get information of instrument with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getInstrument(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).getInstrument(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of all instrument
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getInstruments(options?: any) {
+        return DefaultApiFp(this.configuration).getInstruments(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of picture with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getPicture(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).getPicture(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of all picture
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getPictures(options?: any) {
+        return DefaultApiFp(this.configuration).getPictures(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of song with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getSong(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).getSong(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of all song
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getSongs(options?: any) {
+        return DefaultApiFp(this.configuration).getSongs(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary update dance
      * @param {string} id 
      * @param {DanceDto} danceDto 
@@ -486,6 +1557,45 @@ export class DefaultApi extends BaseAPI {
      */
     public updateDance(id: string, danceDto: DanceDto, options?: any) {
         return DefaultApiFp(this.configuration).updateDance(id, danceDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary update instrument
+     * @param {string} id 
+     * @param {InstrumentDto} instrumentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updateInstrument(id: string, instrumentDto: InstrumentDto, options?: any) {
+        return DefaultApiFp(this.configuration).updateInstrument(id, instrumentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary update picture
+     * @param {string} id 
+     * @param {PictureDto} pictureDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updatePicture(id: string, pictureDto: PictureDto, options?: any) {
+        return DefaultApiFp(this.configuration).updatePicture(id, pictureDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary update song
+     * @param {string} id 
+     * @param {SongDto} songDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updateSong(id: string, songDto: SongDto, options?: any) {
+        return DefaultApiFp(this.configuration).updateSong(id, songDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

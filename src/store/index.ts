@@ -1,8 +1,15 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
-
+import uiNav from './ui-navigation-module';
+import { UiNavStateInterface } from './ui-navigation-module/state';
 import dance from './dance-module';
+import instrument from './instrument-module';
+import song from './song-module';
+import picture from './picture-module';
 import { IDance } from './dance-module/state';
+import { IInstrument } from './instrument-module/state';
+import { IPicture } from './picture-module/state';
+import { ISong } from './song-module/state';
 
 /*
  * If not building with SSR mode, you can
@@ -12,6 +19,10 @@ import { IDance } from './dance-module/state';
 export interface StateInterface {
   // Define your own store structure, using submodules if needed
   dance: IDance;
+  picture: IPicture;
+  instrument: IInstrument;
+  song: ISong;
+  uiNav: UiNavStateInterface;
 }
 
 export default store(function({ Vue }) {
@@ -19,7 +30,11 @@ export default store(function({ Vue }) {
 
   const Store = new Vuex.Store<StateInterface>({
     modules: {
-      dance
+      dance,
+      picture,
+      instrument,
+      song,
+      uiNav,
     },
 
     // enable strict mode (adds overhead!)

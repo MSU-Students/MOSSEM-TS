@@ -12,16 +12,6 @@
           </q-avatar>
 
           <q-toolbar-title>Sining Pananadem</q-toolbar-title>
-          <q-input
-            dark
-            dense
-            outline
-            standout
-            label="Search"
-            v-model="text"
-            input-class="text-right"
-            class="q-mr-md radius"
-          >
             <template v-slot:append>
               <q-icon v-if="text === ''" name="search" />
               <q-icon
@@ -52,7 +42,7 @@
             </q-menu>
           </q-btn>
           <q-btn
-            flat
+            outline
             class="radius"
             icon="home"
             label="Home"
@@ -151,7 +141,7 @@
                 />
               </q-item-section>
 
-              <q-item-section class="text-h6"> Pictures </q-item-section>
+              <q-item-section class="text-h6"> Gallery </q-item-section>
             </q-item>
             <q-separator />
           </q-list>

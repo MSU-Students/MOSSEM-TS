@@ -1,7 +1,7 @@
 import { DanceDto, DefaultApi } from './rest-api/api';
 import { Configuration } from './rest-api';
 const localBasePath =
-  'http://localhost:9104/mossem-dfa21/asia-northeast1/restapi/';
+  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
 class DanceService extends DefaultApi {
   constructor() {
     super(
