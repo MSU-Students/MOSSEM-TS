@@ -33,15 +33,7 @@
                       :src="require(`../../assets/${Song.img}`)"
                       style="max-width: 350px; height: 250px"
                     />
-
-                    <q-media-player
-                      style="max-width: 380px; width: 100%"
-                      class="bg-transparent shadow-24"
-                      color="orange"
-                      shadow-color="green"
-                      type="audio"
-                      source="https://raw.githubusercontent.com/quasarframework/quasar-ui-qmediaplayer/dev/demo/public/media/Scott_Holmes_-_04_-_Upbeat_Party.mp3"
-                    />
+                    <q-media-player class="q-mt-sm" type="audio" :sources="sources" />
                   </q-carousel-slide>
                 </template>
               </q-carousel>

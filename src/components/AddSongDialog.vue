@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addSongPopups(false)"
+          @click="addSongPopups(false), checkerror = false"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -28,13 +28,13 @@
           :rules="[val => !!val || 'Field is required']"
         />
       </div>
-      </div>
       <div class="q-pl-sm q-pr-sm">
         <q-file
           color="red-10"
           ref="docFile"
           v-model="file"
           filled
+          accept=".mp3"
           lazy-rules
           :rules="[val => !!val || 'Field is required']"
           label="Choose File"
@@ -53,6 +53,21 @@
           label="Song Description"
           autogrow
         />
+      </div>
+      <div v-show="checkerror" class="text-center" style="max-width: 1000px">
+        <q-dialog v-model="checkerror" auto-close seamless position="top">
+          <q-card style="width: 350px">
+            <q-linear-progress :value="1" color="white" />
+
+            <q-card-section class="bg-white ">
+              <div>
+                <div class="text-weight-bold text-red text-center">
+                  Oops! Check your input field you forgot something!
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </div>
       <q-card-actions class="row q-col-gutter-md">
         <div class="col-12">
@@ -90,6 +105,8 @@ export default class AddInstrumentDialog extends Vue {
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
 
+  checkerror = false;
+  
   song: SongDto = {
     id: '',
     url: '',
@@ -104,18 +121,36 @@ export default class AddInstrumentDialog extends Vue {
   }
 
   async addSong() {
-    const resUrl: string = await uploadService.uploadFile(
-      this.file,
-      'song'
-    );
+     if (
+      (this.song.name == '' &&
+        this.song.description == '') ||
+      this.song.name == '' ||
+      this.song.description == ''
+    ) {
+      this.checkerror = true;
+    } else{
+    const resUrl: any = await uploadService.uploadFile(this.file, 'song');
     console.log('resUrl: ', resUrl);
-    console.log({ ...this.song, url: resUrl });
-    const response = await this.createSong({
-      ...this.song,
-      url: resUrl
-    });
-    console.log('response: ', response);
+    if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+      console.log({ ...this.song, url: resUrl });
+      const response = await this.createSong({
+        ...this.song,
+        url: resUrl
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Upload Success!'
+      });
+      console.log('response: ', response);
+    } else {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!'
+      });
+    }
+
     this.addSongPopups(false);
+    }
   }
 }
 </script>

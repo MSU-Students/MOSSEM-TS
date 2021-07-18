@@ -12,8 +12,8 @@
       <transition appear enter-active-class="animated fadeInRight">
         <q-carousel
           v-model="slide"
-          transition-prev="slide-down"
-          transition-next="slide-up"
+          transition-prev="slide-left"
+          transition-next="slide-right"
           swipeable
           animated
           control-color="primary"
@@ -29,8 +29,8 @@
             <q-btn
               v-if="active"
               size="lg"
-              icon="Tv"
-              color="yellow"
+              icon="home"
+              color="primary"
               flat
               round
               dense
@@ -57,19 +57,7 @@
             </div>
           </q-carousel-slide>
 
-          <template v-slot:control>
-            <q-carousel-control position="bottom-right" :offset="[18, 18]">
-              <q-btn
-                push
-                round
-                dense
-                color="white"
-                text-color="primary"
-                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                @click="fullscreen = !fullscreen"
-              />
-            </q-carousel-control>
-          </template>
+
         </q-carousel>
       </transition>
       <template v-for="(dance, index) in dances">

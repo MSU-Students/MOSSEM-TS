@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addInstrumentPopups(false)"
+          @click="addInstrumentPopups(false), (checkerror = false)"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -38,7 +38,7 @@
           :rules="[val => !!val || 'Field is required']"
           label="Choose File"
           accept=".png"
-          @update:model-value="fileChoose($event)"
+          @update:model-v]alue="fileChoose($event)"
         >
           <template v-slot:append>
             <q-icon name="attach_file" />
@@ -53,6 +53,21 @@
           label="Instrument Description"
           autogrow
         />
+      </div>
+      <div v-show="checkerror" class="text-center" style="max-width: 1000px">
+        <q-dialog v-model="checkerror" auto-close seamless position="top">
+          <q-card style="width: 350px">
+            <q-linear-progress :value="1" color="white" />
+
+            <q-card-section class="bg-white ">
+              <div>
+                <div class="text-weight-bold text-red text-center">
+                  Oops! Check your input field you forgot something!
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
       </div>
       <q-card-actions class="row q-col-gutter-md">
         <div class="col-12">
@@ -89,6 +104,8 @@ export default class AddInstrumentDialog extends Vue {
   addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
 
+  checkerror = false;
+
   instrument: InstrumentDto = {
     id: '',
     url: '',
@@ -101,20 +118,37 @@ export default class AddInstrumentDialog extends Vue {
   fileChoose(val: any) {
     this.file = val;
   }
-  
+
   async addInstrument() {
-    const resUrl: string = await uploadService.uploadFile(
-      this.file,
-      'instrument'
-    );
-    console.log('resUrl: ', resUrl);
-    console.log({ ...this.instrument, url: resUrl });
-    const response = await this.createInstrument({
-      ...this.instrument,
-      url: resUrl
-    });
-    console.log('response: ', response);
-    this.addInstrumentPopups(false);
+    if (
+      (this.instrument.name == '' &&
+        this.instrument.description == '') ||
+      this.instrument.name == '' ||
+      this.instrument.description == ''
+    ) {
+      this.checkerror = true;
+    } else {
+      const resUrl: any = await uploadService.uploadFile(
+        this.file,
+        'instrument'
+      );
+      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        await this.createInstrument({
+          ...this.instrument,
+          url: resUrl
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Upload Success!'
+        });
+      } else {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Something wrong!'
+        });
+      }
+      this.addInstrumentPopups(false);
+    }
   }
 }
 </script>

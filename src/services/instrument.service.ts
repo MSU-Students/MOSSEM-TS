@@ -31,7 +31,7 @@ class InstrumentService extends DefaultApi {
 
   async createInstrument(payload: InstrumentDto) {
     const response = await this.addInstrument(payload);
-    if (response.status == 200) {
+    if (response.status == 201) {
       return response.data;
     } else {
       return [];

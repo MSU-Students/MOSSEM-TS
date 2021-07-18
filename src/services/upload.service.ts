@@ -1,7 +1,7 @@
 import { storage } from 'app/firestore/storage.config';
 
 class UploadService {
-  async uploadFile(file: File, category: string): Promise<string> {
+  async uploadFile(file: File, category: string): Promise<any> {
     const storageRef = storage.ref(`${category}/${file.name}`).put(file);
     return new Promise(resolve => {
       storageRef.on('state_changed', async () => {

@@ -31,7 +31,7 @@ class SongService extends DefaultApi {
 
   async createSong(payload: SongDto) {
     const response = await this.addSong(payload);
-    if (response.status == 200) {
+    if (response.status == 201) {
       return response.data;
     } else {
       return [];

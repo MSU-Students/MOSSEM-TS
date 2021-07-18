@@ -1,0 +1,19 @@
+{
+  "name": "picture/Agong.jpg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1626472433095,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "f51c4c09-c65e-4689-8270-276b2c2be61d"
+  ],
+  "timeCreated": "2021-07-16T21:53:53.094Z",
+  "updated": "2021-07-16T21:53:53.096Z",
+  "size": 103812,
+  "md5Hash": "xjbjfkfdw2ggafbCipjd1w==",
+  "crc32c": "3437367868"
+}

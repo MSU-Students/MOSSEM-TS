@@ -1,0 +1,19 @@
+{
+  "name": "song/Bazzi - Why (Slowed Down).mp3",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "audio/mpeg",
+  "metageneration": 1,
+  "generation": 1626472453289,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "10474a9b-df39-40f4-bf87-e209af2e1299"
+  ],
+  "timeCreated": "2021-07-16T21:54:13.288Z",
+  "updated": "2021-07-16T21:54:13.303Z",
+  "size": 4156114,
+  "md5Hash": "5FIxPyFfY1G7KFgaXosV6A==",
+  "crc32c": "3159849051"
+}

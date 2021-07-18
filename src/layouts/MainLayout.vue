@@ -12,16 +12,16 @@
           </q-avatar>
 
           <q-toolbar-title>Sining Pananadem</q-toolbar-title>
-            <template v-slot:append>
-              <q-icon v-if="text === ''" name="search" />
-              <q-icon
-                v-else
-                name="clear"
-                class="cursor-pointer"
-                @click="text = ''"
-              />
-            </template>
-          </q-input>
+          <template v-slot:append>
+            <q-icon v-if="text === ''" name="search" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="text = ''"
+            />
+          </template>
+
           <!-- Menu -->
           <q-btn
             v-if="$route.name == 'Homeadmin-page'"

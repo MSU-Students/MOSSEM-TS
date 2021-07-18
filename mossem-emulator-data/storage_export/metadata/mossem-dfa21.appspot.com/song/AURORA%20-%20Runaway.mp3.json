@@ -1,0 +1,19 @@
+{
+  "name": "song/AURORA - Runaway.mp3",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "audio/mpeg",
+  "metageneration": 1,
+  "generation": 1626371949230,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "9d1c13d3-240c-4d1d-97b9-b9b3ac5c8d79"
+  ],
+  "timeCreated": "2021-07-15T17:59:09.229Z",
+  "updated": "2021-07-15T17:59:09.267Z",
+  "size": 5999314,
+  "md5Hash": "/C4pIlQycpJ6d1Jt7GbD6g==",
+  "crc32c": "1078393211"
+}

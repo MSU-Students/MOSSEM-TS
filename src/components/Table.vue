@@ -50,13 +50,27 @@
         <q-td colspan="100%" style="height: 300px">
           <div class="q-pa-md">
             <q-video
+              style="max-width: 580px; width: 100%"
               v-if="title.toLowerCase() == 'dance'"
               class="absolute-full"
               :src="convertUrl(props.row.url)"
             />
+            <q-media-player
+              v-else-if="
+                title.toLowerCase() == 'songs' &&
+                  typeof props.row.url == 'string'
+              "
+              style="max-width: 380px; width: 100%"
+              class="bg-transparent shadow-24"
+              color="orange"
+              shadow-color="green"
+              type="audio"
+              :source="props.row.url"
+            />
             <div v-else class="row">
               <div class="col-8">
                 <q-img
+                  v-if="props.row.url != '' && typeof props.row.url == 'string'"
                   :src="props.row.url"
                   basic
                   style="border: 1px solid black"
@@ -79,7 +93,7 @@ import helperService from 'src/services/helper.service';
 
 @Component({})
 export default class List extends Vue {
-  @Prop({ type: Boolean, required: true }) readonly loading!: boolean;
+  // @Prop({ type: Boolean, required: true }) readonly loading!: boolean;
   @Prop({ type: String, required: true }) readonly title!: string;
   @Prop({ type: Array, required: true }) readonly data!: any[];
   @Prop({ type: Array, required: true }) readonly columns!: any[];

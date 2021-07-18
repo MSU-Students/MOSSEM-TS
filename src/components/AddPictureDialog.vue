@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addPicturePopups(false)"
+          @click="addPicturePopups(false), checkerror = false"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -53,6 +53,21 @@
           autogrow
         />
       </div>
+      <div v-show="checkerror" class="text-center" style="max-width: 1000px">
+        <q-dialog v-model="checkerror" auto-close seamless position="top">
+          <q-card style="width: 350px">
+            <q-linear-progress :value="1" color="white" />
+
+            <q-card-section class="bg-white ">
+              <div>
+                <div class="text-weight-bold text-red text-center">
+                  Oops! Check your input field you forgot something!
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+      </div>
       <q-card-actions class="row q-col-gutter-md">
         <div class="col-12">
           <q-btn
@@ -74,8 +89,6 @@ import { PictureDto } from 'src/services/rest-api';
 import { Vue, Component } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 
-
-
 @Component({
   computed: {
     ...mapState('uiNav', ['ShowPictureDialog'])
@@ -83,7 +96,6 @@ import { mapState, mapActions } from 'vuex';
   methods: {
     ...mapActions('uiNav', ['addPicturePopups']),
     ...mapActions('picture', ['createPicture'])
-
   }
 })
 export default class AddPictureDialog extends Vue {
@@ -92,6 +104,7 @@ export default class AddPictureDialog extends Vue {
   addPicturePopups!: (show: boolean) => void;
   createPicture!: (payload: PictureDto) => Promise<void>;
 
+  checkerror = false;
   picture: PictureDto = {
     id: '',
     url: '',
@@ -106,18 +119,36 @@ export default class AddPictureDialog extends Vue {
   }
 
   async addPicture() {
-    const resUrl: string = await uploadService.uploadFile(
-      this.file,
-      'picture'
-    );
+    if (
+      (this.picture.name == '' &&
+        this.picture.description == '') ||
+      this.picture.name == '' ||
+      this.picture.description == ''
+    ) {
+      this.checkerror = true;
+    } else {
+    const resUrl: any = await uploadService.uploadFile(this.file, 'picture');
     console.log('resUrl: ', resUrl);
-    console.log({ ...this.picture, url: resUrl });
-    const response = await this.createPicture({
-      ...this.picture,
-      url: resUrl
-    });
-    console.log('response: ', response);
+    if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+      console.log({ ...this.picture, url: resUrl });
+      const response = await this.createPicture({
+        ...this.picture,
+        url: resUrl
+      });
+      console.log('response: ', response);
+      this.$q.notify({
+        type: 'positive',
+        message: 'Upload Success!'
+      });
+    } else {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!'
+      });
+      
+    }
     this.addPicturePopups(false);
+    }
   }
 }
 </script>

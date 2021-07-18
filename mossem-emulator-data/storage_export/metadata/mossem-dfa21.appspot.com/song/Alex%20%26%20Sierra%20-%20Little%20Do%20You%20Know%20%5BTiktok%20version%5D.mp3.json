@@ -1,0 +1,19 @@
+{
+  "name": "song/Alex & Sierra - Little Do You Know [Tiktok version].mp3",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "audio/mpeg",
+  "metageneration": 1,
+  "generation": 1626372442804,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d47e7fb5-eb00-4a15-8d31-1b31207a5efe"
+  ],
+  "timeCreated": "2021-07-15T18:07:22.803Z",
+  "updated": "2021-07-15T18:07:22.823Z",
+  "size": 3699075,
+  "md5Hash": "YarZm/1yZcQ4jFxgo6UF1A==",
+  "crc32c": "1705766176"
+}

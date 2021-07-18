@@ -1,0 +1,19 @@
+{
+  "name": "picture/Debakan.jpg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1626365130379,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "3549f7d4-013b-49a6-8f27-afbbe0eeb9d4"
+  ],
+  "timeCreated": "2021-07-15T16:05:30.378Z",
+  "updated": "2021-07-15T16:05:30.385Z",
+  "size": 39510,
+  "md5Hash": "y3/LKZP78mHtuFK3BVsvNg==",
+  "crc32c": "3007908885"
+}

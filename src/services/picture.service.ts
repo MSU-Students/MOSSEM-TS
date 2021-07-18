@@ -31,7 +31,7 @@ class PictureService extends DefaultApi {
 
   async createPicture(payload: PictureDto) {
     const response = await this.addPicture(payload);
-    if (response.status == 200) {
+    if (response.status == 201) {
       return response.data;
     } else {
       return [];

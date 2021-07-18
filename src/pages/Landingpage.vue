@@ -4,35 +4,36 @@
       <div class="row justify-between">
         <div class="col">
           <q-img
-          elevated
+            elevated
             :class="$q.screen.lt.md ? '' : ''"
             src="~assets/background/landingpage.jpg"
             :ratio="16 / 9"
-          ><transition appear enter-active-class="animated fadeIn">
-            <div class="transparent q-mt-xl">
-              <div
-                :class="
-                  $q.screen.lt.md
-                    ? 'font1 full text-center text-h6 text-white text-weight-bolder'
-                    : 'font1 col text-left text-h4 text-white text-weight-bolder q-mt-xl q-pt-lg'
-                "
-              >
-                <h1 v-if="!$q.screen.lt.md" class="text-center text-white">
-                  Sining Pananadem
-                </h1>
-                <div v-else-if="$q.screen.lt.md" class="q-mt-xl q-pt-md">
-                  Sining pananadem
-                </div>
-                <h3 v-if="!$q.screen.lt.md" class="text-white text-center">
-                  A Web-Based Musical Arts Repository System for Sining Pananadem Cultural
-                  Group of MSU-MARAWI
-                </h3>
-                <div v-else-if="$q.screen.lt.md" class="text-h6">
-                  A Web-Based Musical Arts Repository System for Sining Pananadem Cultural
-                  Group of MSU-MARAWI
+          >
+            <transition appear enter-active-class="animated fadeIn">
+              <div class="transparent q-mt-xl">
+                <div
+                  :class="
+                    $q.screen.lt.md
+                      ? 'font1 full text-center text-h6 text-white text-weight-bolder'
+                      : 'font1 col text-left text-h4 text-white text-weight-bolder q-mt-xl q-pt-lg'
+                  "
+                >
+                  <h1 v-if="!$q.screen.lt.md" class="text-center text-white">
+                    Sining Pananadem
+                  </h1>
+                  <div v-else-if="$q.screen.lt.md" class="q-mt-xl q-pt-md">
+                    Sining pananadem
+                  </div>
+                  <h3 v-if="!$q.screen.lt.md" class="text-white text-center">
+                    A Web-Based Musical Arts Repository System for Sining
+                    Pananadem Cultural Group of MSU-MARAWI
+                  </h3>
+                  <div v-else-if="$q.screen.lt.md" class="text-h6">
+                    A Web-Based Musical Arts Repository System for Sining
+                    Pananadem Cultural Group of MSU-MARAWI
+                  </div>
                 </div>
               </div>
-            </div>
             </transition>
           </q-img>
         </div>
@@ -40,9 +41,9 @@
       <div class="row">
         <div
           class="q-pl-xl q-pt-xl col"
-          data-aos="flip-left"
-          data-aos-easing="ease-out-cubic"
-          data-aos-duration="2000"
+          data-aos="fadeIn"
+          data-aos-easing="fadeOut"
+          data-aos-duration="1500"
         >
           <q-img
             src="~assets/background/landingpage.jpg"
@@ -50,15 +51,16 @@
           >
           </q-img>
         </div>
-        <div data-aos="fade-up" data-aos-duration="2500" data-aos-delay="500">
+        <div data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500">
           <q-card class="my-card Glassmorphismright col">
             <q-card-section class="q-gutter-md text-white">
               <div class="font3 text-bold text-h4">What Is Culture?</div>
               <div class="font1 text-subtitle2">
-                Culture is the characteristics and knowledge of a particular group of
-                people, encompassing language, religion, cuisine, social habits, music and
-                arts. Culture is where people come from, who they are now, and where they
-                are going. culture is what makes people unique, interesting individuals.
+                Culture is the characteristics and knowledge of a particular
+                group of people, encompassing language, religion, cuisine,
+                social habits, music and arts. Culture is where people come
+                from, who they are now, and where they are going. culture is
+                what makes people unique, interesting individuals.
               </div>
             </q-card-section>
           </q-card>
@@ -67,9 +69,9 @@
       <div class="row">
         <div class="q-pl-xl q-pt-xl col">
           <q-img
-            data-aos="flip-right"
-            data-aos-easing="ease-out-cubic"
-            data-aos-duration="2000"
+            data-aos="fadeIn"
+            data-aos-easing="fadeOut"
+            data-aos-duration="1500"
             src="~assets/background/landingpage.jpg"
             style="
               max-width: 1000px;
@@ -81,17 +83,18 @@
           >
           </q-img>
         </div>
-        <div data-aos="fade-up" data-aos-duration="2000" data-aos-delay="500">
+        <div data-aos="fade-up" data-aos-duration="1300" data-aos-delay="500">
           <q-card class="my-card-next Glassmorphism col">
             <q-card-section class="q-gutter-md text-white">
               <div class="font3 text-h4">What Is Sining Pananadem?</div>
               <div class="font1 text-subtitle2">
-                Sining Pananadem is composed of young M’ranao artists, and its primary
-                objectives are: to Preserve, Promote, to Protect and to Popularize the
-                M’ranao indigenous culture of the south, it was established to counter act
-                the effects of the exploitative force of westernization, moreover, the
-                Sining Pananadem is aimed at promoting a culture of peace through cultural
-                solidarity among all Filipino and the rest of the citizens of the world.
+                Sining Pananadem is composed of young M’ranao artists, and its
+                primary objectives are: to Preserve, Promote, to Protect and to
+                Popularize the M’ranao indigenous culture of the south, it was
+                established to counter act the effects of the exploitative force
+                of westernization, moreover, the Sining Pananadem is aimed at
+                promoting a culture of peace through cultural solidarity among
+                all Filipino and the rest of the citizens of the world.
               </div>
             </q-card-section>
           </q-card>
@@ -106,14 +109,19 @@
             (History and Events)
           </q-timeline-entry>
 
-          <q-timeline-entry title="Event Title" subtitle="February 22, 1986" side="left">
+          <q-timeline-entry
+            title="Event Title"
+            subtitle="February 22, 1986"
+            side="left"
+          >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
@@ -124,36 +132,47 @@
             icon="delete"
           >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
           <q-timeline-entry heading>November, 2017</q-timeline-entry>
 
-          <q-timeline-entry title="Event Title" subtitle="February 22, 1986" side="left">
+          <q-timeline-entry
+            title="Event Title"
+            subtitle="February 22, 1986"
+            side="left"
+          >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
-          <q-timeline-entry title="Event Title" subtitle="February 22, 1986" side="right">
+          <q-timeline-entry
+            title="Event Title"
+            subtitle="February 22, 1986"
+            side="right"
+          >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
@@ -165,34 +184,45 @@
             icon="done_all"
           >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
-          <q-timeline-entry title="Event Title" subtitle="February 22, 1986" side="right">
+          <q-timeline-entry
+            title="Event Title"
+            subtitle="February 22, 1986"
+            side="right"
+          >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
 
-          <q-timeline-entry title="Event Title" subtitle="February 22, 1986" side="left">
+          <q-timeline-entry
+            title="Event Title"
+            subtitle="February 22, 1986"
+            side="left"
+          >
             <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </q-timeline-entry>
         </q-timeline>
@@ -202,7 +232,7 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 
 @Component({
   computed: {
@@ -212,8 +242,8 @@ import {Vue, Component} from 'vue-property-decorator';
         : this.$q.screen.lt.md
         ? 'comfortable'
         : 'loose';
-    },
-  },
+    }
+  }
 })
 export default class LandingPage extends Vue {}
 </script>

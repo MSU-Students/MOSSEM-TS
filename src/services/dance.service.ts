@@ -40,7 +40,7 @@ class DanceService extends DefaultApi {
 
   async createDance(payload: DanceDto) {
     const response = await this.addDance(payload);
-    if (response.status == 200) {
+    if (response.status == 201) {
       return response.data;
     } else {
       return [];
