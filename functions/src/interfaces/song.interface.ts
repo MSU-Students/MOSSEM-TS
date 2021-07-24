@@ -3,5 +3,8 @@ export interface ISong {
     url: string;
     name: string;
     description: string;
+    songwriter: string;
+    performedplaces: string;
+    datecreated: string;
   }
   

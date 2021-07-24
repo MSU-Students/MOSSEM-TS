@@ -14,6 +14,9 @@ const actions: ActionTree<UiNavStateInterface, StateInterface> = {
   },
   addSongPopups(context, payload: boolean) {
     context.commit('addSongPopups', payload);
+  },
+  addEquipmentPopups(context, payload: boolean) {
+    context.commit('addEquipmentPopups', payload);
   }
 };
 

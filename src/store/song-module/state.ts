@@ -11,7 +11,10 @@ function state(): ISong {
       id: '',
       url: '',
       name: '',
-      description: ''
+      description: '',
+      datecreated: '',
+      songwriter: '',
+      performedplaces: ''
     },
     songs: []
   };

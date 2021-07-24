@@ -4,12 +4,14 @@ import uiNav from './ui-navigation-module';
 import { UiNavStateInterface } from './ui-navigation-module/state';
 import dance from './dance-module';
 import instrument from './instrument-module';
+import equipment from './equipment-module';
 import song from './song-module';
 import picture from './picture-module';
 import { IDance } from './dance-module/state';
 import { IInstrument } from './instrument-module/state';
 import { IPicture } from './picture-module/state';
 import { ISong } from './song-module/state';
+import { IEquipment } from './equipment-module/state';
 
 /*
  * If not building with SSR mode, you can
@@ -22,6 +24,7 @@ export interface StateInterface {
   picture: IPicture;
   instrument: IInstrument;
   song: ISong;
+  equipment: IEquipment;
   uiNav: UiNavStateInterface;
 }
 
@@ -33,6 +36,7 @@ export default store(function({ Vue }) {
       dance,
       picture,
       instrument,
+      equipment,
       song,
       uiNav,
     },

@@ -77,13 +77,10 @@
       </q-header>
     </transition>
 
-    <q-footer v-if="$route.name != 'login-page'" class="backdrop-filter">
+    <q-footer v-if="$route.name != 'login-page'"  class="bg-red">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="~assets/logo/splogo.png" />
-          </q-avatar>
-          Home
+          
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>

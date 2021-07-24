@@ -60,7 +60,7 @@ import {
   
     @ApiOperation({ summary: 'update instrument', operationId: 'UpdateInstrument' })
     @ApiBody({ type: InstrumentDto })
-    @Put()
+    @Put(':id')
     async update(
       @Param('id') id: string,
       @Body() player: InstrumentDto,

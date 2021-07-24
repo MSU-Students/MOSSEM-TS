@@ -25,4 +25,7 @@ export class FirestoreService {
   picture() {
     return this.db.collection('picture');
   }
+  equipment() {
+    return this.db.collection('equipment');
+  }
 }

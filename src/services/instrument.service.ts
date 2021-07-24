@@ -39,7 +39,9 @@ class InstrumentService extends DefaultApi {
   }
 
   async editInstrument(id: string, payload: InstrumentDto) {
+    console.log(id, payload);
     const response = await this.updateInstrument(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {

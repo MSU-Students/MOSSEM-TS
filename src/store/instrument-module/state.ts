@@ -11,7 +11,10 @@ function state(): IInstrument {
       id: '',
       url: '',
       name: '',
-      description: ''
+      description: '',
+      dateaquired: '',
+      quantity: '',
+      status: ''
     },
     instruments: []
   };

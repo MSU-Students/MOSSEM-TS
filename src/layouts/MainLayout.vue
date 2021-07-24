@@ -66,83 +66,124 @@
       :breakpoint="500"
       elevated
     >
-      <q-scroll-area class="fit drawer-bg text-white">
+      <q-scroll-area class="fullscreen drawer-bg text-white">
         <div>
           <q-list padding>
-            <q-item
-              dense
-              to="Dances"
-              clickable
-              v-ripple
-              @click="link = 'Dances'"
-              active-class="my-menu-link"
-            >
-              <q-item-section avatar>
-                <q-img
-                  style="height: 48px; width: 38px"
-                  src="~assets/logo/icon.png"
-                />
-              </q-item-section>
+            <div>
+              <q-item
+              class="my-menu-link-title"
+              >
+                <q-item-section class="text-h5 text-bold text-shadow-title"> Intangible Inventory </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-separator />
+              <q-item
+                dense
+                to="Dances"
+                clickable
+                v-ripple
+                @click="link = 'Dances'"
+                active-class="my-menu-link"
+              >
+                <q-item-section avatar>
+                  <q-img
+                    style="height: 48px; width: 38px"
+                    src="~assets/logo/icon.png"
+                  />
+                </q-item-section>
 
-              <q-item-section class="text-h6"> Dances </q-item-section>
-            </q-item>
+                <q-item-section class="text-h6"> Dances </q-item-section>
+              </q-item>
 
+              <q-separator />
+
+              <q-item
+                to="Songs"
+                clickable
+                v-ripple
+                @click="link = 'Songs'"
+                active-class="my-menu-link"
+              >
+                <q-item-section avatar>
+                  <q-img
+                    style="height: 48px; width: 38px"
+                    src="~assets/logo/icon.png"
+                  />
+                </q-item-section>
+
+                <q-item-section class="text-h6"> Songs </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+              
+            </div>
             <q-separator />
-
-            <q-item
-              to="Songs"
-              clickable
-              v-ripple
-              @click="link = 'Songs'"
-              active-class="my-menu-link"
-            >
-              <q-item-section avatar>
-                <q-img
-                  style="height: 48px; width: 38px"
-                  src="~assets/logo/icon.png"
-                />
-              </q-item-section>
-
-              <q-item-section class="text-h6"> Songs </q-item-section>
-            </q-item>
-
             <q-separator />
+            <div>
+              <q-item
+              class="my-menu-link-title"
+              >
+                <q-item-section class="text-h5 text-bold text-shadow-title"> Tangible Inventory </q-item-section>
+              </q-item>
+              <q-separator />
+              <q-separator />
+              <q-item
+                to="Equipments"
+                clickable
+                v-ripple
+                @click="link = 'Equipments'"
+                active-class="my-menu-link"
+              >
+                <q-item-section avatar>
+                  <q-img
+                    style="height: 48px; width: 38px"
+                    src="~assets/logo/icon.png"
+                  />
+                </q-item-section>
 
-            <q-item
-              to="Instruments"
-              clickable
-              v-ripple
-              @click="link = 'Instruments'"
-              active-class="my-menu-link"
-            >
-              <q-item-section avatar>
-                <q-img
-                  style="height: 48px; width: 38px"
-                  src="~assets/logo/icon.png"
-                />
-              </q-item-section>
+                <q-item-section class="text-h6"> Equipments </q-item-section>
+              </q-item>
+              <q-item
+                to="Instruments"
+                clickable
+                v-ripple
+                @click="link = 'Instruments'"
+                active-class="my-menu-link"
+              >
+                <q-item-section avatar>
+                  <q-img
+                    style="height: 48px; width: 38px"
+                    src="~assets/logo/icon.png"
+                  />
+                </q-item-section>
 
-              <q-item-section class="text-h6"> Instruments </q-item-section>
-            </q-item>
+                <q-item-section class="text-h6"> Instruments </q-item-section>
+              </q-item>
+              <q-item
+              class="my-menu-link-title"
+              >
+                <q-item-section class="text-h5 text-bold text-shadow-title">Performances</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-separator />
+              <q-item
+                to="Pictures"
+                clickable
+                v-ripple
+                @click="link = 'Pictures'"
+                active-class="my-menu-link"
+              >
+                <q-item-section avatar>
+                  <q-img
+                    style="height: 48px; width: 38px"
+                    src="~assets/logo/icon.png"
+                  />
+                </q-item-section>
 
-            <q-separator />
-
-            <q-item
-              to="Pictures"
-              clickable
-              v-ripple
-              @click="link = 'Pictures'"
-              active-class="my-menu-link"
-            >
-              <q-item-section avatar>
-                <q-img
-                  style="height: 48px; width: 38px"
-                  src="~assets/logo/icon.png"
-                />
-              </q-item-section>
-
-              <q-item-section class="text-h6"> Gallery </q-item-section>
-            </q-item>
+                <q-item-section class="text-h6"> Gallery </q-item-section>
+              </q-item>
+            </div>
             <q-separator />
           </q-list>
         </div>
@@ -179,6 +220,9 @@ export default class MainLayout extends Vue {
 .my-menu-link {
   background: linear-gradient(to top, #68130288 1%, #8b8373a2 64%);
 }
+.my-menu-link-title {
+  background: linear-gradient(to top, #e483047c 1%, #e483047c 64%);
+}
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
@@ -192,5 +236,8 @@ export default class MainLayout extends Vue {
   background-image: url('~assets/background/TribalPattern.jpg');
   background-position-y: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
+}
+.text-shadow-title {
+  text-shadow: 2px 2px 6px #000000;
 }
 </style>

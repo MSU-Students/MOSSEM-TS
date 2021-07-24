@@ -10,4 +10,10 @@ export class SongDto implements ISong {
   name: string;
   @ApiProperty()
   description: string;
+  @ApiProperty()
+  songwriter: string;
+  @ApiProperty()
+  performedplaces: string;
+  @ApiProperty()
+  datecreated: string;
 }

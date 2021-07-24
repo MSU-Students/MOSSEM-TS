@@ -3,4 +3,7 @@ export interface IInstrument {
   url: string;
   name: string;
   description: string;
+  dateaquired: string;
+  quantity: string;
+  status: string;
 }
