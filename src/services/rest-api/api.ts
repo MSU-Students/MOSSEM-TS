@@ -55,6 +55,55 @@ export interface DanceDto {
 /**
  * 
  * @export
+ * @interface EquipmentDto
+ */
+export interface EquipmentDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    description: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    dateaquired: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    quantity: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquipmentDto
+     */
+    status: string;
+}
+/**
+ * 
+ * @export
  * @interface InstrumentDto
  */
 export interface InstrumentDto {
@@ -82,6 +131,24 @@ export interface InstrumentDto {
      * @memberof InstrumentDto
      */
     description: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    dateaquired: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    quantity: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InstrumentDto
+     */
+    status: string;
 }
 /**
  * 
@@ -144,6 +211,24 @@ export interface SongDto {
      * @memberof SongDto
      */
     description: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    songwriter: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    performedplaces: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SongDto
+     */
+    datecreated: string;
 }
 
 /**
@@ -212,6 +297,42 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(danceDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Add new equipment
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addEquipment: async (equipmentDto: EquipmentDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'equipmentDto' is not null or undefined
+            assertParamExists('addEquipment', 'equipmentDto', equipmentDto)
+            const localVarPath = `/equipment`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(equipmentDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -337,6 +458,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteDance', 'id', id)
             const localVarPath = `/dance/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEquipment: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteEquipment', 'id', id)
+            const localVarPath = `/equipment/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -504,6 +659,70 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          */
         getDances: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/dance`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEquipment: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getEquipment', 'id', id)
+            const localVarPath = `/equipment/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get information of all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEquipments: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/equipment`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -760,6 +979,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary update equipment
+         * @param {string} id 
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEquipment: async (id: string, equipmentDto: EquipmentDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateEquipment', 'id', id)
+            // verify required parameter 'equipmentDto' is not null or undefined
+            assertParamExists('updateEquipment', 'equipmentDto', equipmentDto)
+            const localVarPath = `/equipment`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(equipmentDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary update instrument
          * @param {string} id 
          * @param {InstrumentDto} instrumentDto 
@@ -771,7 +1030,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateInstrument', 'id', id)
             // verify required parameter 'instrumentDto' is not null or undefined
             assertParamExists('updateInstrument', 'instrumentDto', instrumentDto)
-            const localVarPath = `/instrument`
+            const localVarPath = `/instrument/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -911,6 +1170,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Add new equipment
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addEquipment(equipmentDto: EquipmentDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addEquipment(equipmentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Add new instrument
          * @param {InstrumentDto} instrumentDto 
          * @param {*} [options] Override http request option.
@@ -951,6 +1221,17 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async deleteDance(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DanceDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDance(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteEquipment(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteEquipment(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1005,6 +1286,27 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async getDances(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<DanceDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getDances(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getEquipment(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<EquipmentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEquipment(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get information of all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getEquipments(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<EquipmentDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getEquipments(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1084,6 +1386,18 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary update equipment
+         * @param {string} id 
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateEquipment(id: string, equipmentDto: EquipmentDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEquipment(id, equipmentDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary update instrument
          * @param {string} id 
          * @param {InstrumentDto} instrumentDto 
@@ -1149,6 +1463,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary Add new equipment
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addEquipment(equipmentDto: EquipmentDto, options?: any): AxiosPromise<EquipmentDto> {
+            return localVarFp.addEquipment(equipmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Add new instrument
          * @param {InstrumentDto} instrumentDto 
          * @param {*} [options] Override http request option.
@@ -1186,6 +1510,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         deleteDance(id: string, options?: any): AxiosPromise<DanceDto> {
             return localVarFp.deleteDance(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteEquipment(id: string, options?: any): AxiosPromise<EquipmentDto> {
+            return localVarFp.deleteEquipment(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1235,6 +1569,25 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getDances(options?: any): AxiosPromise<Array<DanceDto>> {
             return localVarFp.getDances(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of equipment with id {id}
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEquipment(id: string, options?: any): AxiosPromise<EquipmentDto> {
+            return localVarFp.getEquipment(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get information of all equipment
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getEquipments(options?: any): AxiosPromise<Array<EquipmentDto>> {
+            return localVarFp.getEquipments(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1306,6 +1659,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary update equipment
+         * @param {string} id 
+         * @param {EquipmentDto} equipmentDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEquipment(id: string, equipmentDto: EquipmentDto, options?: any): AxiosPromise<void> {
+            return localVarFp.updateEquipment(id, equipmentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary update instrument
          * @param {string} id 
          * @param {InstrumentDto} instrumentDto 
@@ -1372,6 +1736,18 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @summary Add new equipment
+     * @param {EquipmentDto} equipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public addEquipment(equipmentDto: EquipmentDto, options?: any) {
+        return DefaultApiFp(this.configuration).addEquipment(equipmentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Add new instrument
      * @param {InstrumentDto} instrumentDto 
      * @param {*} [options] Override http request option.
@@ -1416,6 +1792,18 @@ export class DefaultApi extends BaseAPI {
      */
     public deleteDance(id: string, options?: any) {
         return DefaultApiFp(this.configuration).deleteDance(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete equipment with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public deleteEquipment(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).deleteEquipment(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1475,6 +1863,29 @@ export class DefaultApi extends BaseAPI {
      */
     public getDances(options?: any) {
         return DefaultApiFp(this.configuration).getDances(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of equipment with id {id}
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getEquipment(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).getEquipment(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get information of all equipment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getEquipments(options?: any) {
+        return DefaultApiFp(this.configuration).getEquipments(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1557,6 +1968,19 @@ export class DefaultApi extends BaseAPI {
      */
     public updateDance(id: string, danceDto: DanceDto, options?: any) {
         return DefaultApiFp(this.configuration).updateDance(id, danceDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary update equipment
+     * @param {string} id 
+     * @param {EquipmentDto} equipmentDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public updateEquipment(id: string, equipmentDto: EquipmentDto, options?: any) {
+        return DefaultApiFp(this.configuration).updateEquipment(id, equipmentDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

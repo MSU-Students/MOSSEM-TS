@@ -12,6 +12,8 @@ import { SongController } from './song/song.controller';
 import { SongService } from './song/song.service';
 import { PictureController } from './picture/picture.controller';
 import { PictureService } from './picture/picture.service';
+import { EquipmentController } from './equipment/equipment.controller';
+import { EquipmentService } from './equipment/equipment.service';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { PictureService } from './picture/picture.service';
     InstrumentController,
     SongController,
     PictureController,
+    EquipmentController,
   ],
   providers: [
     AppService,
@@ -35,6 +38,7 @@ import { PictureService } from './picture/picture.service';
     FirestoreService,
     SongService,
     PictureService,
+    EquipmentService,
   ],
 })
 export class MossemAppModule {}

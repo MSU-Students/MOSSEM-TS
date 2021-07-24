@@ -45,9 +45,17 @@
         <q-td v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.value }}
         </q-td>
+        <q-td auto-width>
+          <q-btn
+            rounded
+            color="primary"
+            label="Update"
+            @click="showDialog(props.row)"
+          />
+        </q-td>
       </q-tr>
       <q-tr v-show="props.expand" :props="props">
-        <q-td colspan="100%" style="height: 300px">
+        <q-td colspan="100%" style="white-space: none !important;">
           <div class="q-pa-md">
             <q-video
               style="max-width: 580px; width: 100%"
@@ -68,7 +76,7 @@
               :source="props.row.url"
             />
             <div v-else class="row">
-              <div class="col-8">
+              <div class="col-6">
                 <q-img
                   v-if="props.row.url != '' && typeof props.row.url == 'string'"
                   :src="props.row.url"
@@ -76,8 +84,10 @@
                   style="border: 1px solid black"
                 ></q-img>
               </div>
-              <div class="col text-center">
-                {{ props.row.description }}
+              <div class="col-6 text-center">
+                <div>
+                  {{ props.row.description }}
+                </div>
               </div>
             </div>
           </div>
@@ -90,20 +100,62 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import helperService from 'src/services/helper.service';
+import { mapState, mapActions } from 'vuex';
 
-@Component({})
+@Component({
+  computed: {
+    ...mapState('dance', ['dances']),
+    ...mapState('instrument', ['instruments']),
+    ...mapState('picture', ['pictures']),
+    ...mapState('song', ['songs']),
+    ...mapState('equipment', ['equipments'])
+  },
+  methods: {
+    ...mapActions('uiNav', ['addDancePopups']),
+    ...mapActions('uiNav', ['addInstrumentPopups']),
+    ...mapActions('uiNav', ['addPicturePopups']),
+    ...mapActions('uiNav', ['addSongPopups']),
+    ...mapActions('uiNav', ['addEquipmentPopups'])
+  }
+})
 export default class List extends Vue {
   // @Prop({ type: Boolean, required: true }) readonly loading!: boolean;
   @Prop({ type: String, required: true }) readonly title!: string;
   @Prop({ type: Array, required: true }) readonly data!: any[];
   @Prop({ type: Array, required: true }) readonly columns!: any[];
 
+  addDancePopups!: (show: boolean) => void;
+  addInstrumentPopups!: (show: boolean) => void;
+  addPicturePopups!: (show: boolean) => void;
+  addSongPopups!: (show: boolean) => void;
+  addEquipmentPopups!: (show: boolean) => void;
+
   search = '';
 
   convertUrl(url: string) {
     return helperService.convertUrl(url);
   }
+
+  async showDialog(payload: any) {
+    if (this.title.toLowerCase() == 'dance') {
+      this.addDancePopups(true);
+    } else if (this.title.toLowerCase() == 'instruments') {
+      this.$emit('view', { ...payload, onUpdate: true });
+      this.addInstrumentPopups(true);
+    } else if (this.title.toLowerCase() == 'pictures') {
+      this.addPicturePopups(true);
+    } else if (this.title.toLowerCase() == 'equipments') {
+      this.addEquipmentPopups(true);
+    } else {
+      this.addSongPopups(true);
+    }
+  }
 }
 </script>
 
-<style></style>
+<style scoped>
+.q-table--no-wrap th,
+.q-table--no-wrap td {
+  white-space: normal;
+}
+</style>

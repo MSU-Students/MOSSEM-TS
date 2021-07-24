@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bg-img q-pb-lg">
+  <q-page class="bg-img">
     <div class="q-gutter-md">
       <div class="row justify-between">
         <div class="col">
@@ -46,7 +46,8 @@
           data-aos-duration="1500"
         >
           <q-img
-            src="~assets/background/landingpage.jpg"
+            class="box"
+            src="~assets/background/SP Group.jpeg"
             style="max-width: 1000px; height: 400px"
           >
           </q-img>
@@ -67,12 +68,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="q-pl-xl q-pt-xl col">
+        <div class="q-pl-xl q-pt-xl col box">
           <q-img
             data-aos="fadeIn"
             data-aos-easing="fadeOut"
             data-aos-duration="1500"
-            src="~assets/background/landingpage.jpg"
+            src="~assets/background/SP Group Pic.jpeg"
             style="
               max-width: 1000px;
               height: 400px;
@@ -86,7 +87,9 @@
         <div data-aos="fade-up" data-aos-duration="1300" data-aos-delay="500">
           <q-card class="my-card-next Glassmorphism col">
             <q-card-section class="q-gutter-md text-white">
-              <div class="font3 text-h4">What Is Sining Pananadem?</div>
+              <div class="font3 text-bold text-h4">
+                What Is Sining Pananadem?
+              </div>
               <div class="font1 text-subtitle2">
                 Sining Pananadem is composed of young M’ranao artists, and its
                 primary objectives are: to Preserve, Promote, to Protect and to
@@ -102,132 +105,49 @@
       </div>
 
       <div class="q-pt-xl text-white">
-        <q-timeline :layout="layout" color="primary">
-          <q-timeline-entry heading>
-            Sining Pananadem
-            <br />
-            (History and Events)
-          </q-timeline-entry>
+        <q-carousel
+          animated
+          v-model="slide"
+          navigation
+          infinite
+          :autoplay="autoplay"
+          arrows
+          transition-prev="slide-right"
+          transition-next="slide-left"
+          @mouseenter="autoplay = false"
+          @mouseleave="autoplay = true"
+        >
+          <q-carousel-slide :name="1"
+            ><q-video
+              class="absolute-full"
+              src="https://www.youtube.com/embed/kkMhBhfBuHU"
+          /></q-carousel-slide>
 
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="left"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 21, 1986"
-            side="right"
-            icon="delete"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry heading>November, 2017</q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="left"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="right"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="left"
-            color="orange"
-            icon="done_all"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="right"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-
-          <q-timeline-entry
-            title="Event Title"
-            subtitle="February 22, 1986"
-            side="left"
-          >
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-          </q-timeline-entry>
-        </q-timeline>
+          <q-carousel-slide :name="2"
+            ><q-video
+              class="absolute-full"
+              src="https://www.youtube.com/embed/kkMhBhfBuHU"
+          /></q-carousel-slide>
+          <q-carousel-slide :name="3"
+            ><q-video
+              class="absolute-full"
+              src="https://www.youtube.com/embed/kkMhBhfBuHU"
+          /></q-carousel-slide>
+          <q-carousel-slide :name="4"
+            ><q-video
+              class="absolute-full"
+              src="https://www.youtube.com/embed/kkMhBhfBuHU"
+          /></q-carousel-slide>
+        </q-carousel>
       </div>
     </div>
+    <q-page-scroller
+      position="bottom-right"
+      :scroll-offset="150"
+      :offset="[18, 18]"
+    >
+      <q-btn fab icon="keyboard_arrow_up" color="primary" />
+    </q-page-scroller>
   </q-page>
 </template>
 
@@ -245,7 +165,10 @@ import { Vue, Component } from 'vue-property-decorator';
     }
   }
 })
-export default class LandingPage extends Vue {}
+export default class LandingPage extends Vue {
+  slide = 1;
+  autoplay = true;
+}
 </script>
 
 <style scopes>
@@ -260,7 +183,7 @@ export default class LandingPage extends Vue {}
   max-width: 550px;
   position: relative;
   top: 150px;
-  left: -690px;
+  left: -800px;
 }
 
 .my-card {
@@ -284,7 +207,7 @@ export default class LandingPage extends Vue {}
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   background-image: linear-gradient(
     155deg,
-    rgba(255, 255, 255, 0.36) 0%,
+    rgba(190, 190, 190) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   border-radius: 28px;
@@ -298,12 +221,32 @@ export default class LandingPage extends Vue {}
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   background-image: linear-gradient(
     155deg,
-    rgba(255, 255, 255, 0.36) 0%,
+    rgb(190, 190, 190) 0%,
     rgba(255, 255, 255, 0) 100%
   );
   border-radius: 28px;
   border-bottom: 1.8px solid rgba(255, 255, 255, 0.79);
   border-right: 1.8px solid rgba(255, 255, 255, 0.79);
   text-shadow: 2px 2px 10px #000000;
+}
+.box {
+  transition: all 0.4s ease-in-out;
+}
+.make-it-fast {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.make-it-fast::after {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.make-it-fast:hover::after {
+  opacity: 1;
+}
+.box:hover {
+  transform: scale(1.1, 1.1);
+}
+.box:hover::after {
+  opacity: 1;
 }
 </style>

@@ -1,66 +1,88 @@
 <template>
-  <q-scroll-area style="height: 600px">
-    <q-page class="text-center text-h4 q-pa-lg">
-      <q-card class="q-pa-md">
-        <div class="row">
-          <div class="col"></div>
-        </div>
-        <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="dance" label="Dances" />
-          <q-tab name="instruments" label="Instruments" />
-          <q-tab name="pictures" label="Gallery" />
-          <q-tab name="songs" label="Songs" />
-        </q-tabs>
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="dance">
-            <Table
-              :title="tab.toUpperCase()"
-              :data="dataDances"
-              :columns="columns"
-            />
-          </q-tab-panel>
+  <transition appear enter-active-class="animated fadeIn">
+    <q-scroll-area style="height: 600px">
+      <q-page class="text-center text-h4 q-pa-lg">
+        <q-card class="q-pa-md">
+          <div class="row">
+            <div class="col"></div>
+          </div>
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab name="dance" label="Dances" />
+            <q-tab name="instruments" label="Instruments" />
+            <q-tab name="pictures" label="Gallery" />
+            <q-tab name="songs" label="Songs" />
+            <q-tab name="equipments" label="Equipments" />
+          </q-tabs>
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="dance">
+              <Table
+                :title="tab.toUpperCase()"
+                :data="dataDances"
+                :columns="columns"
+                @view="view"
+              />
+            </q-tab-panel>
 
-          <q-tab-panel name="instruments">
-            <Table
-              :title="tab.toUpperCase()"
-              :data="dataInstruments"
-              :columns="columns"
-            />
-          </q-tab-panel>
+            <q-tab-panel name="instruments">
+              <Table
+                :title="tab.toUpperCase()"
+                :data="dataInstruments"
+                :columns="columns"
+                @view="view"
+              />
+            </q-tab-panel>
 
-          <q-tab-panel name="pictures">
-            <Table :title="tab.toUpperCase()" :data="dataPictures" :columns="columns" />
-          </q-tab-panel>
+            <q-tab-panel name="pictures">
+              <Table
+                :title="tab.toUpperCase()"
+                :data="dataPictures"
+                :columns="columns"
+              />
+            </q-tab-panel>
 
-          <q-tab-panel name="songs">
-            <Table :title="tab.toUpperCase()" :data="dataSongs" :columns="columns" />
-          </q-tab-panel>
-        </q-tab-panels>
-      </q-card>
+            <q-tab-panel name="songs">
+              <Table
+                :title="tab.toUpperCase()"
+                :data="dataSongs"
+                :columns="columns"
+              />
+            </q-tab-panel>
 
-      <q-page-sticky position="bottom-right" :offset="[28, 26]">
-        <q-btn
-          rounded
-          color="primary"
-          :label="tab"
-          icon="add"
-          @click="showDialog()"
-        />
-      </q-page-sticky>
-      <AddInstrumentDialog />
-      <AddDanceDialog />
-      <AddPictureDialog />
-      <AddSongDialog />
-    </q-page>
-  </q-scroll-area>
+            <q-tab-panel name="equipments">
+              <Table
+                :title="tab.toUpperCase()"
+                :data="dataEquipments"
+                :columns="columns"
+              />
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
+
+        <q-page-sticky position="bottom-right" :offset="[28, 26]">
+          <q-btn
+            rounded
+            color="primary"
+            :label="tab"
+            icon="add"
+            @click="showDialog()"
+          />
+        </q-page-sticky>
+        <AddInstrumentDialog :payload="payload" />
+        <AddDanceDialog />
+        <AddPictureDialog />
+        <AddSongDialog />
+        <AddEquipmentDialog />
+      </q-page>
+    </q-scroll-area>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -70,8 +92,15 @@ import AddDanceDialog from 'src/components/AddDanceDialog.vue';
 import AddInstrumentDialog from 'src/components/AddInstrumentDialog.vue';
 import AddPictureDialog from 'src/components/AddPictureDialog.vue';
 import AddSongDialog from 'src/components/AddSongDialog.vue';
+import AddEquipmentDialog from 'src/components/AddEquipmentDialog.vue';
 import Table from 'src/components/Table.vue';
-import { DanceDto, InstrumentDto, PictureDto, SongDto } from 'src/services/rest-api';
+import {
+  DanceDto,
+  InstrumentDto,
+  PictureDto,
+  SongDto,
+  EquipmentDto
+} from 'src/services/rest-api';
 
 @Component({
   components: {
@@ -79,23 +108,27 @@ import { DanceDto, InstrumentDto, PictureDto, SongDto } from 'src/services/rest-
     AddInstrumentDialog,
     AddPictureDialog,
     AddSongDialog,
+    AddEquipmentDialog,
     Table
   },
   computed: {
     ...mapState('dance', ['dances']),
     ...mapState('instrument', ['instruments']),
     ...mapState('picture', ['pictures']),
-    ...mapState('song', ['songs'])
+    ...mapState('song', ['songs']),
+    ...mapState('equipment', ['equipments'])
   },
   methods: {
     ...mapActions('dance', ['getAllDances']),
     ...mapActions('instrument', ['getAllInstruments']),
     ...mapActions('picture', ['getAllPictures']),
     ...mapActions('song', ['getAllSongs']),
+    ...mapActions('equipment', ['getAllEquipments']),
     ...mapActions('uiNav', ['addDancePopups']),
     ...mapActions('uiNav', ['addInstrumentPopups']),
     ...mapActions('uiNav', ['addPicturePopups']),
-    ...mapActions('uiNav', ['addSongPopups'])
+    ...mapActions('uiNav', ['addSongPopups']),
+    ...mapActions('uiNav', ['addEquipmentPopups'])
   }
 })
 export default class Homeadmin extends Vue {
@@ -103,16 +136,20 @@ export default class Homeadmin extends Vue {
   instruments!: InstrumentDto[];
   pictures!: PictureDto[];
   songs!: SongDto[];
+  equipments!: EquipmentDto[];
   getAllDances!: () => Promise<void>;
   getAllInstruments!: () => Promise<void>;
   getAllPictures!: () => Promise<void>;
   getAllSongs!: () => Promise<void>;
+  getAllEquipments!: () => Promise<void>;
   addDancePopups!: (show: boolean) => void;
   addInstrumentPopups!: (show: boolean) => void;
   addPicturePopups!: (show: boolean) => void;
   addSongPopups!: (show: boolean) => void;
+  addEquipmentPopups!: (show: boolean) => void;
   tab = 'dance';
   loading = false;
+  payload = {};
   // dances
   columns = [
     {
@@ -167,6 +204,7 @@ export default class Homeadmin extends Vue {
   dataInstruments: InstrumentDto[] = [];
   dataPictures: PictureDto[] = [];
   dataSongs: SongDto[] = [];
+  dataEquipments: EquipmentDto[] = [];
 
   async created() {
     await this.getAllDances();
@@ -175,20 +213,14 @@ export default class Homeadmin extends Vue {
     this.dataInstruments = this.instruments;
     await this.getAllPictures();
     this.dataPictures = this.pictures;
+    await this.getAllEquipments();
+    this.dataEquipments = this.equipments;
     await this.getAllSongs();
     this.dataSongs = this.songs;
   }
 
-  async showDialog() {
-    if (this.tab.toLowerCase() == 'dance') {
-      this.addDancePopups(true);
-    } else if (this.tab.toLowerCase() == 'instruments') {
-      this.addInstrumentPopups(true);
-    } else if (this.tab.toLowerCase() == 'pictures') {
-      this.addPicturePopups(true);
-    } else {
-      this.addSongPopups(true);
-    }
+  view(payload: any) {
+    this.payload = payload;
   }
 }
 </script>

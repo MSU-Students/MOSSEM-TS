@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addDancePopups(false), checkerror = false"
+          @click="addDancePopups(false), (checkerror = false)"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -120,15 +120,21 @@ export default class AddDanceDialog extends Vue {
     ) {
       this.checkerror = true;
     } else {
-    const response = await this.createDance(this.dance);
-    console.log('response: ', response);
-    this.addDancePopups(false);
-    console.log('response: ', response);
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-  }
+      const response = await this.createDance(this.dance);
+      console.log('response: ', response);
+      this.addDancePopups(false);
+      console.log('response: ', response);
+      this.$q.notify({
+        type: 'positive',
+        message: 'Upload Success!'
+      });
+      this.dance = {
+        id: '',
+        url: '',
+        name: '',
+        description: ''
+      };
+    }
   }
 }
 </script>

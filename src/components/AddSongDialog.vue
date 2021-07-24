@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addSongPopups(false), checkerror = false"
+          @click="addSongPopups(false), (checkerror = false)"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -24,6 +24,38 @@
           ref="song name"
           filled
           label="Song Name"
+          lazy-rules
+          :rules="[val => !!val || 'Field is required']"
+        />
+      </div>
+      <div class="q-pl-sm q-pr-sm">
+        <q-input
+          v-model="song.songwriter"
+          ref="song writer"
+          filled
+          label="Song Writer"
+          lazy-rules
+          :rules="[val => !!val || 'Field is required']"
+        />
+      </div>
+      <div class="q-pl-sm q-pb-lg q-pr-sm">
+        <q-input
+          v-model="song.performedplaces"
+          ref="Performed Places"
+          filled
+          label="Performed Places"
+          lazy-rules
+          hint="Ex. Malaysia, USA, Philippines"
+          :rules="[val => !!val || 'Field is required']"
+        />
+      </div>
+      <div class="q-pl-sm q-pb-lg q-pr-sm">
+        <q-input
+          v-model="song.datecreated"
+          ref="datecreated"
+          type="date"
+          hint="Date Created"
+          filled
           lazy-rules
           :rules="[val => !!val || 'Field is required']"
         />
@@ -50,7 +82,7 @@
           v-model="song.description"
           filled
           type="Description"
-          label="Song Description"
+          label="Song Lyrics"
           autogrow
         />
       </div>
@@ -106,12 +138,15 @@ export default class AddInstrumentDialog extends Vue {
   createSong!: (payload: SongDto) => Promise<void>;
 
   checkerror = false;
-  
+
   song: SongDto = {
     id: '',
     url: '',
     name: '',
-    description: ''
+    description: '',
+    datecreated: '',
+    songwriter: '',
+    performedplaces: ''
   };
 
   file: any = [];
@@ -121,35 +156,41 @@ export default class AddInstrumentDialog extends Vue {
   }
 
   async addSong() {
-     if (
-      (this.song.name == '' &&
-        this.song.description == '') ||
+    if (
+      (this.song.name == '' && this.song.description == '') ||
       this.song.name == '' ||
       this.song.description == ''
     ) {
       this.checkerror = true;
-    } else{
-    const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-    console.log('resUrl: ', resUrl);
-    if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-      console.log({ ...this.song, url: resUrl });
-      const response = await this.createSong({
-        ...this.song,
-        url: resUrl
-      });
-      this.$q.notify({
-        type: 'positive',
-        message: 'Upload Success!'
-      });
-      console.log('response: ', response);
     } else {
-      this.$q.notify({
-        type: 'negative',
-        message: 'Something wrong!'
-      });
-    }
+      const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+      console.log('resUrl: ', resUrl);
+      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        await this.createSong({
+          ...this.song,
+          url: resUrl
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Upload Success!'
+        });
+        this.song = {
+          id: '',
+          url: '',
+          name: '',
+          description: '',
+          datecreated: '',
+          songwriter: '',
+          performedplaces: ''
+        };
+      } else {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Something wrong!'
+        });
+      }
 
-    this.addSongPopups(false);
+      this.addSongPopups(false);
     }
   }
 }

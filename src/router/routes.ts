@@ -9,6 +9,7 @@ import Dances from 'src/pages/Drawer/Dances.vue';
 import Instruments from 'src/pages/Drawer/Instruments.vue';
 import Songs from 'src/pages/Drawer/Songs.vue';
 import Pictures from 'src/pages/Drawer/Pictures.vue';
+import Equipments from 'src/pages/Drawer/Equipments.vue';
 import AdminLayout from 'src/layouts/AdminLayout.vue';
 
 const routes: RouteConfig[] = [
@@ -20,12 +21,8 @@ const routes: RouteConfig[] = [
         path: '/',
         name: 'landing-page',
         component: Landingpage
-      },
-      {
-        path: 'login',
-        name: 'login-page',
-        component: Login
       }
+      
     ]
   },
   {
@@ -36,6 +33,11 @@ const routes: RouteConfig[] = [
         path: 'Homeadmin',
         name: 'Homeadmin-page',
         component: Homeadmin
+      },
+      {
+        path: 'login',
+        name: 'login-page',
+        component: Login
       }
     ]
   },
@@ -62,6 +64,11 @@ const routes: RouteConfig[] = [
         path: 'Pictures',
         name: 'Pictures-page',
         component: Pictures
+      },
+      {
+        path: 'Equipments',
+        name: 'Equipments-page',
+        component: Equipments
       }
     ]
   },

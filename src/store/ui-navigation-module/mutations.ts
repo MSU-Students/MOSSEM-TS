@@ -13,6 +13,9 @@ const mutation: MutationTree<UiNavStateInterface> = {
   },
   addSongPopups(state, payload: boolean) {
     state.ShowSongDialog = payload;
+  },
+  addEquipmentPopups(state, payload: boolean) {
+    state.ShowEquipmentDialog = payload;
   }
 };
 

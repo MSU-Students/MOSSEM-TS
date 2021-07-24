@@ -2,7 +2,8 @@ export interface UiNavStateInterface {
   ShowDanceDialog: boolean,
   ShowInstrumentDialog: boolean,
   ShowPictureDialog: boolean,
-  ShowSongDialog: boolean
+  ShowSongDialog: boolean,
+  ShowEquipmentDialog: boolean
 }
 
 function state(): UiNavStateInterface {
@@ -10,7 +11,8 @@ function state(): UiNavStateInterface {
     ShowDanceDialog: false,
     ShowInstrumentDialog: false,
     ShowPictureDialog: false,
-    ShowSongDialog: false
+    ShowSongDialog: false,
+    ShowEquipmentDialog: false
   };
 }
 

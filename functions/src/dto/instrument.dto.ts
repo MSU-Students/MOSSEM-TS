@@ -10,4 +10,10 @@ export class InstrumentDto implements IInstrument {
   name: string;
   @ApiProperty()
   description: string;
+  @ApiProperty()
+  dateaquired: string;
+  @ApiProperty()
+  quantity: string;
+  @ApiProperty()
+  status: string;
 }

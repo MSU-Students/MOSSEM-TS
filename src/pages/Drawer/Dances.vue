@@ -85,12 +85,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import helperService from 'src/services/helper.service';
-
-interface IDance {
-  url: string;
-  name: string;
-  description: string;
-}
+import { DanceDto } from 'src/services/rest-api';
 
 interface RefsVue extends Vue {
   start(): void;
@@ -110,8 +105,8 @@ export default class Dance extends Vue {
     bar: RefsVue;
   };
   // vuex here
-  dances!: IDance[];
-  getAllDances!: () => Promise<IDance[]>;
+  dances!: DanceDto[];
+  getAllDances!: () => Promise<DanceDto[]>;
 
   // local data here
   slide = 'Maranao';

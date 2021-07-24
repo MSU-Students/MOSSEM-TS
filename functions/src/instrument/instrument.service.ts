@@ -40,7 +40,7 @@ export class InstrumentService {
 
   async update(id: string, instrument: InstrumentDto): Promise<InstrumentDto> {
     const doc = this.firestore.instrument().doc(id);
-
+    
     const record = await doc.get();
     if (record.exists) {
       const data = record.data();

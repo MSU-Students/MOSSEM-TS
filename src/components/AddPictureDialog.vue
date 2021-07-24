@@ -15,7 +15,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addPicturePopups(false), checkerror = false"
+          @click="addPicturePopups(false), (checkerror = false)"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -120,34 +120,37 @@ export default class AddPictureDialog extends Vue {
 
   async addPicture() {
     if (
-      (this.picture.name == '' &&
-        this.picture.description == '') ||
+      (this.picture.name == '' && this.picture.description == '') ||
       this.picture.name == '' ||
       this.picture.description == ''
     ) {
       this.checkerror = true;
     } else {
-    const resUrl: any = await uploadService.uploadFile(this.file, 'picture');
-    console.log('resUrl: ', resUrl);
-    if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-      console.log({ ...this.picture, url: resUrl });
-      const response = await this.createPicture({
-        ...this.picture,
-        url: resUrl
-      });
-      console.log('response: ', response);
-      this.$q.notify({
-        type: 'positive',
-        message: 'Upload Success!'
-      });
-    } else {
-      this.$q.notify({
-        type: 'negative',
-        message: 'Something wrong!'
-      });
-      
-    }
-    this.addPicturePopups(false);
+      const resUrl: any = await uploadService.uploadFile(this.file, 'picture');
+      console.log('resUrl: ', resUrl);
+      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        await this.createPicture({
+          ...this.picture,
+          url: resUrl
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Upload Success!'
+        });
+        this.picture = {
+          id: '',
+          url: '',
+          name: '',
+          description: ''
+        };
+        this.file = '';
+      } else {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Something wrong!'
+        });
+      }
+      this.addPicturePopups(false);
     }
   }
 }
