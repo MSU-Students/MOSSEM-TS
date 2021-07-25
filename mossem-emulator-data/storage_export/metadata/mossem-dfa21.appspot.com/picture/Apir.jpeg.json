@@ -1,0 +1,19 @@
+{
+  "name": "picture/Apir.jpeg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627095479134,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "93688cf1-992c-4bf4-b0be-e816ae13ff1a"
+  ],
+  "timeCreated": "2021-07-24T02:57:59.133Z",
+  "updated": "2021-07-24T02:57:59.138Z",
+  "size": 1273588,
+  "md5Hash": "YHLzSh319Z55k8Gagjp83Q==",
+  "crc32c": "4052207010"
+}

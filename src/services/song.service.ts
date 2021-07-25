@@ -39,7 +39,9 @@ class SongService extends DefaultApi {
   }
 
   async editSong(id: string, payload: SongDto) {
+    console.log(id, payload);
     const response = await this.updateSong(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {

@@ -1110,7 +1110,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateSong', 'id', id)
             // verify required parameter 'songDto' is not null or undefined
             assertParamExists('updateSong', 'songDto', songDto)
-            const localVarPath = `/song`
+            const localVarPath = `/song/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

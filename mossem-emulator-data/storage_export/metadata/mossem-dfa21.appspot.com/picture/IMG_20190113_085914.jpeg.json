@@ -1,0 +1,19 @@
+{
+  "name": "picture/IMG_20190113_085914.jpeg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627092933375,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d3b9f92b-7e39-456b-ae23-542f225a0b9f"
+  ],
+  "timeCreated": "2021-07-24T02:15:33.374Z",
+  "updated": "2021-07-24T02:15:33.383Z",
+  "size": 2026101,
+  "md5Hash": "7LeLt3MzvUXGF4s02/P37A==",
+  "crc32c": "1140242370"
+}

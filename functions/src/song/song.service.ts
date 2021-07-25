@@ -40,7 +40,7 @@ export class SongService {
 
   async update(id: string, song: SongDto): Promise<SongDto> {
     const doc = this.firestore.song().doc(id);
-
+    
     const record = await doc.get();
     if (record.exists) {
       const data = record.data();

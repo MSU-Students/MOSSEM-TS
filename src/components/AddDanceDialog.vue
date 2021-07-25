@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-model="ShowDanceDialog" transition-show="scale" persistent>
+  <q-dialog
+    v-model="ShowDanceDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,7 +15,8 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW DANCE</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE DANCE</span>
+          <span v-else>ADD DANCE</span></q-toolbar-title
         >
         <q-btn
           color="primary"
@@ -66,10 +73,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="payload.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addDance()"
+            @click="payload.onUpdate ? editDance() : addDance()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -78,8 +85,9 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
+import uploadService from 'src/services/upload.service';
 import { DanceDto } from 'src/services/rest-api/api';
 // import uploadService from 'src/services/upload.service';
 @Component({
@@ -88,18 +96,20 @@ import { DanceDto } from 'src/services/rest-api/api';
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('dance', ['createDance'])
+    ...mapActions('dance', ['createDance', 'updateDance'])
   }
 })
 export default class AddDanceDialog extends Vue {
   // vuex
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
   ShowDanceDialog!: boolean;
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
+  updateDance!: (payload: any) => Promise<void>;
   // local data
   checkerror = false;
   shouldShow = false;
-  dance: DanceDto = {
+  dance: any = {
     id: '',
     url: '',
     name: '',
@@ -109,6 +119,22 @@ export default class AddDanceDialog extends Vue {
   fileChoose(val: any) {
     this.file = val;
   }
+
+  showDialog() {
+    this.dance = { ...this.payload, url: [] };
+    console.log(this.dance);
+  }
+
+  hideDialog() {
+    this.dance = {
+      id: '',
+      url: '',
+      name: '',
+      description: ''
+    };
+    this.$emit('clearData', this.dance);
+  }
+
   async addDance() {
     if (
       (this.dance.name == '' &&
@@ -134,6 +160,36 @@ export default class AddDanceDialog extends Vue {
         name: '',
         description: ''
       };
+    }
+  }
+  async editDance() {
+    delete this.dance.onUpdate;
+    if (this.dance.url.length != 0) {
+      const resUrl: any = await uploadService.uploadFile(this.file, 'dance');
+      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        await this.updateDance({
+          ...this.dance,
+          url: resUrl
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Upload Success!'
+        });
+      } else {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Something wrong!'
+        });
+      }
+    } else {
+      await this.updateDance({
+        ...this.dance,
+        url: this.payload.url
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Upload Success!'
+      });
     }
   }
 }

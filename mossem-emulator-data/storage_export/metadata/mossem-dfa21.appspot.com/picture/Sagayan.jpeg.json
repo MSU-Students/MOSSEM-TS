@@ -1,0 +1,19 @@
+{
+  "name": "picture/Sagayan.jpeg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627095516172,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "a65ecd28-0ae0-4811-9ae3-b8734b662186"
+  ],
+  "timeCreated": "2021-07-24T02:58:36.171Z",
+  "updated": "2021-07-24T02:58:36.171Z",
+  "size": 135302,
+  "md5Hash": "fxg3bOzgiWmLjZTwO1Egjw==",
+  "crc32c": "2158630291"
+}

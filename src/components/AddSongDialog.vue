@@ -1,5 +1,6 @@
 <template>
-  <q-dialog v-model="ShowSongDialog" transition-show="scale" persistent>
+  <q-dialog v-model="ShowSongDialog" transition-show="scale" persistent @show="showDialog()"
+    @hide="hideDialog()">
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,7 +10,8 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW SONG</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE SONG</span>
+          <span v-else>ADD SONG</span></q-toolbar-title
         >
         <q-btn
           color="primary"
@@ -105,10 +107,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="payload.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addSong()"
+            @click="payload.onUpdate ? editSong() : addSong()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -117,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import uploadService from 'src/services/upload.service';
 import { SongDto } from 'src/services/rest-api';
@@ -128,18 +130,20 @@ import { SongDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('song', ['createSong'])
+    ...mapActions('song', ['createSong', 'updateSong'])
   }
 })
-export default class AddInstrumentDialog extends Vue {
+export default class AddSongDialog extends Vue {
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
   ShowSongDialog!: boolean;
   shouldShow = false;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
+  updateSong!: (payload: any) => Promise<void>;
 
   checkerror = false;
 
-  song: SongDto = {
+  song: any = {
     id: '',
     url: '',
     name: '',
@@ -153,6 +157,24 @@ export default class AddInstrumentDialog extends Vue {
 
   fileChoose(val: any) {
     this.file = val;
+  }
+
+  showDialog() {
+    this.song = { ...this.payload, url: [] };
+    console.log(this.song);
+  }
+
+  hideDialog() {
+    this.song = {
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      datecreated: '',
+      songwriter: '',
+      performedplaces: ''
+    };
+    this.$emit('clearData', this.song);
   }
 
   async addSong() {
@@ -191,6 +213,37 @@ export default class AddInstrumentDialog extends Vue {
       }
 
       this.addSongPopups(false);
+    }
+  }
+
+  async editSong() {
+    delete this.song.onUpdate;
+    if (this.song.url.length != 0) {
+      const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        await this.updateSong({
+          ...this.song,
+          url: resUrl
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Upload Success!'
+        });
+      } else {
+        this.$q.notify({
+          type: 'negative',
+          message: 'Something wrong!'
+        });
+      }
+    } else {
+      await this.updateSong({
+        ...this.song,
+        url: this.payload.url
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Upload Success!'
+      });
     }
   }
 }

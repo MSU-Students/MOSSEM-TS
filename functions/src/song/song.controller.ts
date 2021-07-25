@@ -59,12 +59,12 @@ export class SongController {
   }
 
   @ApiOperation({ summary: 'update song', operationId: 'UpdateSong' })
-  @ApiBody({ type: SongDto })
-  @Put()
-  async update(
-    @Param('id') id: string,
-    @Body() player: SongDto,
-  ): Promise<SongDto> {
-    return this.songService.update(id, player);
-  }
+    @ApiBody({ type: SongDto })
+    @Put(':id')
+    async update(
+      @Param('id') id: string,
+      @Body() player: SongDto,
+    ): Promise<SongDto> {
+      return this.songService.update(id, player);
+    }
 }

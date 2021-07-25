@@ -35,7 +35,7 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataInstruments"
-                :columns="columns"
+                :columns="columnsinstrument"
                 @view="view"
               />
             </q-tab-panel>
@@ -45,6 +45,7 @@
                 :title="tab.toUpperCase()"
                 :data="dataPictures"
                 :columns="columns"
+                @view="view"
               />
             </q-tab-panel>
 
@@ -52,7 +53,8 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataSongs"
-                :columns="columns"
+                :columns="columnssong"
+                @view="view"
               />
             </q-tab-panel>
 
@@ -60,7 +62,8 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataEquipments"
-                :columns="columns"
+                :columns="columnsequipment"
+                @view="view"
               />
             </q-tab-panel>
           </q-tab-panels>
@@ -75,11 +78,11 @@
             @click="showDialog()"
           />
         </q-page-sticky>
-        <AddInstrumentDialog :payload="payload" />
-        <AddDanceDialog />
-        <AddPictureDialog />
-        <AddSongDialog />
-        <AddEquipmentDialog />
+        <AddInstrumentDialog :payload="payload" @clearData="clearData" />
+        <AddDanceDialog :payload="payload" @clearData="clearData" />
+        <AddPictureDialog :payload="payload" @clearData="clearData" />
+        <AddEquipmentDialog :payload="payload" @clearData="clearData" />
+        <AddSongDialog :payload="payload" @clearData="clearData" />
       </q-page>
     </q-scroll-area>
   </transition>
@@ -151,6 +154,96 @@ export default class Homeadmin extends Vue {
   loading = false;
   payload = {};
   // dances
+  columnsinstrument = [
+    {
+      name: 'dateaquired',
+      align: 'center',
+      label: 'Date aquired',
+      field: 'dateaquired',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Status',
+      field: 'status',
+      sortable: true
+    },
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'quantity',
+      sortable: true
+    }
+  ];
+  columnssong = [
+    {
+      name: 'songwriter',
+      align: 'center',
+      label: 'Song writer',
+      field: 'songwriter',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'performedplaces',
+      align: 'center',
+      label: 'Performed places',
+      field: 'performedplaces',
+      sortable: true
+    },
+    {
+      name: 'datecreated',
+      align: 'center',
+      label: 'Date created',
+      field: 'datecreated',
+      sortable: true
+    }
+  ];
+  columnsequipment = [
+    {
+      name: 'dateaquired',
+      align: 'center',
+      label: 'Date aquired',
+      field: 'dateaquired',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Status',
+      field: 'status',
+      sortable: true
+    },
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'quantity',
+      sortable: true
+    }
+  ];
   columns = [
     {
       name: 'name',
@@ -165,38 +258,6 @@ export default class Homeadmin extends Vue {
       label: 'Description',
       field: 'description',
       sortable: true
-    }
-  ];
-  data = [
-    {
-      id: '1',
-      name: 'Malong-Malong',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '2',
-      name: 'Sagayan',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '3',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '4',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '5',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
     }
   ];
 
@@ -219,7 +280,26 @@ export default class Homeadmin extends Vue {
     this.dataSongs = this.songs;
   }
 
+  async showDialog() {
+    if (this.tab.toLowerCase() == 'dance') {
+      this.addDancePopups(true);
+    } else if (this.tab.toLowerCase() == 'instruments') {
+      this.addInstrumentPopups(true);
+    } else if (this.tab.toLowerCase() == 'pictures') {
+      this.addPicturePopups(true);
+    } else if (this.tab.toLowerCase() == 'equipments') {
+      this.addEquipmentPopups(true);
+    } else {
+      this.addSongPopups(true);
+    }
+  }
+
+  clearData(val: any) {
+    this.payload = val;
+  }
+
   view(payload: any) {
+    console.log(payload);
     this.payload = payload;
   }
 }

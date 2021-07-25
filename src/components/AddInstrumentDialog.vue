@@ -172,6 +172,7 @@ export default class AddInstrumentDialog extends Vue {
       quantity: '',
       status: ''
     };
+    this.$emit('clearData', this.instrument);
   }
 
   fileChoose(val: any) {
@@ -219,7 +220,7 @@ export default class AddInstrumentDialog extends Vue {
       if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
         await this.updateInstrument({
           ...this.instrument,
-          url: resUrl,
+          url: resUrl
         });
         this.$q.notify({
           type: 'positive',
@@ -234,7 +235,7 @@ export default class AddInstrumentDialog extends Vue {
     } else {
       await this.updateInstrument({
         ...this.instrument,
-        url: this.payload.url,
+        url: this.payload.url
       });
       this.$q.notify({
         type: 'positive',

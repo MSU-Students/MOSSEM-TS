@@ -1,0 +1,19 @@
+{
+  "name": "picture/Singkil1.jpeg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627095496157,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "30b6be2b-bbc5-430d-970a-d5d9e9187056"
+  ],
+  "timeCreated": "2021-07-24T02:58:16.156Z",
+  "updated": "2021-07-24T02:58:16.157Z",
+  "size": 149450,
+  "md5Hash": "kHzwwI2I9whiYz3VSsw1jw==",
+  "crc32c": "867046607"
+}

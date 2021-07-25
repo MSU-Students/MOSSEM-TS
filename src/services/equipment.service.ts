@@ -48,7 +48,9 @@ class EquipmentService extends DefaultApi {
   }
 
   async editEquipment(id: string, payload: EquipmentDto) {
+    console.log(id, payload);
     const response = await this.updateEquipment(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {
