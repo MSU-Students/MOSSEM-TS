@@ -23,9 +23,8 @@ const actions: ActionTree<IEquipment, StateInterface> = {
     return response;
   },
 
-  async updateEquipment(context, payload: any) {
+  async updateEquipment({}, payload: any) {
     const response = await equipmentService.editEquipment(payload.id, payload);
-    context.commit('updateEquipment', response);
     return response;
   },
 

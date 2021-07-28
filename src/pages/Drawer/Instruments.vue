@@ -183,7 +183,7 @@ export default class Instrument extends Vue {
 <style scoped>
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
-  padding: 0px;
+  padding: 10px;
 }
 .text-shadow {
   text-shadow: 1px 1px 6px #000000;

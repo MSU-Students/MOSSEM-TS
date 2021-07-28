@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { mapActions, mapState } from 'vuex';
 import AddDanceDialog from 'src/components/AddDanceDialog.vue';
 import AddInstrumentDialog from 'src/components/AddInstrumentDialog.vue';
@@ -260,12 +260,32 @@ export default class Homeadmin extends Vue {
       sortable: true
     }
   ];
-
   dataDances: DanceDto[] = [];
   dataInstruments: InstrumentDto[] = [];
   dataPictures: PictureDto[] = [];
   dataSongs: SongDto[] = [];
   dataEquipments: EquipmentDto[] = [];
+
+  @Watch('dances')
+  onDancesChanged(val: any) {
+    this.dataDances = val;
+  }
+  @Watch('instruments')
+  onInstrumentsChanged(val: any) {
+    this.dataInstruments = val;
+  }
+  @Watch('pictures')
+  onPicturesChanged(val: any) {
+    this.dataPictures = val;
+  }
+  @Watch('equipments')
+  onEquipmentsChanged(val: any) {
+    this.dataEquipments = val;
+  }
+  @Watch('songs')
+  onSongsChanged(val: any) {
+    this.dataSongs = val;
+  }
 
   async created() {
     await this.getAllDances();
@@ -278,6 +298,7 @@ export default class Homeadmin extends Vue {
     this.dataEquipments = this.equipments;
     await this.getAllSongs();
     this.dataSongs = this.songs;
+    console.log(this.dataSongs);
   }
 
   async showDialog() {

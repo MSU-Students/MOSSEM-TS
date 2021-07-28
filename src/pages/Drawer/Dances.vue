@@ -66,7 +66,7 @@
           v-if="dance.name == slide"
           :key="index"
           style="width: 80vw"
-        >
+        ><transition appear enter-active-class="animated fadeIn">
           <q-card-section>
             <div class="text-h2 text-center text-white">
               {{ dance.name }}
@@ -75,6 +75,7 @@
               {{ dance.description }}
             </div>
           </q-card-section>
+          </transition>
         </q-card>
       </template>
     </div>

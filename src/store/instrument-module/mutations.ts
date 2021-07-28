@@ -14,11 +14,6 @@ const mutation: MutationTree<IInstrument> = {
   },
 
   async createInstrument(state, payload: InstrumentDto) {
-    console.log(payload);
-    state.instruments.push(payload);
-  },
-
-  async updateInstrument(state, payload: InstrumentDto) {
     state.instruments.push(payload);
   },
 

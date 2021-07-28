@@ -17,10 +17,6 @@ const mutation: MutationTree<IPicture> = {
     state.pictures.push(payload);
   },
 
-  async updatePicture(state, payload: PictureDto) {
-    state.pictures.push(payload);
-  },
-
   async removePicture(state, payload: PictureDto) {
     state.pictures.push(payload);
   }

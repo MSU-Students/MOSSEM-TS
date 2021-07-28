@@ -3,16 +3,16 @@
   "bucket": "mossem-dfa21.appspot.com",
   "contentType": "image/png",
   "metageneration": 1,
-  "generation": 1627092213195,
+  "generation": 1627308688300,
   "storageClass": "STANDARD",
   "etag": "someETag",
   "contentDisposition": "inline",
   "contentEncoding": "identity",
   "downloadTokens": [
-    "ecc5dbbb-f3dd-446c-85e5-ed9a0319991f"
+    "fc911962-ffd9-4555-a5e2-0fb67ed7376d"
   ],
-  "timeCreated": "2021-07-24T02:03:33.194Z",
-  "updated": "2021-07-24T02:03:33.196Z",
+  "timeCreated": "2021-07-26T14:11:28.299Z",
+  "updated": "2021-07-26T14:11:28.307Z",
   "size": 365674,
   "md5Hash": "XmwQqqqdAMgb7YMluktrWA==",
   "crc32c": "2166044968"

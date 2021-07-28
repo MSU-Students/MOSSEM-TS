@@ -1,6 +1,11 @@
 <template>
-  <q-dialog v-model="ShowSongDialog" transition-show="scale" persistent @show="showDialog()"
-    @hide="hideDialog()">
+  <q-dialog
+    v-model="ShowSongDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -17,7 +22,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addSongPopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -130,7 +135,7 @@ import { SongDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('song', ['createSong', 'updateSong'])
+    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs'])
   }
 })
 export default class AddSongDialog extends Vue {
@@ -140,6 +145,7 @@ export default class AddSongDialog extends Vue {
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
   updateSong!: (payload: any) => Promise<void>;
+  getAllSongs!: () => Promise<void>;
 
   checkerror = false;
 
@@ -161,10 +167,113 @@ export default class AddSongDialog extends Vue {
 
   showDialog() {
     this.song = { ...this.payload, url: [] };
-    console.log(this.song);
   }
 
   hideDialog() {
+    this.$emit('clearData', this.song);
+  }
+
+  async addSong() {
+    try {
+      if (
+        (this.song.name == '' && this.song.description == '') ||
+        this.song.name == '' ||
+        this.song.description == ''
+      ) {
+        this.checkerror = true;
+        this.addSongPopups(false);
+      } else {
+        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createSong({
+            ...this.song,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.song = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            datecreated: '',
+            songwriter: '',
+            performedplaces: ''
+          };
+          this.file = [];
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+        this.addSongPopups(false);
+      }
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  async editSong() {
+    try {
+      delete this.song.onUpdate;
+      if (this.file.length != 0) {
+        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.updateSong({
+            ...this.song,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Edited Successfully!'
+          });
+          this.song = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            datecreated: '',
+            songwriter: '',
+            performedplaces: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      } else {
+        await this.updateSong({
+          ...this.song,
+          url: this.payload.url
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Edited Successfully!'
+        });
+      }
+
+      await this.getAllSongs();
+      this.addSongPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  closeDialog() {
+    this.addSongPopups(false);
+    this.checkerror = false;
     this.song = {
       id: '',
       url: '',
@@ -174,77 +283,6 @@ export default class AddSongDialog extends Vue {
       songwriter: '',
       performedplaces: ''
     };
-    this.$emit('clearData', this.song);
-  }
-
-  async addSong() {
-    if (
-      (this.song.name == '' && this.song.description == '') ||
-      this.song.name == '' ||
-      this.song.description == ''
-    ) {
-      this.checkerror = true;
-    } else {
-      const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-      console.log('resUrl: ', resUrl);
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createSong({
-          ...this.song,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-        this.song = {
-          id: '',
-          url: '',
-          name: '',
-          description: '',
-          datecreated: '',
-          songwriter: '',
-          performedplaces: ''
-        };
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
-        });
-      }
-
-      this.addSongPopups(false);
-    }
-  }
-
-  async editSong() {
-    delete this.song.onUpdate;
-    if (this.song.url.length != 0) {
-      const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.updateSong({
-          ...this.song,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
-        });
-      }
-    } else {
-      await this.updateSong({
-        ...this.song,
-        url: this.payload.url
-      });
-      this.$q.notify({
-        type: 'positive',
-        message: 'Upload Success!'
-      });
-    }
   }
 }
 </script>

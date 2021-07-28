@@ -110,8 +110,9 @@
           v-model="slide"
           navigation
           infinite
-          :autoplay="autoplay"
           arrows
+          keep-alive
+          :autoplay="autoplay"
           transition-prev="slide-right"
           transition-next="slide-left"
           @mouseenter="autoplay = false"

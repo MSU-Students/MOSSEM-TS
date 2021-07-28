@@ -36,7 +36,7 @@
                 label="logout"
                 color="primary"
                 text-color="white"
-                to="/login"
+                @click="logout()"
               >
               </q-btn>
             </q-menu>
@@ -70,10 +70,10 @@
         <div>
           <q-list padding>
             <div>
-              <q-item
-              class="my-menu-link-title"
-              >
-                <q-item-section class="text-h5 text-bold text-shadow-title"> Intangible Inventory </q-item-section>
+              <q-item class="my-menu-link-title">
+                <q-item-section class="text-h5 text-bold text-shadow-title">
+                  Intangible Inventory
+                </q-item-section>
               </q-item>
               <q-separator />
               <q-separator />
@@ -115,16 +115,14 @@
               </q-item>
 
               <q-separator />
-
-              
             </div>
             <q-separator />
             <q-separator />
             <div>
-              <q-item
-              class="my-menu-link-title"
-              >
-                <q-item-section class="text-h5 text-bold text-shadow-title"> Tangible Inventory </q-item-section>
+              <q-item class="my-menu-link-title">
+                <q-item-section class="text-h5 text-bold text-shadow-title">
+                  Tangible Inventory
+                </q-item-section>
               </q-item>
               <q-separator />
               <q-separator />
@@ -160,10 +158,10 @@
 
                 <q-item-section class="text-h6"> Instruments </q-item-section>
               </q-item>
-              <q-item
-              class="my-menu-link-title"
-              >
-                <q-item-section class="text-h5 text-bold text-shadow-title">Performances</q-item-section>
+              <q-item class="my-menu-link-title">
+                <q-item-section class="text-h5 text-bold text-shadow-title"
+                  >Performances</q-item-section
+                >
               </q-item>
               <q-separator />
               <q-separator />
@@ -200,11 +198,26 @@
           <component :is="Component" />
         </transition>
       </router-view>
+      <transition appear enter-active-class="animated fadeIn">
+       <q-page-sticky
+      position="bottom-left"
+      :offset="[18, 18]"
+    >
+    <q-btn
+      color="primary"
+      rounded
+      @click="$q.fullscreen.toggle()"
+      :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+      :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Go Fullscreen'"
+    />
+     </q-page-sticky>
+      </transition>
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
+import authService from 'src/services/auth.service';
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component({})
@@ -213,6 +226,10 @@ export default class MainLayout extends Vue {
   miniState = true;
   link = '';
   text = '';
+
+  async logout() {
+    await authService.logoutUser();
+  }
 }
 </script>
 

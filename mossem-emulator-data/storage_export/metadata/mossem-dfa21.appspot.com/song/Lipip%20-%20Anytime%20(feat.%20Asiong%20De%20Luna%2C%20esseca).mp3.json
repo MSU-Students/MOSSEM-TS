@@ -3,16 +3,16 @@
   "bucket": "mossem-dfa21.appspot.com",
   "contentType": "audio/mpeg",
   "metageneration": 1,
-  "generation": 1627092179302,
+  "generation": 1627309042563,
   "storageClass": "STANDARD",
   "etag": "someETag",
   "contentDisposition": "inline",
   "contentEncoding": "identity",
   "downloadTokens": [
-    "5cd7a38b-c823-454c-baa8-338d53e35a08"
+    "1f66c2fb-1db0-49ba-9a71-74cd46470445"
   ],
-  "timeCreated": "2021-07-24T02:02:59.301Z",
-  "updated": "2021-07-24T02:02:59.333Z",
+  "timeCreated": "2021-07-26T14:17:22.562Z",
+  "updated": "2021-07-26T14:17:22.597Z",
   "size": 6232535,
   "md5Hash": "GHw+jobEJQypJpwHuayiDw==",
   "crc32c": "3470795013"

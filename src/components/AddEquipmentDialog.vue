@@ -23,7 +23,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addEquipmentPopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -133,7 +133,11 @@ import { EquipmentDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addEquipmentPopups']),
-    ...mapActions('equipment', ['createEquipment', 'updateEquipment'])
+    ...mapActions('equipment', [
+      'createEquipment',
+      'updateEquipment',
+      'getAllEquipments'
+    ])
   }
 })
 export default class AddEquipmentDialog extends Vue {
@@ -142,6 +146,7 @@ export default class AddEquipmentDialog extends Vue {
   addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
   updateEquipment!: (payload: any) => Promise<void>;
+  getAllEquipments!: () => Promise<void>;
 
   checkerror = false;
   options = ['In good condition', 'damaged'];
@@ -167,6 +172,115 @@ export default class AddEquipmentDialog extends Vue {
   }
 
   hideDialog() {
+    this.$emit('clearData', this.equipment);
+  }
+
+  async addEquipment() {
+    try {
+      if (
+        (this.equipment.name == '' && this.equipment.description == '') ||
+        this.equipment.name == '' ||
+        this.equipment.description == ''
+      ) {
+        this.checkerror = true;
+      } else {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'equipment'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createEquipment({
+            ...this.equipment,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.equipment = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            dateaquired: '',
+            quantity: '',
+            status: ''
+          };
+          this.file = [];
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      }
+      this.addEquipmentPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  async editEquipment() {
+    try {
+      delete this.equipment.onUpdate;
+      if (this.file.length != 0) {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'equipment'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.updateEquipment({
+            ...this.equipment,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Edited Successfully!'
+          });
+          this.equipment = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            dateaquired: '',
+            quantity: '',
+            status: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      } else {
+        await this.updateEquipment({
+          ...this.equipment,
+          url: this.payload.url
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Edited Successfully!'
+        });
+      }
+
+      await this.getAllEquipments();
+      this.addEquipmentPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  closeDialog() {
+    this.addEquipmentPopups(false);
+    this.checkerror = false;
     this.equipment = {
       id: '',
       url: '',
@@ -176,80 +290,6 @@ export default class AddEquipmentDialog extends Vue {
       quantity: '',
       status: ''
     };
-    this.$emit('clearData', '');
-  }
-
-  async addEquipment() {
-    if (
-      (this.equipment.name == '' && this.equipment.description == '') ||
-      this.equipment.name == '' ||
-      this.equipment.description == ''
-    ) {
-      this.checkerror = true;
-    } else {
-      const resUrl: any = await uploadService.uploadFile(
-        this.file,
-        'equipment'
-      );
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createEquipment({
-          ...this.equipment,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-        this.equipment = {
-          id: '',
-          url: '',
-          name: '',
-          description: '',
-          dateaquired: '',
-          quantity: '',
-          status: ''
-        };
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
-        });
-      }
-      this.addEquipmentPopups(false);
-    }
-  }
-  async editEquipment() {
-    delete this.equipment.onUpdate;
-    if (this.equipment.url.length != 0) {
-      const resUrl: any = await uploadService.uploadFile(
-        this.file,
-        'equipment'
-      );
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.updateEquipment({
-          ...this.equipment,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
-        });
-      }
-    } else {
-      await this.updateEquipment({
-        ...this.equipment,
-        url: this.payload.url
-      });
-      this.$q.notify({
-        type: 'positive',
-        message: 'Upload Success!'
-      });
-    }
   }
 }
 </script>

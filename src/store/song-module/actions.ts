@@ -23,9 +23,8 @@ const actions: ActionTree<ISong, StateInterface> = {
     return response;
   },
 
-  async updateSong(context, payload: any) {
+  async updateSong({}, payload: any) {
     const response = await songService.editSong(payload.id, payload);
-    context.commit('updateSong', response);
     return response;
   },
 

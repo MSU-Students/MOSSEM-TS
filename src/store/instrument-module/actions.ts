@@ -23,9 +23,8 @@ const actions: ActionTree<IInstrument, StateInterface> = {
     return response;
   },
 
-  async updateInstrument(context, payload: any) {
+  async updateInstrument({}, payload: any) {
     const response = await instrumentService.editInstrument(payload.id, payload);
-    context.commit('updateInstrument', response);
     return response;
   },
 

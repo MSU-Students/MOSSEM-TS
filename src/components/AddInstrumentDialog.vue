@@ -22,7 +22,7 @@
           color="primary"
           icon="close"
           size="md"
-          @click="addInstrumentPopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -133,7 +133,11 @@ import { InstrumentDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addInstrumentPopups']),
-    ...mapActions('instrument', ['createInstrument', 'updateInstrument'])
+    ...mapActions('instrument', [
+      'createInstrument',
+      'updateInstrument',
+      'getAllInstruments'
+    ])
   }
 })
 export default class AddInstrumentDialog extends Vue {
@@ -142,9 +146,10 @@ export default class AddInstrumentDialog extends Vue {
   addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
   updateInstrument!: (payload: any) => Promise<void>;
+  getAllInstruments!: () => Promise<void>;
 
   checkerror = false;
-  options = ['In good condition', 'damaged'];
+  options = ['In good condition', 'Damaged'];
   instrument: any = {
     id: '',
     url: '',
@@ -159,19 +164,9 @@ export default class AddInstrumentDialog extends Vue {
 
   showDialog() {
     this.instrument = { ...this.payload, url: [] };
-    console.log(this.instrument);
   }
 
   hideDialog() {
-    this.instrument = {
-      id: '',
-      url: '',
-      name: '',
-      description: '',
-      dateaquired: '',
-      quantity: '',
-      status: ''
-    };
     this.$emit('clearData', this.instrument);
   }
 
@@ -187,61 +182,122 @@ export default class AddInstrumentDialog extends Vue {
     ) {
       this.checkerror = true;
     } else {
-      const resUrl: any = await uploadService.uploadFile(
-        this.file,
-        'instrument'
-      );
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createInstrument({
-          ...this.instrument,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-      } else {
+      try {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'instrument'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createInstrument({
+            ...this.instrument,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.instrument = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            dateaquired: '',
+            quantity: '',
+            status: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+        this.addInstrumentPopups(false);
+      } catch (error) {
         this.$q.notify({
           type: 'negative',
-          message: 'Something wrong!'
+          message: 'Something wrong!',
+          caption: error.message
         });
+        this.addInstrumentPopups(false);
       }
-      this.addInstrumentPopups(false);
     }
   }
 
   async editInstrument() {
-    delete this.instrument.onUpdate;
-    if (this.instrument.url.length != 0) {
-      const resUrl: any = await uploadService.uploadFile(
-        this.file,
-        'instrument'
-      );
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+    try {
+      delete this.instrument.onUpdate;
+      if (this.file.length != 0) {
+        try {
+          const resUrl: any = await uploadService.uploadFile(
+            this.file,
+            'instrument'
+          );
+          if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+            await this.updateInstrument({
+              ...this.instrument,
+              url: resUrl
+            });
+            this.$q.notify({
+              type: 'positive',
+              message: 'Edited Successfully!'
+            });
+            this.instrument = {
+              id: '',
+              url: '',
+              name: '',
+              description: '',
+              dateaquired: '',
+              quantity: '',
+              status: ''
+            };
+          } else {
+            this.$q.notify({
+              type: 'negative',
+              message: 'Something wrong!'
+            });
+          }
+        } catch (error) {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!',
+            caption: error.message
+          });
+        }
+      } else {
         await this.updateInstrument({
           ...this.instrument,
-          url: resUrl
+          url: this.payload.url
         });
         this.$q.notify({
           type: 'positive',
-          message: 'Upload Success!'
-        });
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
+          message: 'Edited Successfully!'
         });
       }
-    } else {
-      await this.updateInstrument({
-        ...this.instrument,
-        url: this.payload.url
-      });
+
+      await this.getAllInstruments();
+      this.addInstrumentPopups(false);
+    } catch (error) {
       this.$q.notify({
-        type: 'positive',
-        message: 'Upload Success!'
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
       });
+      this.addInstrumentPopups(false);
     }
+  }
+
+  closeDialog() {
+    this.addInstrumentPopups(false);
+    this.checkerror = false;
+    this.instrument = {
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      dateaquired: '',
+      quantity: '',
+      status: ''
+    };
   }
 }
 </script>

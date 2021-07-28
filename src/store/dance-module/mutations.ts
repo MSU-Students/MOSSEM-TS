@@ -17,10 +17,6 @@ const mutation: MutationTree<IDance> = {
     state.dances.push(payload);
   },
 
-  async updateDance(state, payload: DanceDto) {
-    state.dances.push(payload);
-  },
-
   async removeDance(state, payload: DanceDto) {
     state.dances.push(payload);
   }

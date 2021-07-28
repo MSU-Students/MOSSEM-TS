@@ -17,10 +17,6 @@ const mutation: MutationTree<ISong> = {
     state.songs.push(payload);
   },
 
-  async updateSong(state, payload: SongDto) {
-    state.songs.push(payload);
-  },
-
   async removeSong(state, payload: SongDto) {
     state.songs.push(payload);
   }

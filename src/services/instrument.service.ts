@@ -1,18 +1,9 @@
-import { InstrumentDto, DefaultApi } from './rest-api/api';
-import { Configuration } from './rest-api';
-const localBasePath =
-  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
-class InstrumentService extends DefaultApi {
-  constructor() {
-    super(
-      new Configuration({
-        basePath: localBasePath
-      })
-    );
-  }
+import { InstrumentDto } from './rest-api/api';
+import { restApi } from './rest-api.service';
+class InstrumentService {
 
   async getAllInstruments() {
-    const response = await this.getInstruments();
+    const response = await restApi.getInstruments();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -21,7 +12,7 @@ class InstrumentService extends DefaultApi {
   }
 
   async getOneInstrument(id: string) {
-    const response = await this.getInstrument(id);
+    const response = await restApi.getInstrument(id);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -30,7 +21,7 @@ class InstrumentService extends DefaultApi {
   }
 
   async createInstrument(payload: InstrumentDto) {
-    const response = await this.addInstrument(payload);
+    const response = await restApi.addInstrument(payload);
     if (response.status == 201) {
       return response.data;
     } else {
@@ -40,7 +31,7 @@ class InstrumentService extends DefaultApi {
 
   async editInstrument(id: string, payload: InstrumentDto) {
     console.log(id, payload);
-    const response = await this.updateInstrument(id, payload);
+    const response = await restApi.updateInstrument(id, payload);
     console.log(response);
     if (response.status == 200) {
       return response.data;
@@ -50,7 +41,7 @@ class InstrumentService extends DefaultApi {
   }
 
   async removeInstrument(id: string) {
-    const response = await this.deleteInstrument(id);
+    const response = await restApi.deleteInstrument(id);
     if (response.status == 200) {
       return response.data;
     } else {

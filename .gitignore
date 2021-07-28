@@ -35,3 +35,7 @@ database-debug.log
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+/mossem-emulator-data
+/mossem-emulator-data/storage_export
+/mossem-emulator-data/storage_export/metadata

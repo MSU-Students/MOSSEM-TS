@@ -24,6 +24,25 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface AccessTokenDto
+ */
+export interface AccessTokenDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessTokenDto
+     */
+    accessToken: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccessTokenDto
+     */
+    refreshToken?: string;
+}
+/**
+ * 
+ * @export
  * @interface DanceDto
  */
 export interface DanceDto {
@@ -184,6 +203,44 @@ export interface PictureDto {
 /**
  * 
  * @export
+ * @interface RefreshDto
+ */
+export interface RefreshDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof RefreshDto
+     */
+    refresh_token: string;
+}
+/**
+ * 
+ * @export
+ * @interface RegisterUserDto
+ */
+export interface RegisterUserDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserDto
+     */
+    fullName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserDto
+     */
+    email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserDto
+     */
+    password: string;
+}
+/**
+ * 
+ * @export
  * @interface SongDto
  */
 export interface SongDto {
@@ -229,6 +286,31 @@ export interface SongDto {
      * @memberof SongDto
      */
     datecreated: string;
+}
+/**
+ * 
+ * @export
+ * @interface UserDto
+ */
+export interface UserDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    fullName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    userType: string;
 }
 
 /**
@@ -875,6 +957,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary get profile info
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProfile: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/profile`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get information of song with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -939,6 +1055,152 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary Login User
+         * @param {string} username 
+         * @param {string} password 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login: async (username: string, password: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('login', 'username', username)
+            // verify required parameter 'password' is not null or undefined
+            assertParamExists('login', 'password', password)
+            const localVarPath = `/auth/login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+
+            if (password !== undefined) {
+                localVarQueryParameter['password'] = password;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary logout given user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        logout: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/logout`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Refresh Token
+         * @param {RefreshDto} refreshDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshToken: async (refreshDto: RefreshDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'refreshDto' is not null or undefined
+            assertParamExists('refreshToken', 'refreshDto', refreshDto)
+            const localVarPath = `/auth/refresh_token`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(refreshDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Register new user
+         * @param {RegisterUserDto} registerUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        register: async (registerUserDto: RegisterUserDto, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'registerUserDto' is not null or undefined
+            assertParamExists('register', 'registerUserDto', registerUserDto)
+            const localVarPath = `/auth/register`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(registerUserDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary update dance
          * @param {string} id 
          * @param {DanceDto} danceDto 
@@ -950,7 +1212,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateDance', 'id', id)
             // verify required parameter 'danceDto' is not null or undefined
             assertParamExists('updateDance', 'danceDto', danceDto)
-            const localVarPath = `/dance`
+            const localVarPath = `/dance/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -990,7 +1252,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updateEquipment', 'id', id)
             // verify required parameter 'equipmentDto' is not null or undefined
             assertParamExists('updateEquipment', 'equipmentDto', equipmentDto)
-            const localVarPath = `/equipment`
+            const localVarPath = `/equipment/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1070,7 +1332,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('updatePicture', 'id', id)
             // verify required parameter 'pictureDto' is not null or undefined
             assertParamExists('updatePicture', 'pictureDto', pictureDto)
-            const localVarPath = `/picture`
+            const localVarPath = `/picture/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1353,6 +1615,16 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary get profile info
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getProfile(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getProfile(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get information of song with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -1370,6 +1642,50 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async getSongs(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SongDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getSongs(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Login User
+         * @param {string} username 
+         * @param {string} password 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async login(username: string, password: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.login(username, password, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary logout given user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async logout(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.logout(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Refresh Token
+         * @param {RefreshDto} refreshDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async refreshToken(refreshDto: RefreshDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Register new user
+         * @param {RegisterUserDto} registerUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async register(registerUserDto: RegisterUserDto, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.register(registerUserDto, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1629,6 +1945,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary get profile info
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getProfile(options?: any): AxiosPromise<UserDto> {
+            return localVarFp.getProfile(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get information of song with id {id}
          * @param {string} id 
          * @param {*} [options] Override http request option.
@@ -1645,6 +1970,46 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getSongs(options?: any): AxiosPromise<Array<SongDto>> {
             return localVarFp.getSongs(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Login User
+         * @param {string} username 
+         * @param {string} password 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login(username: string, password: string, options?: any): AxiosPromise<AccessTokenDto> {
+            return localVarFp.login(username, password, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary logout given user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        logout(options?: any): AxiosPromise<void> {
+            return localVarFp.logout(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Refresh Token
+         * @param {RefreshDto} refreshDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshToken(refreshDto: RefreshDto, options?: any): AxiosPromise<AccessTokenDto> {
+            return localVarFp.refreshToken(refreshDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Register new user
+         * @param {RegisterUserDto} registerUserDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        register(registerUserDto: RegisterUserDto, options?: any): AxiosPromise<void> {
+            return localVarFp.register(registerUserDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1936,6 +2301,17 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
+     * @summary get profile info
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public getProfile(options?: any) {
+        return DefaultApiFp(this.configuration).getProfile(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Get information of song with id {id}
      * @param {string} id 
      * @param {*} [options] Override http request option.
@@ -1955,6 +2331,54 @@ export class DefaultApi extends BaseAPI {
      */
     public getSongs(options?: any) {
         return DefaultApiFp(this.configuration).getSongs(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Login User
+     * @param {string} username 
+     * @param {string} password 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public login(username: string, password: string, options?: any) {
+        return DefaultApiFp(this.configuration).login(username, password, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary logout given user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public logout(options?: any) {
+        return DefaultApiFp(this.configuration).logout(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Refresh Token
+     * @param {RefreshDto} refreshDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public refreshToken(refreshDto: RefreshDto, options?: any) {
+        return DefaultApiFp(this.configuration).refreshToken(refreshDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Register new user
+     * @param {RegisterUserDto} registerUserDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public register(registerUserDto: RegisterUserDto, options?: any) {
+        return DefaultApiFp(this.configuration).register(registerUserDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

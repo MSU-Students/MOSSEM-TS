@@ -9,7 +9,7 @@ import routes from './routes';
  * directly export the Router instantiation
  */
 
-export default route<Store<StateInterface>>(function ({ Vue }) {
+export default route<Store<StateInterface>>(function({ Vue }) {
   Vue.use(VueRouter);
 
   const Router = new VueRouter({
@@ -23,5 +23,35 @@ export default route<Store<StateInterface>>(function ({ Vue }) {
     base: process.env.VUE_ROUTER_BASE
   });
 
+  Router.beforeEach((to, from, next) => {
+    const session = localStorage.getItem('access-token');
+    console.log(session, 'session');
+    if (to.matched.some(record => record.meta.requiresGuest)) {
+      if (session != null) {
+        next({
+          path: '/Homeadmin',
+          query: {
+            redirect: to.fullPath
+          }
+        });
+      } else {
+        next();
+      }
+    } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+      if (session == null) {
+        next({
+          path: '/login',
+          query: {
+            redirect: to.fullPath
+          }
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
+
   return Router;
-})
+});

@@ -65,7 +65,7 @@ export class DanceController {
 
   @ApiOperation({ summary: 'update dance', operationId: 'UpdateDance' })
   @ApiBody({ type: DanceDto })
-  @Put()
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() player: DanceDto,

@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area style="height: 750px; max-width: 3000px">
+  <q-scroll-area style="height: 700px; max-width: 3000px">
     <div class="q-pa-md">
       <div class="row justify-center q-gutter-sm">
         <q-intersection
@@ -33,7 +33,7 @@
         transition-hide="fade"
         @hide="showImage = false"
       >
-        <q-card class="bg-transparent no-shadow text-white">
+        <q-card class="bg-transparent text-white">
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>

@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-model="ShowPictureDialog" transition-show="scale" persistent>
+  <q-dialog
+    v-model="ShowPictureDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,13 +15,14 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW PICTURE</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE PICTURE</span>
+          <span v-else>ADD PICTURE</span></q-toolbar-title
         >
         <q-btn
           color="primary"
           icon="close"
           size="md"
-          @click="addPicturePopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -72,10 +79,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="payload.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addPicture()"
+            @click="payload.onUpdate ? editPicture() : addPicture()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -86,7 +93,7 @@
 <script lang="ts">
 import uploadService from 'src/services/upload.service';
 import { PictureDto } from 'src/services/rest-api';
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 
 @Component({
@@ -95,27 +102,42 @@ import { mapState, mapActions } from 'vuex';
   },
   methods: {
     ...mapActions('uiNav', ['addPicturePopups']),
-    ...mapActions('picture', ['createPicture'])
+    ...mapActions('picture', [
+      'createPicture',
+      'updatePicture',
+      'getAllPictures'
+    ])
   }
 })
 export default class AddPictureDialog extends Vue {
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
+
   ShowPictureDialog!: boolean;
   shouldShow = false;
   addPicturePopups!: (show: boolean) => void;
   createPicture!: (payload: PictureDto) => Promise<void>;
+  updatePicture!: (payload: PictureDto) => Promise<void>;
+  getAllPictures!: () => Promise<void>;
 
   checkerror = false;
-  picture: PictureDto = {
+  picture: any = {
     id: '',
     url: '',
     name: '',
     description: ''
   };
-
   file: any = [];
 
   fileChoose(val: any) {
     this.file = val;
+  }
+
+  showDialog() {
+    this.picture = { ...this.payload, url: [] };
+  }
+
+  hideDialog() {
+    this.$emit('clearData', this.picture);
   }
 
   async addPicture() {
@@ -125,33 +147,102 @@ export default class AddPictureDialog extends Vue {
       this.picture.description == ''
     ) {
       this.checkerror = true;
+      this.addPicturePopups(false);
     } else {
       const resUrl: any = await uploadService.uploadFile(this.file, 'picture');
-      console.log('resUrl: ', resUrl);
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createPicture({
-          ...this.picture,
-          url: resUrl
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Upload Success!'
-        });
-        this.picture = {
-          id: '',
-          url: '',
-          name: '',
-          description: ''
-        };
-        this.file = '';
-      } else {
+      try {
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createPicture({
+            ...this.picture,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.picture = {
+            id: '',
+            url: '',
+            name: '',
+            description: ''
+          };
+          this.file = [];
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+        this.addPicturePopups(false);
+      } catch (error) {
         this.$q.notify({
           type: 'negative',
           message: 'Something wrong!'
         });
       }
-      this.addPicturePopups(false);
     }
+  }
+
+  async editPicture() {
+    try {
+      delete this.picture.onUpdate;
+      if (this.file.length != 0) {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'picture'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.updatePicture({
+            ...this.picture,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Edited Successfully!'
+          });
+          this.picture = {
+            id: '',
+            url: '',
+            name: '',
+            description: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      } else {
+        await this.updatePicture({
+          ...this.picture,
+          url: this.payload.url
+        });
+        this.$q.notify({
+          type: 'positive',
+          message: 'Edited Successfully!'
+        });
+      }
+
+      await this.getAllPictures();
+      this.addPicturePopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  closeDialog() {
+    this.addPicturePopups(false);
+    this.checkerror = false;
+    this.picture = {
+      id: '',
+      url: '',
+      name: '',
+      description: ''
+    };
   }
 }
 </script>

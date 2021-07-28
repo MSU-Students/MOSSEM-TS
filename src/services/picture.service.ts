@@ -1,18 +1,9 @@
-import { PictureDto, DefaultApi } from './rest-api/api';
-import { Configuration } from './rest-api';
-const localBasePath =
-  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
-class PictureService extends DefaultApi {
-  constructor() {
-    super(
-      new Configuration({
-        basePath: localBasePath
-      })
-    );
-  }
+import { PictureDto } from './rest-api/api';
+import { restApi } from './rest-api.service';
 
+class PictureService {
   async getAllPictures() {
-    const response = await this.getPictures();
+    const response = await restApi.getPictures();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -21,7 +12,7 @@ class PictureService extends DefaultApi {
   }
 
   async getOnePicture(id: string) {
-    const response = await this.getPicture(id);
+    const response = await restApi.getPicture(id);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -30,7 +21,7 @@ class PictureService extends DefaultApi {
   }
 
   async createPicture(payload: PictureDto) {
-    const response = await this.addPicture(payload);
+    const response = await restApi.addPicture(payload);
     if (response.status == 201) {
       return response.data;
     } else {
@@ -39,7 +30,8 @@ class PictureService extends DefaultApi {
   }
 
   async editPicture(id: string, payload: PictureDto) {
-    const response = await this.updatePicture(id, payload);
+    const response = await restApi.updatePicture(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -48,7 +40,7 @@ class PictureService extends DefaultApi {
   }
 
   async removePicture(id: string) {
-    const response = await this.deletePicture(id);
+    const response = await restApi.deletePicture(id);
     if (response.status == 200) {
       return response.data;
     } else {
