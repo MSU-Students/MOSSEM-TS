@@ -1,0 +1,19 @@
+{
+  "name": "picture/Sipa.jpeg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627095576309,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "663bdc7c-1f45-4633-b84d-1775c25dfbf6"
+  ],
+  "timeCreated": "2021-07-24T02:59:36.309Z",
+  "updated": "2021-07-24T02:59:36.309Z",
+  "size": 147072,
+  "md5Hash": "14YOv27F73tEoXKCbU5O0A==",
+  "crc32c": "3116734176"
+}

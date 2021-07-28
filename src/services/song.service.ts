@@ -1,18 +1,10 @@
-import { SongDto, DefaultApi } from './rest-api/api';
-import { Configuration } from './rest-api';
-const localBasePath =
-  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
-class SongService extends DefaultApi {
-  constructor() {
-    super(
-      new Configuration({
-        basePath: localBasePath
-      })
-    );
-  }
+import { SongDto } from './rest-api/api';
+import { restApi } from './rest-api.service';
+class SongService  {
+
 
   async getAllSongs() {
-    const response = await this.getSongs();
+    const response = await restApi.getSongs();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -21,7 +13,7 @@ class SongService extends DefaultApi {
   }
 
   async getOneSong(id: string) {
-    const response = await this.getSong(id);
+    const response = await restApi.getSong(id);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -30,7 +22,7 @@ class SongService extends DefaultApi {
   }
 
   async createSong(payload: SongDto) {
-    const response = await this.addSong(payload);
+    const response = await restApi.addSong(payload);
     if (response.status == 201) {
       return response.data;
     } else {
@@ -39,7 +31,9 @@ class SongService extends DefaultApi {
   }
 
   async editSong(id: string, payload: SongDto) {
-    const response = await this.updateSong(id, payload);
+    console.log(id, payload);
+    const response = await restApi.updateSong(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -48,7 +42,7 @@ class SongService extends DefaultApi {
   }
 
   async removeSong(id: string) {
-    const response = await this.deleteSong(id);
+    const response = await restApi.deleteSong(id);
     if (response.status == 200) {
       return response.data;
     } else {

@@ -60,7 +60,7 @@ export class PictureController {
 
   @ApiOperation({ summary: 'update picture', operationId: 'UpdatePicture' })
   @ApiBody({ type: PictureDto })
-  @Put()
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() player: PictureDto,

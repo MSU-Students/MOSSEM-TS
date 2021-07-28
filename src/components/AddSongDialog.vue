@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-model="ShowSongDialog" transition-show="scale" persistent>
+  <q-dialog
+    v-model="ShowSongDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,13 +15,14 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW SONG</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE SONG</span>
+          <span v-else>ADD SONG</span></q-toolbar-title
         >
         <q-btn
           color="primary"
           icon="close"
           size="md"
-          @click="addSongPopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -105,10 +112,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="payload.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addSong()"
+            @click="payload.onUpdate ? editSong() : addSong()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -117,7 +124,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import uploadService from 'src/services/upload.service';
 import { SongDto } from 'src/services/rest-api';
@@ -128,18 +135,21 @@ import { SongDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('song', ['createSong'])
+    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs'])
   }
 })
-export default class AddInstrumentDialog extends Vue {
+export default class AddSongDialog extends Vue {
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
   ShowSongDialog!: boolean;
   shouldShow = false;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
+  updateSong!: (payload: any) => Promise<void>;
+  getAllSongs!: () => Promise<void>;
 
   checkerror = false;
 
-  song: SongDto = {
+  song: any = {
     id: '',
     url: '',
     name: '',
@@ -155,43 +165,124 @@ export default class AddInstrumentDialog extends Vue {
     this.file = val;
   }
 
+  showDialog() {
+    this.song = { ...this.payload, url: [] };
+  }
+
+  hideDialog() {
+    this.$emit('clearData', this.song);
+  }
+
   async addSong() {
-    if (
-      (this.song.name == '' && this.song.description == '') ||
-      this.song.name == '' ||
-      this.song.description == ''
-    ) {
-      this.checkerror = true;
-    } else {
-      const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-      console.log('resUrl: ', resUrl);
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createSong({
+    try {
+      if (
+        (this.song.name == '' && this.song.description == '') ||
+        this.song.name == '' ||
+        this.song.description == ''
+      ) {
+        this.checkerror = true;
+        this.addSongPopups(false);
+      } else {
+        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createSong({
+            ...this.song,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.song = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            datecreated: '',
+            songwriter: '',
+            performedplaces: ''
+          };
+          this.file = [];
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+        this.addSongPopups(false);
+      }
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  async editSong() {
+    try {
+      delete this.song.onUpdate;
+      if (this.file.length != 0) {
+        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.updateSong({
+            ...this.song,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Edited Successfully!'
+          });
+          this.song = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            datecreated: '',
+            songwriter: '',
+            performedplaces: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      } else {
+        await this.updateSong({
           ...this.song,
-          url: resUrl
+          url: this.payload.url
         });
         this.$q.notify({
           type: 'positive',
-          message: 'Upload Success!'
-        });
-        this.song = {
-          id: '',
-          url: '',
-          name: '',
-          description: '',
-          datecreated: '',
-          songwriter: '',
-          performedplaces: ''
-        };
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
+          message: 'Edited Successfully!'
         });
       }
 
+      await this.getAllSongs();
       this.addSongPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
     }
+  }
+
+  closeDialog() {
+    this.addSongPopups(false);
+    this.checkerror = false;
+    this.song = {
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      datecreated: '',
+      songwriter: '',
+      performedplaces: ''
+    };
   }
 }
 </script>

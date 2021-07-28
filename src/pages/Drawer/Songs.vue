@@ -35,13 +35,15 @@
                     class="column no-wrap flex-center"
                     :key="index"
                   >
-                    <!-- <img
+                  <!-- <img
                       :src="song.img"
                       style="max-width: 350px; height: 250px"
                     /> -->
                     <q-media-player
                       class="q-mt-sm"
                       type="audio"
+                      color="white"
+                      background-color="orange-6"
                       :source="song.url"
                     />
                   </q-carousel-slide>
@@ -164,7 +166,7 @@ export default class Song extends Vue {
 <style scoped>
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
-  padding: 0px;
+  padding: 10px;
 }
 .text-shadow {
   text-shadow: 1px 1px 6px #000000;

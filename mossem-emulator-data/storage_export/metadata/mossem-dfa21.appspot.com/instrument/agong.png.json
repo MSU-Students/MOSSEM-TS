@@ -1,0 +1,19 @@
+{
+  "name": "instrument/Agong.png",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1627317363015,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "8c49e6bb-5a6c-4cc0-9bb6-babe8fd4bfb3"
+  ],
+  "timeCreated": "2021-07-26T16:36:03.014Z",
+  "updated": "2021-07-26T16:36:03.018Z",
+  "size": 374813,
+  "md5Hash": "pg2c7vrfrMC846XmyO/0Vw==",
+  "crc32c": "2299640211"
+}

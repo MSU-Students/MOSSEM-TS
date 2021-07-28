@@ -16,33 +16,37 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: UserLayout,
+    meta: { requiresGuest: true },
     children: [
       {
         path: '/',
         name: 'landing-page',
         component: Landingpage
       }
-      
     ]
   },
   {
     path: '/',
     component: AdminLayout,
+
     children: [
       {
         path: 'Homeadmin',
         name: 'Homeadmin-page',
-        component: Homeadmin
+        component: Homeadmin,
+        meta: { requiresAdmin: true }
       },
       {
         path: 'login',
         name: 'login-page',
-        component: Login
+        component: Login,
+        meta: { requiresGuest: true }
       }
     ]
   },
   {
     path: '/',
+    meta: { requiresGuest: true },
     component: MainLayout,
     children: [
       {

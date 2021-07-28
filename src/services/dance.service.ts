@@ -1,18 +1,8 @@
-import { DanceDto, DefaultApi } from './rest-api/api';
-import { Configuration } from './rest-api';
-const localBasePath =
-  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
-class DanceService extends DefaultApi {
-  constructor() {
-    super(
-      new Configuration({
-        basePath: localBasePath
-      })
-    );
-  }
-
+import { DanceDto } from './rest-api/api';
+import { restApi } from './rest-api.service';
+class DanceService {
   async getAbout() {
-    const response = await this.about();
+    const response = await restApi.about();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -21,7 +11,7 @@ class DanceService extends DefaultApi {
   }
 
   async getAllDances() {
-    const response = await this.getDances();
+    const response = await restApi.getDances();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -30,7 +20,7 @@ class DanceService extends DefaultApi {
   }
 
   async getOneDance(id: string) {
-    const response = await this.getDance(id);
+    const response = await restApi.getDance(id);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -39,7 +29,7 @@ class DanceService extends DefaultApi {
   }
 
   async createDance(payload: DanceDto) {
-    const response = await this.addDance(payload);
+    const response = await restApi.addDance(payload);
     if (response.status == 201) {
       return response.data;
     } else {
@@ -48,7 +38,8 @@ class DanceService extends DefaultApi {
   }
 
   async editDance(id: string, payload: DanceDto) {
-    const response = await this.updateDance(id, payload);
+    console.log(id, payload);
+    const response = await restApi.updateDance(id, payload);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -57,7 +48,7 @@ class DanceService extends DefaultApi {
   }
 
   async removeDance(id: string) {
-    const response = await this.deleteDance(id);
+    const response = await restApi.deleteDance(id);
     if (response.status == 200) {
       return response.data;
     } else {

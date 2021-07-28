@@ -23,10 +23,12 @@ const actions: ActionTree<IPicture, StateInterface> = {
     return response;
   },
 
-  async updatePicture(context, payload: any) {
-    const { id, dance } = payload;
-    const response = await pictureService.updatePicture(id, dance);
-    context.commit('updatePicture', response);
+  async updatePicture({}, payload: any) {
+    console.log(payload);
+    const response = await pictureService.editPicture(
+      payload.id,
+      payload
+    );
     return response;
   },
 

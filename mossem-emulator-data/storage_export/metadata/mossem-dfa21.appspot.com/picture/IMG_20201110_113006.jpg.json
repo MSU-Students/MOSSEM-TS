@@ -1,0 +1,19 @@
+{
+  "name": "picture/IMG_20201110_113006.jpg",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1627092133696,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "dda8ec83-781a-4a09-9d5b-186249d166d0"
+  ],
+  "timeCreated": "2021-07-24T02:02:13.695Z",
+  "updated": "2021-07-24T02:02:13.713Z",
+  "size": 4391981,
+  "md5Hash": "qF2jCUr+pe5TfwmDRyOiCQ==",
+  "crc32c": "423873272"
+}

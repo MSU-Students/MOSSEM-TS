@@ -62,7 +62,7 @@ export class EquipmentController {
 
   @ApiOperation({ summary: 'update equipment', operationId: 'UpdateEquipment' })
   @ApiBody({ type: EquipmentDto })
-  @Put()
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() player: EquipmentDto,

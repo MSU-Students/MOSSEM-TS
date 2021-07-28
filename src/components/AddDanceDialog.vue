@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-model="ShowDanceDialog" transition-show="scale" persistent>
+  <q-dialog
+    v-model="ShowDanceDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,13 +15,14 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW DANCE</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE DANCE</span>
+          <span v-else>ADD DANCE</span></q-toolbar-title
         >
         <q-btn
           color="primary"
           icon="close"
           size="md"
-          @click="addDancePopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -43,6 +50,7 @@
           v-model="dance.description"
           ref="description"
           label="Dance Description"
+          type="textarea"
           filled
           autogrow
         />
@@ -66,10 +74,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="dance.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addDance()"
+            @click="dance.onUpdate ? editDance() : addDance()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -78,28 +86,31 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import { DanceDto } from 'src/services/rest-api/api';
-// import uploadService from 'src/services/upload.service';
 @Component({
   computed: {
     ...mapState('uiNav', ['ShowDanceDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('dance', ['createDance'])
+    ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances'])
   }
 })
 export default class AddDanceDialog extends Vue {
   // vuex
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
   ShowDanceDialog!: boolean;
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
+  updateDance!: (payload: any) => Promise<void>;
+  getAllDances!: () => Promise<void>;
   // local data
   checkerror = false;
   shouldShow = false;
-  dance: DanceDto = {
+  loading = false;
+  dance: any = {
     id: '',
     url: '',
     name: '',
@@ -109,7 +120,23 @@ export default class AddDanceDialog extends Vue {
   fileChoose(val: any) {
     this.file = val;
   }
+
+  showDialog() {
+    this.dance = this.payload;
+  }
+
+  hideDialog() {
+    this.dance = {
+      id: '',
+      url: '',
+      name: '',
+      description: ''
+    };
+    this.$emit('clearData', this.dance);
+  }
+
   async addDance() {
+    this.loading = true;
     if (
       (this.dance.name == '' &&
         this.dance.description == '' &&
@@ -119,11 +146,10 @@ export default class AddDanceDialog extends Vue {
       this.dance.url == ''
     ) {
       this.checkerror = true;
+      this.loading = false;
     } else {
-      const response = await this.createDance(this.dance);
-      console.log('response: ', response);
+      await this.createDance(this.dance);
       this.addDancePopups(false);
-      console.log('response: ', response);
       this.$q.notify({
         type: 'positive',
         message: 'Upload Success!'
@@ -134,7 +160,44 @@ export default class AddDanceDialog extends Vue {
         name: '',
         description: ''
       };
+      this.loading = false;
     }
+  }
+  async editDance() {
+    this.loading = true;
+    try {
+      delete this.dance.onUpdate;
+      await this.updateDance(this.dance);
+      await this.getAllDances();
+      this.addDancePopups(false);
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.loading = false;
+      this.dance = {
+        id: '',
+        url: '',
+        name: '',
+        description: ''
+      };
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!'
+      });
+      this.loading = false;
+    }
+  }
+  closeDialog() {
+    this.addDancePopups(false);
+    this.checkerror = false;
+    this.dance = {
+      id: '',
+      url: '',
+      name: '',
+      description: ''
+    };
   }
 }
 </script>

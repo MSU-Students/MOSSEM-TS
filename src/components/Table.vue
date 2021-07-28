@@ -63,18 +63,29 @@
               class="absolute-full"
               :src="convertUrl(props.row.url)"
             />
-            <q-media-player
+            <div
               v-else-if="
                 title.toLowerCase() == 'songs' &&
                   typeof props.row.url == 'string'
               "
-              style="max-width: 380px; width: 100%"
-              class="bg-transparent shadow-24"
-              color="orange"
-              shadow-color="green"
-              type="audio"
-              :source="props.row.url"
-            />
+              class="row"
+            >
+              <div class="col-6">
+                <q-media-player
+                  style="max-width: 380px; width: 100%"
+                  class="bg-transparent shadow-24"
+                  color="orange"
+                  shadow-color="green"
+                  type="audio"
+                  :source="props.row.url"
+                />
+              </div>
+              <div class="col text-center">
+                <div>
+                  {{ props.row.description }}
+                </div>
+              </div>
+            </div>
             <div v-else class="row">
               <div class="col-6">
                 <q-img
@@ -138,15 +149,19 @@ export default class List extends Vue {
 
   async showDialog(payload: any) {
     if (this.title.toLowerCase() == 'dance') {
+      this.$emit('view', { ...payload, onUpdate: true });
       this.addDancePopups(true);
     } else if (this.title.toLowerCase() == 'instruments') {
       this.$emit('view', { ...payload, onUpdate: true });
       this.addInstrumentPopups(true);
     } else if (this.title.toLowerCase() == 'pictures') {
+      this.$emit('view', { ...payload, onUpdate: true });
       this.addPicturePopups(true);
     } else if (this.title.toLowerCase() == 'equipments') {
+      this.$emit('view', { ...payload, onUpdate: true });
       this.addEquipmentPopups(true);
     } else {
+      this.$emit('view', { ...payload, onUpdate: true });
       this.addSongPopups(true);
     }
   }

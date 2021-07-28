@@ -43,6 +43,7 @@ export class DanceService {
     const doc = this.firestore.dance().doc(id);
 
     const record = await doc.get();
+    console.log(record);
     if (record.exists) {
       const data = record.data();
       await doc.set(dance);

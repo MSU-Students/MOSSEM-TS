@@ -1,18 +1,9 @@
-import { EquipmentDto, DefaultApi } from './rest-api/api';
-import { Configuration } from './rest-api';
-const localBasePath =
-  'http://localhost:9201/mossem-dfa21/asia-northeast1/restapi';
-class EquipmentService extends DefaultApi {
-  constructor() {
-    super(
-      new Configuration({
-        basePath: localBasePath
-      })
-    );
-  }
+import { EquipmentDto } from './rest-api/api';
+import { restApi } from './rest-api.service';
 
+class EquipmentService {
   async getAbout() {
-    const response = await this.about();
+    const response = await restApi.about();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -21,7 +12,7 @@ class EquipmentService extends DefaultApi {
   }
 
   async getAllEquipments() {
-    const response = await this.getEquipments();
+    const response = await restApi.getEquipments();
     if (response.status == 200) {
       return response.data;
     } else {
@@ -30,7 +21,7 @@ class EquipmentService extends DefaultApi {
   }
 
   async getOneEquipment(id: string) {
-    const response = await this.getEquipment(id);
+    const response = await restApi.getEquipment(id);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -39,7 +30,7 @@ class EquipmentService extends DefaultApi {
   }
 
   async createEquipment(payload: EquipmentDto) {
-    const response = await this.addEquipment(payload);
+    const response = await restApi.addEquipment(payload);
     if (response.status == 201) {
       return response.data;
     } else {
@@ -48,7 +39,9 @@ class EquipmentService extends DefaultApi {
   }
 
   async editEquipment(id: string, payload: EquipmentDto) {
-    const response = await this.updateEquipment(id, payload);
+    console.log(id, payload);
+    const response = await restApi.updateEquipment(id, payload);
+    console.log(response);
     if (response.status == 200) {
       return response.data;
     } else {
@@ -57,7 +50,7 @@ class EquipmentService extends DefaultApi {
   }
 
   async removeEquipment(id: string) {
-    const response = await this.deleteEquipment(id);
+    const response = await restApi.deleteEquipment(id);
     if (response.status == 200) {
       return response.data;
     } else {

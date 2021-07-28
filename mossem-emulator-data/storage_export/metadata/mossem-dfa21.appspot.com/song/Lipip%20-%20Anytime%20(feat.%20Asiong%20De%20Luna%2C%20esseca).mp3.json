@@ -1,0 +1,19 @@
+{
+  "name": "song/Lipip - Anytime (feat. Asiong De Luna, esseca).mp3",
+  "bucket": "mossem-dfa21.appspot.com",
+  "contentType": "audio/mpeg",
+  "metageneration": 1,
+  "generation": 1627309042563,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "1f66c2fb-1db0-49ba-9a71-74cd46470445"
+  ],
+  "timeCreated": "2021-07-26T14:17:22.562Z",
+  "updated": "2021-07-26T14:17:22.597Z",
+  "size": 6232535,
+  "md5Hash": "GHw+jobEJQypJpwHuayiDw==",
+  "crc32c": "3470795013"
+}

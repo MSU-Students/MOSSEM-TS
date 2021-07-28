@@ -17,10 +17,6 @@ const mutation: MutationTree<IEquipment> = {
     state.equipments.push(payload);
   },
 
-  async updateEquipment(state, payload: EquipmentDto) {
-    state.equipments.push(payload);
-  },
-
   async removeEquipment(state, payload: EquipmentDto) {
     state.equipments.push(payload);
   }

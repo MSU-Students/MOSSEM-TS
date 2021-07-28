@@ -35,7 +35,7 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataInstruments"
-                :columns="columns"
+                :columns="columnsinstrument"
                 @view="view"
               />
             </q-tab-panel>
@@ -45,6 +45,7 @@
                 :title="tab.toUpperCase()"
                 :data="dataPictures"
                 :columns="columns"
+                @view="view"
               />
             </q-tab-panel>
 
@@ -52,7 +53,8 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataSongs"
-                :columns="columns"
+                :columns="columnssong"
+                @view="view"
               />
             </q-tab-panel>
 
@@ -60,7 +62,8 @@
               <Table
                 :title="tab.toUpperCase()"
                 :data="dataEquipments"
-                :columns="columns"
+                :columns="columnsequipment"
+                @view="view"
               />
             </q-tab-panel>
           </q-tab-panels>
@@ -75,18 +78,18 @@
             @click="showDialog()"
           />
         </q-page-sticky>
-        <AddInstrumentDialog :payload="payload" />
-        <AddDanceDialog />
-        <AddPictureDialog />
-        <AddSongDialog />
-        <AddEquipmentDialog />
+        <AddInstrumentDialog :payload="payload" @clearData="clearData" />
+        <AddDanceDialog :payload="payload" @clearData="clearData" />
+        <AddPictureDialog :payload="payload" @clearData="clearData" />
+        <AddEquipmentDialog :payload="payload" @clearData="clearData" />
+        <AddSongDialog :payload="payload" @clearData="clearData" />
       </q-page>
     </q-scroll-area>
   </transition>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { mapActions, mapState } from 'vuex';
 import AddDanceDialog from 'src/components/AddDanceDialog.vue';
 import AddInstrumentDialog from 'src/components/AddInstrumentDialog.vue';
@@ -151,6 +154,96 @@ export default class Homeadmin extends Vue {
   loading = false;
   payload = {};
   // dances
+  columnsinstrument = [
+    {
+      name: 'dateaquired',
+      align: 'center',
+      label: 'Date aquired',
+      field: 'dateaquired',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Status',
+      field: 'status',
+      sortable: true
+    },
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'quantity',
+      sortable: true
+    }
+  ];
+  columnssong = [
+    {
+      name: 'songwriter',
+      align: 'center',
+      label: 'Song writer',
+      field: 'songwriter',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'performedplaces',
+      align: 'center',
+      label: 'Performed places',
+      field: 'performedplaces',
+      sortable: true
+    },
+    {
+      name: 'datecreated',
+      align: 'center',
+      label: 'Date created',
+      field: 'datecreated',
+      sortable: true
+    }
+  ];
+  columnsequipment = [
+    {
+      name: 'dateaquired',
+      align: 'center',
+      label: 'Date aquired',
+      field: 'dateaquired',
+      sortable: true
+    },
+    {
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
+    },
+    {
+      name: 'status',
+      align: 'center',
+      label: 'Status',
+      field: 'status',
+      sortable: true
+    },
+    {
+      name: 'quantity',
+      align: 'center',
+      label: 'Quantity',
+      field: 'quantity',
+      sortable: true
+    }
+  ];
   columns = [
     {
       name: 'name',
@@ -167,44 +260,32 @@ export default class Homeadmin extends Vue {
       sortable: true
     }
   ];
-  data = [
-    {
-      id: '1',
-      name: 'Malong-Malong',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '2',
-      name: 'Sagayan',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '3',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '4',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
-    },
-    {
-      id: '5',
-      name: 'Kapag-apir',
-      description: 'Description',
-      url: 'Url here'
-    }
-  ];
-
   dataDances: DanceDto[] = [];
   dataInstruments: InstrumentDto[] = [];
   dataPictures: PictureDto[] = [];
   dataSongs: SongDto[] = [];
   dataEquipments: EquipmentDto[] = [];
+
+  @Watch('dances')
+  onDancesChanged(val: any) {
+    this.dataDances = val;
+  }
+  @Watch('instruments')
+  onInstrumentsChanged(val: any) {
+    this.dataInstruments = val;
+  }
+  @Watch('pictures')
+  onPicturesChanged(val: any) {
+    this.dataPictures = val;
+  }
+  @Watch('equipments')
+  onEquipmentsChanged(val: any) {
+    this.dataEquipments = val;
+  }
+  @Watch('songs')
+  onSongsChanged(val: any) {
+    this.dataSongs = val;
+  }
 
   async created() {
     await this.getAllDances();
@@ -217,9 +298,29 @@ export default class Homeadmin extends Vue {
     this.dataEquipments = this.equipments;
     await this.getAllSongs();
     this.dataSongs = this.songs;
+    console.log(this.dataSongs);
+  }
+
+  async showDialog() {
+    if (this.tab.toLowerCase() == 'dance') {
+      this.addDancePopups(true);
+    } else if (this.tab.toLowerCase() == 'instruments') {
+      this.addInstrumentPopups(true);
+    } else if (this.tab.toLowerCase() == 'pictures') {
+      this.addPicturePopups(true);
+    } else if (this.tab.toLowerCase() == 'equipments') {
+      this.addEquipmentPopups(true);
+    } else {
+      this.addSongPopups(true);
+    }
+  }
+
+  clearData(val: any) {
+    this.payload = val;
   }
 
   view(payload: any) {
+    console.log(payload);
     this.payload = payload;
   }
 }

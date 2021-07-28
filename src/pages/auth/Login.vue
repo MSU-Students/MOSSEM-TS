@@ -14,15 +14,21 @@
         />
       </transition>
 
-      <div class="q-px-xl" :class="$q.screen.lt.md ? ' q-pa-xl' : 'login-field'">
+      <div
+        class="q-px-xl"
+        :class="$q.screen.lt.md ? ' q-pa-xl' : 'login-field'"
+      >
         <transition appear enter-active-class="animated fadeInUp">
-          <q-img style="max-width: 400px; height: 170px" src="~assets/logo/splogo1.png" />
+          <q-img
+            style="max-width: 400px; height: 170px"
+            src="~assets/logo/splogo1.png"
+          />
         </transition>
         <div class="text-center text-h3">Login</div>
 
         <q-card-section class="q-gutter-y-md">
           <q-input
-            v-model="user.username"
+            v-model="username"
             label="Username"
             bg-color="white"
             color="red"
@@ -35,13 +41,14 @@
           </q-input>
 
           <q-input
-            v-model="user.password"
+            v-model="password"
             label="Password"
             bg-color="white"
             color="red"
             :type="hidePassword ? '' : 'password'"
             rounded
             standout="bg-primary text-white"
+            @keypress.enter="login()"
           >
             <template v-slot:prepend>
               <q-icon name="lock" />
@@ -65,7 +72,9 @@
             label="login"
             color="white"
             text-color="primary"
-            to="/Homeadmin"
+            :loading="loading"
+            :disable="loading"
+            @click="login()"
           >
           </q-btn>
         </q-card-actions>
@@ -74,13 +83,39 @@
   </q-page>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
+import authService from 'src/services/auth.service';
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component({})
 export default class Login extends Vue {
-  user = {};
-  hidePasswor = false;
+  username = '';
+  password = '';
+  loading = false;
+
+  hidePassword = false;
+
+  async login() {
+    //
+    try {
+      this.loading = true;
+      await authService.loginUser(this.username, this.password);
+      await this.$router.replace('Homeadmin');
+      this.$q.notify({
+        type: 'positive',
+        message: 'Login Successfully!',
+        timeout: 2000
+      });
+      this.loading = false;
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Invalid Username or Password!',
+        timeout: 2000
+      });
+      this.loading = false;
+    }
+  }
 }
 </script>
 

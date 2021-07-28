@@ -1,5 +1,11 @@
 <template>
-  <q-dialog v-model="ShowEquipmentDialog" transition-show="scale" persistent>
+  <q-dialog
+    v-model="ShowEquipmentDialog"
+    transition-show="scale"
+    persistent
+    @show="showDialog()"
+    @hide="hideDialog()"
+  >
     <q-card class="__card q-py-lg">
       <q-toolbar>
         <q-img
@@ -9,13 +15,15 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          >ADD NEW EQUIPMENT</q-toolbar-title
+          ><span v-if="payload.onUpdate">UPDATE EQUIPMENT</span>
+          <span v-else>ADD EQUIPMENT</span></q-toolbar-title
         >
+
         <q-btn
           color="primary"
           icon="close"
           size="md"
-          @click="addEquipmentPopups(false), (checkerror = false)"
+          @click="closeDialog()"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -50,12 +58,12 @@
         />
       </div>
       <div class="q-pl-sm q-pb-lg q-pr-sm">
-          <q-input
-            v-model.number="equipment.quantity"
-            type="number"
-            label="Equipment Quantity"
-            filled
-          />
+        <q-input
+          v-model.number="equipment.quantity"
+          type="number"
+          label="Equipment Quantity"
+          filled
+        />
       </div>
       <div class="q-pl-sm q-pr-sm">
         <q-file
@@ -102,10 +110,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            label="Add"
+            :label="payload.onUpdate ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="addEquipment()"
+            @click="payload.onUpdate ? editEquipment() : addEquipment()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -114,7 +122,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import uploadService from 'src/services/upload.service';
 import { EquipmentDto } from 'src/services/rest-api';
@@ -125,17 +133,24 @@ import { EquipmentDto } from 'src/services/rest-api';
   },
   methods: {
     ...mapActions('uiNav', ['addEquipmentPopups']),
-    ...mapActions('equipment', ['createEquipment'])
+    ...mapActions('equipment', [
+      'createEquipment',
+      'updateEquipment',
+      'getAllEquipments'
+    ])
   }
 })
 export default class AddEquipmentDialog extends Vue {
+  @Prop({ type: Object, default: {} }) readonly payload!: any;
   ShowEquipmentDialog!: boolean;
   addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
+  updateEquipment!: (payload: any) => Promise<void>;
+  getAllEquipments!: () => Promise<void>;
 
   checkerror = false;
   options = ['In good condition', 'damaged'];
-  equipment: EquipmentDto = {
+  equipment: any = {
     id: '',
     url: '',
     name: '',
@@ -151,44 +166,130 @@ export default class AddEquipmentDialog extends Vue {
     this.file = val;
   }
 
+  showDialog() {
+    this.equipment = { ...this.payload, url: [] };
+    console.log(this.equipment);
+  }
+
+  hideDialog() {
+    this.$emit('clearData', this.equipment);
+  }
+
   async addEquipment() {
-    if (
-      (this.equipment.name == '' && this.equipment.description == '') ||
-      this.equipment.name == '' ||
-      this.equipment.description == ''
-    ) {
-      this.checkerror = true;
-    } else {
-      const resUrl: any = await uploadService.uploadFile(
-        this.file,
-        'equipment'
-      );
-      if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-        await this.createEquipment({
+    try {
+      if (
+        (this.equipment.name == '' && this.equipment.description == '') ||
+        this.equipment.name == '' ||
+        this.equipment.description == ''
+      ) {
+        this.checkerror = true;
+      } else {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'equipment'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.createEquipment({
+            ...this.equipment,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Upload Success!'
+          });
+          this.equipment = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            dateaquired: '',
+            quantity: '',
+            status: ''
+          };
+          this.file = [];
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      }
+      this.addEquipmentPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  async editEquipment() {
+    try {
+      delete this.equipment.onUpdate;
+      if (this.file.length != 0) {
+        const resUrl: any = await uploadService.uploadFile(
+          this.file,
+          'equipment'
+        );
+        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+          await this.updateEquipment({
+            ...this.equipment,
+            url: resUrl
+          });
+          this.$q.notify({
+            type: 'positive',
+            message: 'Edited Successfully!'
+          });
+          this.equipment = {
+            id: '',
+            url: '',
+            name: '',
+            description: '',
+            dateaquired: '',
+            quantity: '',
+            status: ''
+          };
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: 'Something wrong!'
+          });
+        }
+      } else {
+        await this.updateEquipment({
           ...this.equipment,
-          url: resUrl
+          url: this.payload.url
         });
         this.$q.notify({
           type: 'positive',
-          message: 'Upload Success!'
-        });
-        this.equipment = {
-          id: '',
-          url: '',
-          name: '',
-          description: '',
-          dateaquired: '',
-          quantity: '',
-          status: ''
-        };
-      } else {
-        this.$q.notify({
-          type: 'negative',
-          message: 'Something wrong!'
+          message: 'Edited Successfully!'
         });
       }
+
+      await this.getAllEquipments();
       this.addEquipmentPopups(false);
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
     }
+  }
+
+  closeDialog() {
+    this.addEquipmentPopups(false);
+    this.checkerror = false;
+    this.equipment = {
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      dateaquired: '',
+      quantity: '',
+      status: ''
+    };
   }
 }
 </script>

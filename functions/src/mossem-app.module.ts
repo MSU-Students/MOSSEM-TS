@@ -14,6 +14,7 @@ import { PictureController } from './picture/picture.controller';
 import { PictureService } from './picture/picture.service';
 import { EquipmentController } from './equipment/equipment.controller';
 import { EquipmentService } from './equipment/equipment.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { EquipmentService } from './equipment/equipment.service';
       isGlobal: true,
       load: [configuration],
       envFilePath: ['.env.dev.local', '.env.dev', '.env.prod']
-    })
+    }),
+    AuthModule
   ],
   controllers: [
     AppController,

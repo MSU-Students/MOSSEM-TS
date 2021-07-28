@@ -23,10 +23,8 @@ const actions: ActionTree<IDance, StateInterface> = {
     return response;
   },
 
-  async updateDance(context, payload: any) {
-    const { id, dance } = payload;
-    const response = await danceService.updateDance(id, dance);
-    context.commit('updateDance', response);
+  async updateDance({}, payload: any) {
+    const response = await danceService.editDance(payload.id, payload);
     return response;
   },
 
