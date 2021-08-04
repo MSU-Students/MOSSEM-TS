@@ -78,11 +78,11 @@
             @click="showDialog()"
           />
         </q-page-sticky>
-        <AddInstrumentDialog :payload="payload" @clearData="clearData" />
-        <AddDanceDialog :payload="payload" @clearData="clearData" />
-        <AddPictureDialog :payload="payload" @clearData="clearData" />
-        <AddEquipmentDialog :payload="payload" @clearData="clearData" />
-        <AddSongDialog :payload="payload" @clearData="clearData" />
+        <AddInstrumentDialog :data="data" @clearData="clearData" />
+        <AddDanceDialog :data="data" @clearData="clearData" />
+        <AddPictureDialog :data="data" @clearData="clearData" />
+        <AddEquipmentDialog :data="data" @clearData="clearData" />
+        <AddSongDialog :data="data" @clearData="clearData" />
       </q-page>
     </q-scroll-area>
   </transition>
@@ -152,7 +152,7 @@ export default class Homeadmin extends Vue {
   addEquipmentPopups!: (show: boolean) => void;
   tab = 'dance';
   loading = false;
-  payload = {};
+  data : {payload: any, isUpdating: boolean} = {payload: undefined, isUpdating: false};
   // dances
   columnsinstrument = [
     {
@@ -316,12 +316,11 @@ export default class Homeadmin extends Vue {
   }
 
   clearData(val: any) {
-    this.payload = val;
+    this.data = val;
   }
 
-  view(payload: any) {
-    console.log(payload);
-    this.payload = payload;
+  view(data:{payload: any, isUpdating: boolean}) {
+    this.data = data;
   }
 }
 </script>

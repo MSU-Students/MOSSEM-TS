@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE DANCE</span>
+          ><span v-if="data.isUpdating">UPDATE DANCE</span>
           <span v-else>ADD DANCE</span></q-toolbar-title
         >
         <q-btn
@@ -74,10 +74,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="dance.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="dance.onUpdate ? editDance() : addDance()"
+            @click="data.isUpdating ? editDance() : addDance()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -100,7 +100,7 @@ import { DanceDto } from 'src/services/rest-api/api';
 })
 export default class AddDanceDialog extends Vue {
   // vuex
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: DanceDto, isUpdating: boolean};
   ShowDanceDialog!: boolean;
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
@@ -122,7 +122,7 @@ export default class AddDanceDialog extends Vue {
   }
 
   showDialog() {
-    this.dance = this.payload;
+    this.dance = this.data.payload;
   }
 
   hideDialog() {
@@ -166,7 +166,6 @@ export default class AddDanceDialog extends Vue {
   async editDance() {
     this.loading = true;
     try {
-      delete this.dance.onUpdate;
       await this.updateDance(this.dance);
       await this.getAllDances();
       this.addDancePopups(false);

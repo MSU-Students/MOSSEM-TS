@@ -149,19 +149,19 @@ export default class List extends Vue {
 
   async showDialog(payload: any) {
     if (this.title.toLowerCase() == 'dance') {
-      this.$emit('view', { ...payload, onUpdate: true });
+      this.$emit('view', { payload:payload, isUpdating: true });
       this.addDancePopups(true);
     } else if (this.title.toLowerCase() == 'instruments') {
-      this.$emit('view', { ...payload, onUpdate: true });
+      this.$emit('view', { payload:payload, isUpdating: true });
       this.addInstrumentPopups(true);
     } else if (this.title.toLowerCase() == 'pictures') {
-      this.$emit('view', { ...payload, onUpdate: true });
+      this.$emit('view', { payload:payload, isUpdating: true });
       this.addPicturePopups(true);
     } else if (this.title.toLowerCase() == 'equipments') {
-      this.$emit('view', { ...payload, onUpdate: true });
+      this.$emit('view', { payload:payload, isUpdating: true });
       this.addEquipmentPopups(true);
     } else {
-      this.$emit('view', { ...payload, onUpdate: true });
+      this.$emit('view', { payload:payload, isUpdating: true });
       this.addSongPopups(true);
     }
   }

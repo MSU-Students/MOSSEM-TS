@@ -33,9 +33,7 @@ export class PictureController {
   @ApiResponse({ status: 200, isArray: true, type: PictureDto })
   @Get()
   async findAll(): Promise<PictureDto[]> {
-    return (await this.pictureService.findAll()).map((g) => {
-      return { ...g, stacks: undefined };
-    });
+    return (await this.pictureService.findAll());
   }
 
   @ApiOperation({

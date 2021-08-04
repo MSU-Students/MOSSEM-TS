@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE EQUIPMENT</span>
+          ><span v-if="data.isUpdating">UPDATE EQUIPMENT</span>
           <span v-else>ADD EQUIPMENT</span></q-toolbar-title
         >
 
@@ -110,10 +110,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editEquipment() : addEquipment()"
+            @click="data.isUpdating ? editEquipment() : addEquipment()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -141,7 +141,7 @@ import { EquipmentDto } from 'src/services/rest-api';
   }
 })
 export default class AddEquipmentDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: EquipmentDto, isUpdating: boolean};
   ShowEquipmentDialog!: boolean;
   addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
@@ -167,8 +167,7 @@ export default class AddEquipmentDialog extends Vue {
   }
 
   showDialog() {
-    this.equipment = { ...this.payload, url: [] };
-    console.log(this.equipment);
+    this.equipment = { ...this.data.payload, url: [] };
   }
 
   hideDialog() {
@@ -226,7 +225,6 @@ export default class AddEquipmentDialog extends Vue {
 
   async editEquipment() {
     try {
-      delete this.equipment.onUpdate;
       if (this.file.length != 0) {
         const resUrl: any = await uploadService.uploadFile(
           this.file,
@@ -259,7 +257,7 @@ export default class AddEquipmentDialog extends Vue {
       } else {
         await this.updateEquipment({
           ...this.equipment,
-          url: this.payload.url
+          url: this.data.payload.url
         });
         this.$q.notify({
           type: 'positive',

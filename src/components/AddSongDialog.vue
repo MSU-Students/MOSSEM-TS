@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE SONG</span>
+          ><span v-if="data.isUpdating">UPDATE SONG</span>
           <span v-else>ADD SONG</span></q-toolbar-title
         >
         <q-btn
@@ -112,10 +112,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editSong() : addSong()"
+            @click="data.isUpdating ? editSong() : addSong()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -126,30 +126,34 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
-import uploadService from 'src/services/upload.service';
 import { SongDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowSongDialog'])
+    ...mapState('uiNav', ['ShowSongDialog']),
+    ...mapState('uploads', ['uploads'])
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs'])
+    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs']),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddSongDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: SongDto, isUpdating: boolean};
+  uploads!: IUploadFile[];
   ShowSongDialog!: boolean;
-  shouldShow = false;
+  uploadFile!:(payload:{file: File, type: FileTypes}) => Promise<IUploadFile>;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
   updateSong!: (payload: any) => Promise<void>;
   getAllSongs!: () => Promise<void>;
 
+  shouldShow = false;
   checkerror = false;
 
-  song: any = {
+  song: SongDto = {
     id: '',
     url: '',
     name: '',
@@ -159,14 +163,14 @@ export default class AddSongDialog extends Vue {
     performedplaces: ''
   };
 
-  file: any = [];
+  file?: File;
 
-  fileChoose(val: any) {
+  fileChoose(val: File) {
     this.file = val;
   }
 
   showDialog() {
-    this.song = { ...this.payload, url: [] };
+    this.song = { ...this.data.payload, url: '' };
   }
 
   hideDialog() {
@@ -182,9 +186,13 @@ export default class AddSongDialog extends Vue {
       ) {
         this.checkerror = true;
         this.addSongPopups(false);
-      } else {
-        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+      } else if (this.file) {
+        const upload = await this.uploadFile({
+          file: this.file,
+          type: 'audio'
+        })
+        const resUrl = upload.url; 
+        if (typeof resUrl == 'string') {
           await this.createSong({
             ...this.song,
             url: resUrl
@@ -202,7 +210,7 @@ export default class AddSongDialog extends Vue {
             songwriter: '',
             performedplaces: ''
           };
-          this.file = [];
+          this.file = undefined;
         } else {
           this.$q.notify({
             type: 'negative',
@@ -222,10 +230,13 @@ export default class AddSongDialog extends Vue {
 
   async editSong() {
     try {
-      delete this.song.onUpdate;
-      if (this.file.length != 0) {
-        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+      if (this.file) {
+        const upload = await this.uploadFile({
+          file: this.file,
+          type: 'audio'
+        })
+        const resUrl = upload.url; 
+        if (typeof resUrl == 'string') {
           await this.updateSong({
             ...this.song,
             url: resUrl
@@ -252,7 +263,7 @@ export default class AddSongDialog extends Vue {
       } else {
         await this.updateSong({
           ...this.song,
-          url: this.payload.url
+          url: this.data.payload.url
         });
         this.$q.notify({
           type: 'positive',

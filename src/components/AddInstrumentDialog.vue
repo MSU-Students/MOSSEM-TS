@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE INSTRUMENT</span>
+          ><span v-if="data.isUpdating">UPDATE INSTRUMENT</span>
           <span v-else>ADD INSTRUMENT</span></q-toolbar-title
         >
         <q-btn
@@ -110,10 +110,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editInstrument() : addInstrument()"
+            @click="data.isUpdating ? editInstrument() : addInstrument()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -141,7 +141,7 @@ import { InstrumentDto } from 'src/services/rest-api';
   }
 })
 export default class AddInstrumentDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: InstrumentDto, isUpdating: boolean};
   ShowInstrumentDialog!: boolean;
   addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
@@ -163,7 +163,7 @@ export default class AddInstrumentDialog extends Vue {
   file: any = [];
 
   showDialog() {
-    this.instrument = { ...this.payload, url: [] };
+    this.instrument = { ...this.data.payload, url: [] };
   }
 
   hideDialog() {
@@ -225,7 +225,6 @@ export default class AddInstrumentDialog extends Vue {
 
   async editInstrument() {
     try {
-      delete this.instrument.onUpdate;
       if (this.file.length != 0) {
         try {
           const resUrl: any = await uploadService.uploadFile(
@@ -266,7 +265,7 @@ export default class AddInstrumentDialog extends Vue {
       } else {
         await this.updateInstrument({
           ...this.instrument,
-          url: this.payload.url
+          url: this.data.payload.url
         });
         this.$q.notify({
           type: 'positive',

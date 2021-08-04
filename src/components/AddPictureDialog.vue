@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE PICTURE</span>
+          ><span v-if="data.isUpdating">UPDATE PICTURE</span>
           <span v-else>ADD PICTURE</span></q-toolbar-title
         >
         <q-btn
@@ -79,10 +79,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editPicture() : addPicture()"
+            @click="data.isUpdating ? editPicture() : addPicture()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -110,7 +110,7 @@ import { mapState, mapActions } from 'vuex';
   }
 })
 export default class AddPictureDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: PictureDto, isUpdating: boolean};
 
   ShowPictureDialog!: boolean;
   shouldShow = false;
@@ -133,7 +133,7 @@ export default class AddPictureDialog extends Vue {
   }
 
   showDialog() {
-    this.picture = { ...this.payload, url: [] };
+    this.picture = { ...this.data.payload, url: [] };
   }
 
   hideDialog() {
@@ -185,7 +185,6 @@ export default class AddPictureDialog extends Vue {
 
   async editPicture() {
     try {
-      delete this.picture.onUpdate;
       if (this.file.length != 0) {
         const resUrl: any = await uploadService.uploadFile(
           this.file,
@@ -215,7 +214,7 @@ export default class AddPictureDialog extends Vue {
       } else {
         await this.updatePicture({
           ...this.picture,
-          url: this.payload.url
+          url: this.data.payload.url
         });
         this.$q.notify({
           type: 'positive',

@@ -33,9 +33,7 @@ export class SongController {
   @ApiResponse({ status: 200, isArray: true, type: SongDto })
   @Get()
   async findAll(): Promise<SongDto[]> {
-    return (await this.songService.findAll()).map((g) => {
-      return { ...g, stacks: undefined };
-    });
+    return (await this.songService.findAll());
   }
 
   @ApiOperation({

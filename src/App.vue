@@ -14,8 +14,7 @@ import 'aos/dist/aos.css';
 export default class App extends Vue {
   async created() {
     AOS.init();
-    const res = await danceService.getAbout();
-    console.log(res);
+    await danceService.getAbout();
   }
 }
 </script>
