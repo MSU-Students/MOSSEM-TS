@@ -132,12 +132,7 @@ export default class AddDanceDialog extends Vue {
   }
 
   hideDialog() {
-    this.dance = {
-      id: '',
-      url: '',
-      name: '',
-      description: ''
-    };
+    this.restForm();
     this.$emit('clearData', this.dance);
   }
 
@@ -160,12 +155,7 @@ export default class AddDanceDialog extends Vue {
         type: 'positive',
         message: 'Upload Success!'
       });
-      this.dance = {
-        id: '',
-        url: '',
-        name: '',
-        description: ''
-      };
+      this.restForm();
       this.loading = false;
     }
   }
@@ -180,12 +170,7 @@ export default class AddDanceDialog extends Vue {
         message: 'Edited Successfully!'
       });
       this.loading = false;
-      this.dance = {
-        id: '',
-        url: '',
-        name: '',
-        description: ''
-      };
+      this.restForm();
     } catch (error) {
       this.$q.notify({
         type: 'negative',
@@ -194,15 +179,19 @@ export default class AddDanceDialog extends Vue {
       this.loading = false;
     }
   }
-  closeDialog() {
-    this.addDancePopups(false);
-    this.checkerror = false;
-    this.dance = {
+  private restForm() {
+    this.dance={
       id: '',
       url: '',
       name: '',
       description: ''
     };
+  }
+
+  closeDialog() {
+    this.addDancePopups(false);
+    this.checkerror = false;
+    this.restForm();
   }
 }
 </script>

@@ -2,7 +2,7 @@ import { storage } from 'app/firestore/storage.config';
 
 class UploadService {
   async uploadFile(file: File, category: string, cb?:(percent: number)=> void): Promise<{
-    url: string, pause: Function, resume: Function
+    url: string, pause: ()=> void, resume: ()=> void
   }> {
     const storageRef = storage.ref(`${category}/${file.name}`).put(file);
     return new Promise((resolve, reject) => {

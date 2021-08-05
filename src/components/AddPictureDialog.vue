@@ -91,8 +91,8 @@
 </template>
 
 <script lang="ts">
-import uploadService from 'src/services/upload.service';
 import { PictureDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 
@@ -106,7 +106,8 @@ import { mapState, mapActions } from 'vuex';
       'createPicture',
       'updatePicture',
       'getAllPictures'
-    ])
+    ]),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddPictureDialog extends Vue {
@@ -114,26 +115,27 @@ export default class AddPictureDialog extends Vue {
 
   ShowPictureDialog!: boolean;
   shouldShow = false;
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addPicturePopups!: (show: boolean) => void;
   createPicture!: (payload: PictureDto) => Promise<void>;
   updatePicture!: (payload: PictureDto) => Promise<void>;
   getAllPictures!: () => Promise<void>;
 
   checkerror = false;
-  picture: any = {
+  picture: PictureDto = {
     id: '',
     url: '',
     name: '',
     description: ''
   };
-  file: any = [];
+  file: File = new File([], 'Select File');
 
-  fileChoose(val: any) {
+  fileChoose(val: File) {
     this.file = val;
   }
 
   showDialog() {
-    this.picture = { ...this.data.payload, url: [] };
+    this.picture = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -149,9 +151,14 @@ export default class AddPictureDialog extends Vue {
       this.checkerror = true;
       this.addPicturePopups(false);
     } else {
-      const resUrl: any = await uploadService.uploadFile(this.file, 'picture');
+      const res = await this.uploadFile({
+        file: this.file, 
+        type: 'image',
+        title: this.picture.name
+      });
+      const resUrl = res.url;
       try {
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        if (typeof resUrl == 'string') {
           await this.createPicture({
             ...this.picture,
             url: resUrl
@@ -160,18 +167,9 @@ export default class AddPictureDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.picture = {
-            id: '',
-            url: '',
-            name: '',
-            description: ''
-          };
-          this.file = [];
+          this.resetForm();
         } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
+          throw 'No image uploaded';
         }
         this.addPicturePopups(false);
       } catch (error) {
@@ -183,52 +181,41 @@ export default class AddPictureDialog extends Vue {
     }
   }
 
+  private resetForm() {
+    this.picture= {
+      id: '',
+      url: '',
+      name: '',
+      description: ''
+    };
+    this.file=new File([], 'Select File');
+  }
+
   async editPicture() {
     try {
-      if (this.file.length != 0) {
-        const resUrl: any = await uploadService.uploadFile(
-          this.file,
-          'picture'
-        );
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-          await this.updatePicture({
-            ...this.picture,
-            url: resUrl
-          });
-          this.$q.notify({
-            type: 'positive',
-            message: 'Edited Successfully!'
-          });
-          this.picture = {
-            id: '',
-            url: '',
-            name: '',
-            description: ''
-          };
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-      } else {
-        await this.updatePicture({
-          ...this.picture,
-          url: this.data.payload.url
+      if (this.file.size > 0) {
+        const res = await this.uploadFile({
+          file: this.file,
+          type: 'image',
+          title: this.picture.name
         });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
-
+        this.picture.url = res.url;
+      } 
+      await this.updatePicture({
+        ...this.picture
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.resetForm();
       await this.getAllPictures();
       this.addPicturePopups(false);
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
-        caption: error.message
+        caption: error.message || error
       });
     }
   }
@@ -236,12 +223,7 @@ export default class AddPictureDialog extends Vue {
   closeDialog() {
     this.addPicturePopups(false);
     this.checkerror = false;
-    this.picture = {
-      id: '',
-      url: '',
-      name: '',
-      description: ''
-    };
+    this.resetForm();
   }
 }
 </script>

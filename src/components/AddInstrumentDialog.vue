@@ -126,6 +126,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import uploadService from 'src/services/upload.service';
 import { InstrumentDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
@@ -137,12 +138,14 @@ import { InstrumentDto } from 'src/services/rest-api';
       'createInstrument',
       'updateInstrument',
       'getAllInstruments'
-    ])
+    ]),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddInstrumentDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: InstrumentDto, isUpdating: boolean};
   ShowInstrumentDialog!: boolean;
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
   updateInstrument!: (payload: any) => Promise<void>;
@@ -150,7 +153,7 @@ export default class AddInstrumentDialog extends Vue {
 
   checkerror = false;
   options = ['In good condition', 'Damaged'];
-  instrument: any = {
+  instrument: InstrumentDto = {
     id: '',
     url: '',
     name: '',
@@ -160,10 +163,10 @@ export default class AddInstrumentDialog extends Vue {
     status: ''
   };
 
-  file: any = [];
+  file: File = new File([], 'Select File');
 
   showDialog() {
-    this.instrument = { ...this.data.payload, url: [] };
+    this.instrument = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -196,15 +199,7 @@ export default class AddInstrumentDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.instrument = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            dateaquired: '',
-            quantity: '',
-            status: ''
-          };
+          this.resetForm();
         } else {
           this.$q.notify({
             type: 'negative',
@@ -223,55 +218,38 @@ export default class AddInstrumentDialog extends Vue {
     }
   }
 
+  private resetForm() {
+    this.instrument={
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      dateaquired: '',
+      quantity: '',
+      status: ''
+    };
+  }
+
   async editInstrument() {
     try {
-      if (this.file.length != 0) {
-        try {
-          const resUrl: any = await uploadService.uploadFile(
-            this.file,
-            'instrument'
-          );
-          if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-            await this.updateInstrument({
-              ...this.instrument,
-              url: resUrl
-            });
-            this.$q.notify({
-              type: 'positive',
-              message: 'Edited Successfully!'
-            });
-            this.instrument = {
-              id: '',
-              url: '',
-              name: '',
-              description: '',
-              dateaquired: '',
-              quantity: '',
-              status: ''
-            };
-          } else {
-            this.$q.notify({
-              type: 'negative',
-              message: 'Something wrong!'
-            });
-          }
-        } catch (error) {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!',
-            caption: error.message
-          });
-        }
-      } else {
-        await this.updateInstrument({
-          ...this.instrument,
-          url: this.data.payload.url
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
+      if (this.file.size > 0) {
+        
+        const res = await uploadService.uploadFile(
+          this.file,
+          'instrument'
+        );
+        this.instrument.url = res.url;
+          
+      } 
+      
+      await this.updateInstrument({
+        ...this.instrument
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.resetForm();
 
       await this.getAllInstruments();
       this.addInstrumentPopups(false);
@@ -288,15 +266,7 @@ export default class AddInstrumentDialog extends Vue {
   closeDialog() {
     this.addInstrumentPopups(false);
     this.checkerror = false;
-    this.instrument = {
-      id: '',
-      url: '',
-      name: '',
-      description: '',
-      dateaquired: '',
-      quantity: '',
-      status: ''
-    };
+    this.resetForm();
   }
 }
 </script>

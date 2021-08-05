@@ -128,7 +128,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import { SongDto } from 'src/services/rest-api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
-import { debug } from 'util';
 
 @Component({
   computed: {
@@ -169,6 +168,7 @@ export default class AddSongDialog extends Vue {
   }
 
   showDialog() {
+    this.resetForm();
     this.song = { ...this.data.payload };
   }
 
@@ -200,16 +200,7 @@ export default class AddSongDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.song = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            datecreated: '',
-            songwriter: '',
-            performedplaces: ''
-          };
-          this.file = new File([], 'Select File');
+          this.resetForm();
         } else {
           throw 'Something wrong!';
         }        
@@ -225,6 +216,19 @@ export default class AddSongDialog extends Vue {
     }
   }
 
+  private resetForm() {
+    this.song={
+      id: '',
+      url: '',
+      name: '',
+      description: '',
+      datecreated: '',
+      songwriter: '',
+      performedplaces: ''
+    };
+    this.file=new File([], 'Select File');
+  }
+
   async editSong() {
     try {
       if (this.file.size) {
@@ -235,22 +239,12 @@ export default class AddSongDialog extends Vue {
         })
         this.song.url = upload.url;
       } 
-      await this.updateSong({
-        ...this.song
-      });
+      await this.updateSong(this.song);
       this.$q.notify({
         type: 'positive',
         message: 'Edited Successfully!'
       });
-      this.song = {
-        id: '',
-        url: '',
-        name: '',
-        description: '',
-        datecreated: '',
-        songwriter: '',
-        performedplaces: ''
-      };
+      this.resetForm();
       await this.getAllSongs();
     } catch (error) {
       debugger;
@@ -265,15 +259,7 @@ export default class AddSongDialog extends Vue {
   closeDialog() {
     this.addSongPopups(false);
     this.checkerror = false;
-    this.song = {
-      id: '',
-      url: '',
-      name: '',
-      description: '',
-      datecreated: '',
-      songwriter: '',
-      performedplaces: ''
-    };
+    this.resetForm();
   }
 }
 </script>

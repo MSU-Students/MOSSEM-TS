@@ -152,7 +152,7 @@ export default class AddEquipmentDialog extends Vue {
 
   checkerror = false;
   options = ['In good condition', 'damaged'];
-  equipment: any = {
+  equipment: EquipmentDto = {
     id: '',
     url: '',
     name: '',
@@ -169,7 +169,7 @@ export default class AddEquipmentDialog extends Vue {
   }
 
   showDialog() {
-    this.equipment = { ...this.data.payload, url: [] };
+    this.equipment = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -189,7 +189,7 @@ export default class AddEquipmentDialog extends Vue {
           {
             file: this.file,
             type: 'image',
-            title: this.equipment
+            title: this.equipment.name
           }
 
         );
@@ -203,16 +203,7 @@ export default class AddEquipmentDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.equipment = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            dateaquired: '',
-            quantity: '',
-            status: ''
-          };
-          this.file = new File([], 'Select File');
+          this.resetForm();
         } else {
           throw 'Something wrong!';
         }
@@ -230,60 +221,33 @@ export default class AddEquipmentDialog extends Vue {
 
   async editEquipment() {
     try {
-      if (this.file.length != 0) {
-        const resUrl: any = await uploadService.uploadFile(
-          this.file,
-          'equipment'
-        );
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-          await this.updateEquipment({
-            ...this.equipment,
-            url: resUrl
-          });
-          this.$q.notify({
-            type: 'positive',
-            message: 'Edited Successfully!'
-          });
-          this.equipment = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            dateaquired: '',
-            quantity: '',
-            status: ''
-          };
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-      } else {
-        await this.updateEquipment({
-          ...this.equipment,
-          url: this.data.payload.url
+      if (this.file.size > 0) {
+        const res = await this.uploadFile({
+          file:  this.file,
+          type: 'image',
+          title: this.equipment.name
         });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
-
+        this.equipment.url = res.url;
+      } 
+      await this.updateEquipment({
+        ...this.equipment
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.resetForm();
       await this.getAllEquipments();
       this.addEquipmentPopups(false);
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
-        caption: error.message
+        caption: error.message || error
       });
     }
   }
-
-  closeDialog() {
-    this.addEquipmentPopups(false);
-    this.checkerror = false;
+  resetForm() {
     this.equipment = {
       id: '',
       url: '',
@@ -293,6 +257,12 @@ export default class AddEquipmentDialog extends Vue {
       quantity: '',
       status: ''
     };
+    this.file = new File([], 'Select File');
+  }
+  closeDialog() {
+    this.addEquipmentPopups(false);
+    this.checkerror = false;
+    this.resetForm();
   }
 }
 </script>
