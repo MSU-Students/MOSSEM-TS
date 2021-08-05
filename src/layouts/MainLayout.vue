@@ -245,12 +245,12 @@ export default class MainLayout extends Vue {
   padding: 0px;
 }
 .header-bg {
-  background-image: url('~assets/background/TribalPattern.jpg');
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.082), rgba(7, 7, 7, 0.73)), url('~assets/background/TribalPattern.jpg');
   background-position: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
 .drawer-bg {
-  background-image: url('~assets/background/TribalPattern.jpg');
+  background-image: linear-gradient(to right, rgba(245, 246, 252, 0.267), rgba(0, 0, 0, 0.459)), url('~assets/background/TribalPattern.jpg');
   background-position-y: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
