@@ -1,11 +1,11 @@
 import { Module } from 'vuex';
 import { StateInterface } from '../index';
-import state, { UiNavStateInterface } from './state';
+import state, { IUploadStates } from './state';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-const UiNavStateInterface: Module<UiNavStateInterface, StateInterface> = {
+const exampleModule: Module<IUploadStates, StateInterface> = {
   namespaced: true,
   actions,
   getters,
@@ -13,4 +13,4 @@ const UiNavStateInterface: Module<UiNavStateInterface, StateInterface> = {
   state
 };
 
-export default UiNavStateInterface;
+export default exampleModule;

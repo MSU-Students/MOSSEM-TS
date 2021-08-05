@@ -1,13 +1,13 @@
 import { SongDto } from 'src/services/rest-api';
 
 export interface ISong {
-  createSong: SongDto;
+  activeSong: SongDto;
   songs: SongDto[];
 }
 
 function state(): ISong {
   return {
-    createSong: {
+    activeSong: {
       id: '',
       url: '',
       name: '',

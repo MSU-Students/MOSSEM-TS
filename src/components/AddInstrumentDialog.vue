@@ -15,14 +15,14 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE INSTRUMENT</span>
+          ><span v-if="data.isUpdating">UPDATE INSTRUMENT</span>
           <span v-else>ADD INSTRUMENT</span></q-toolbar-title
         >
         <q-btn
           color="primary"
           icon="close"
           size="md"
-          @click="closeDialog()"
+          to="/admin/instruments"
         ></q-btn>
       </q-toolbar>
       <div class="q-pl-sm q-pr-sm">
@@ -110,10 +110,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editInstrument() : addInstrument()"
+            @click="data.isUpdating ? editInstrument() : addInstrument()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -123,26 +123,29 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import uploadService from 'src/services/upload.service';
 import { InstrumentDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowInstrumentDialog'])
   },
   methods: {
-    ...mapActions('uiNav', ['addInstrumentPopups']),
     ...mapActions('instrument', [
       'createInstrument',
       'updateInstrument',
       'getAllInstruments'
-    ])
+    ]),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddInstrumentDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
-  ShowInstrumentDialog!: boolean;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: InstrumentDto, isUpdating: boolean};
+  get ShowInstrumentDialog() : boolean {
+    return /^\/admin\/instruments\/(edit|new)$/.exec(this.$route.path) != null;
+  }
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
   updateInstrument!: (payload: any) => Promise<void>;
@@ -150,7 +153,7 @@ export default class AddInstrumentDialog extends Vue {
 
   checkerror = false;
   options = ['In good condition', 'Damaged'];
-  instrument: any = {
+  instrument: InstrumentDto = {
     id: '',
     url: '',
     name: '',
@@ -160,10 +163,10 @@ export default class AddInstrumentDialog extends Vue {
     status: ''
   };
 
-  file: any = [];
+  file: File = new File([], 'Select File');
 
   showDialog() {
-    this.instrument = { ...this.payload, url: [] };
+    this.instrument = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -183,11 +186,13 @@ export default class AddInstrumentDialog extends Vue {
       this.checkerror = true;
     } else {
       try {
-        const resUrl: any = await uploadService.uploadFile(
-          this.file,
-          'instrument'
-        );
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        const res = await this.uploadFile({
+          file: this.file,
+          type: 'image',
+          title: this.instrument.name
+        });
+        const resUrl = res.url;
+        if (typeof resUrl == 'string') {
           await this.createInstrument({
             ...this.instrument,
             url: resUrl
@@ -196,100 +201,24 @@ export default class AddInstrumentDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.instrument = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            dateaquired: '',
-            quantity: '',
-            status: ''
-          };
+          this.resetForm();
         } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
+          throw 'No file uploaded';
         }
-        this.addInstrumentPopups(false);
       } catch (error) {
         this.$q.notify({
           type: 'negative',
           message: 'Something wrong!',
-          caption: error.message
+          caption: error.message || error
         });
-        this.addInstrumentPopups(false);
+      } finally {
+        await this.$router.replace('/admin/instruments');
       }
     }
   }
 
-  async editInstrument() {
-    try {
-      delete this.instrument.onUpdate;
-      if (this.file.length != 0) {
-        try {
-          const resUrl: any = await uploadService.uploadFile(
-            this.file,
-            'instrument'
-          );
-          if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-            await this.updateInstrument({
-              ...this.instrument,
-              url: resUrl
-            });
-            this.$q.notify({
-              type: 'positive',
-              message: 'Edited Successfully!'
-            });
-            this.instrument = {
-              id: '',
-              url: '',
-              name: '',
-              description: '',
-              dateaquired: '',
-              quantity: '',
-              status: ''
-            };
-          } else {
-            this.$q.notify({
-              type: 'negative',
-              message: 'Something wrong!'
-            });
-          }
-        } catch (error) {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!',
-            caption: error.message
-          });
-        }
-      } else {
-        await this.updateInstrument({
-          ...this.instrument,
-          url: this.payload.url
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
-
-      await this.getAllInstruments();
-      this.addInstrumentPopups(false);
-    } catch (error) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'Something wrong!',
-        caption: error.message
-      });
-      this.addInstrumentPopups(false);
-    }
-  }
-
-  closeDialog() {
-    this.addInstrumentPopups(false);
-    this.checkerror = false;
-    this.instrument = {
+  private resetForm() {
+    this.instrument={
       id: '',
       url: '',
       name: '',
@@ -298,6 +227,45 @@ export default class AddInstrumentDialog extends Vue {
       quantity: '',
       status: ''
     };
+    this.file = new File([], 'Select File');
+  }
+
+  async editInstrument() {
+    try {
+      if (this.file.size > 0) {
+        
+        const res = await uploadService.uploadFile(
+          this.file,
+          'instrument'
+        );
+        this.instrument.url = res.url;
+          
+      } 
+      
+      await this.updateInstrument({
+        ...this.instrument
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.resetForm();
+      await this.getAllInstruments();
+    } catch (error) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    } finally {
+      await this.$router.replace('/admin/instruments');
+    }
+  }
+
+  async closeDialog() {
+    this.checkerror = false;
+    this.resetForm();
+    await this.$router.replace('/admin/instruments')
   }
 }
 </script>

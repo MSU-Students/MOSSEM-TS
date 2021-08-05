@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE SONG</span>
+          ><span v-if="data.isUpdating">UPDATE SONG</span>
           <span v-else>ADD SONG</span></q-toolbar-title
         >
         <q-btn
@@ -112,10 +112,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="payload.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="payload.onUpdate ? editSong() : addSong()"
+            @click="data.isUpdating ? editSong() : addSong()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -125,31 +125,34 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
-import uploadService from 'src/services/upload.service';
+import { mapActions } from 'vuex';
 import { SongDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowSongDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs'])
+    ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs']),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddSongDialog extends Vue {
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
-  ShowSongDialog!: boolean;
-  shouldShow = false;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: SongDto, isUpdating: boolean};
+  get ShowSongDialog(): boolean {
+    return /^\/admin\/songs\/(edit|new)$/.exec(this.$route.path) != null;
+  };
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
   updateSong!: (payload: any) => Promise<void>;
   getAllSongs!: () => Promise<void>;
 
+  shouldShow = false;
   checkerror = false;
 
-  song: any = {
+  song: SongDto = {
     id: '',
     url: '',
     name: '',
@@ -159,14 +162,15 @@ export default class AddSongDialog extends Vue {
     performedplaces: ''
   };
 
-  file: any = [];
+  file: File = new File([], 'Select File');
 
-  fileChoose(val: any) {
+  fileChoose(val: File) {
     this.file = val;
   }
 
   showDialog() {
-    this.song = { ...this.payload, url: [] };
+    this.resetForm();
+    this.song = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -181,10 +185,14 @@ export default class AddSongDialog extends Vue {
         this.song.description == ''
       ) {
         this.checkerror = true;
-        this.addSongPopups(false);
-      } else {
-        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+      } else if (this.file.size) {
+        const upload = await this.uploadFile({
+          file: this.file,
+          type: 'audio',
+          title: this.song.name
+        })
+        const resUrl = upload.url; 
+        if (typeof resUrl == 'string') {
           await this.createSong({
             ...this.song,
             url: resUrl
@@ -193,23 +201,10 @@ export default class AddSongDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.song = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            datecreated: '',
-            songwriter: '',
-            performedplaces: ''
-          };
-          this.file = [];
+          this.resetForm();
         } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-        this.addSongPopups(false);
+          throw 'Something wrong!';
+        }        
       }
     } catch (error) {
       this.$q.notify({
@@ -217,64 +212,13 @@ export default class AddSongDialog extends Vue {
         message: 'Something wrong!',
         caption: error.message
       });
-    }
-  }
-
-  async editSong() {
-    try {
-      delete this.song.onUpdate;
-      if (this.file.length != 0) {
-        const resUrl: any = await uploadService.uploadFile(this.file, 'song');
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
-          await this.updateSong({
-            ...this.song,
-            url: resUrl
-          });
-          this.$q.notify({
-            type: 'positive',
-            message: 'Edited Successfully!'
-          });
-          this.song = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            datecreated: '',
-            songwriter: '',
-            performedplaces: ''
-          };
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-      } else {
-        await this.updateSong({
-          ...this.song,
-          url: this.payload.url
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
-
-      await this.getAllSongs();
+    } finally {
       this.addSongPopups(false);
-    } catch (error) {
-      this.$q.notify({
-        type: 'negative',
-        message: 'Something wrong!',
-        caption: error.message
-      });
     }
   }
 
-  closeDialog() {
-    this.addSongPopups(false);
-    this.checkerror = false;
-    this.song = {
+  private resetForm() {
+    this.song={
       id: '',
       url: '',
       name: '',
@@ -283,6 +227,40 @@ export default class AddSongDialog extends Vue {
       songwriter: '',
       performedplaces: ''
     };
+    this.file=new File([], 'Select File');
+  }
+
+  async editSong() {
+    try {
+      if (this.file.size) {
+        const upload = await this.uploadFile({
+          file: this.file,
+          type: 'audio',
+          title: this.song.name
+        })
+        this.song.url = upload.url;
+      } 
+      await this.updateSong(this.song);
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.resetForm();
+      await this.getAllSongs();
+    } catch (error) {
+      debugger;
+      this.$q.notify({
+        type: 'negative',
+        message: 'Something wrong!',
+        caption: error.message
+      });
+    }
+  }
+
+  async closeDialog() {
+    this.checkerror = false;
+    this.resetForm();
+    await this.$router.replace('/admin/songs')
   }
 }
 </script>

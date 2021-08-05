@@ -56,8 +56,6 @@
               <q-video class="absolute-full" :src="convertUrl(dance.url)" />
             </div>
           </q-carousel-slide>
-
-
         </q-carousel>
       </transition>
       <template v-for="(dance, index) in dances">
@@ -66,17 +64,21 @@
           v-if="dance.name == slide"
           :key="index"
           style="width: 80vw"
-        ><transition appear enter-active-class="animated fadeIn">
-          <q-card-section>
-            <div class="text-h2 text-center text-white">
-              {{ dance.name }}
-            </div>
-            <div style="font-size: 1.5em" class="text-center text-white">
-              {{ dance.description }}
-            </div>
-          </q-card-section>
+          ><transition appear enter-active-class="animated fadeIn">
+            <q-card-section>
+              <div class="text-h2 text-center text-white">
+                {{ dance.name }}
+              </div>
+              <div style="font-size: 1.5em" class="text-center text-white">
+                {{ dance.description }}
+              </div>
+            </q-card-section>
           </transition>
         </q-card>
+        <q-tooltip anchor="top left" self="center right" :offset="[10, 10]">
+          <strong>Hover Here!</strong>
+          (<q-icon name="keyboard_arrow_left"/>)
+        </q-tooltip>
       </template>
     </div>
   </q-page>
@@ -138,6 +140,11 @@ export default class Dance extends Vue {
 }
 
 .bg-img {
-  background-image: url('~assets/background/TribalPatternWithEffect.jpg');
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(7, 7, 7, 0.5)
+    ),
+    url('~assets/background/TribalPatternWithEffect.jpg');
 }
 </style>

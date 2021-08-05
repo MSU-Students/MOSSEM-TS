@@ -15,7 +15,7 @@
           src="~assets/logo/splogo1.png"
         />
         <q-toolbar-title class="text-weight-bold text-primary "
-          ><span v-if="payload.onUpdate">UPDATE DANCE</span>
+          ><span v-if="data.isUpdating">UPDATE DANCE</span>
           <span v-else>ADD DANCE</span></q-toolbar-title
         >
         <q-btn
@@ -59,7 +59,6 @@
         <q-dialog v-model="checkerror" auto-close seamless position="top">
           <q-card style="width: 350px">
             <q-linear-progress :value="1" color="white" />
-
             <q-card-section class="bg-white ">
               <div>
                 <div class="text-weight-bold text-red text-center">
@@ -74,10 +73,10 @@
         <div class="col-12">
           <q-btn
             class="full-width"
-            :label="dance.onUpdate ? 'Update' : 'Add'"
+            :label="data.isUpdating ? 'Update' : 'Add'"
             color="primary"
             text-color="white"
-            @click="dance.onUpdate ? editDance() : addDance()"
+            @click="data.isUpdating ? editDance() : addDance()"
           ></q-btn>
         </div>
       </q-card-actions>
@@ -87,21 +86,26 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { DanceDto } from 'src/services/rest-api/api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
+
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowDanceDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances'])
+    ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances']),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddDanceDialog extends Vue {
   // vuex
-  @Prop({ type: Object, default: {} }) readonly payload!: any;
-  ShowDanceDialog!: boolean;
+  @Prop({ type: Object, default: {} }) readonly data!: { payload: DanceDto, isUpdating: boolean};
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
+  get ShowDanceDialog(): boolean {
+    return /^\/admin\/dance\/(edit|new)$/.exec(this.$route.path) != null;
+  }
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
   updateDance!: (payload: any) => Promise<void>;
@@ -110,28 +114,25 @@ export default class AddDanceDialog extends Vue {
   checkerror = false;
   shouldShow = false;
   loading = false;
-  dance: any = {
+  dance: DanceDto = {
     id: '',
     url: '',
     name: '',
     description: ''
   };
-  file: any = [];
+  file: File = new File([], 'Select File');
   fileChoose(val: any) {
     this.file = val;
   }
 
+
+
   showDialog() {
-    this.dance = this.payload;
+    this.dance = this.data.payload || this.dance;
   }
 
   hideDialog() {
-    this.dance = {
-      id: '',
-      url: '',
-      name: '',
-      description: ''
-    };
+    this.restForm();
     this.$emit('clearData', this.dance);
   }
 
@@ -154,19 +155,14 @@ export default class AddDanceDialog extends Vue {
         type: 'positive',
         message: 'Upload Success!'
       });
-      this.dance = {
-        id: '',
-        url: '',
-        name: '',
-        description: ''
-      };
+      this.restForm();
       this.loading = false;
+      await this.$router.replace('/admin/dance');
     }
   }
   async editDance() {
     this.loading = true;
     try {
-      delete this.dance.onUpdate;
       await this.updateDance(this.dance);
       await this.getAllDances();
       this.addDancePopups(false);
@@ -175,29 +171,30 @@ export default class AddDanceDialog extends Vue {
         message: 'Edited Successfully!'
       });
       this.loading = false;
-      this.dance = {
-        id: '',
-        url: '',
-        name: '',
-        description: ''
-      };
+      this.restForm();
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!'
       });
       this.loading = false;
+    } finally {
+      await this.$router.replace('/admin/dance');
     }
   }
-  closeDialog() {
-    this.addDancePopups(false);
-    this.checkerror = false;
-    this.dance = {
+  private restForm() {
+    this.dance={
       id: '',
       url: '',
       name: '',
       description: ''
     };
+  }
+
+  async closeDialog() {    
+    this.checkerror = false;
+    this.restForm();
+    await this.$router.replace('/admin/dance');
   }
 }
 </script>

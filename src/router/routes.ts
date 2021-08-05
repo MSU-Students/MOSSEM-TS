@@ -16,7 +16,6 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: UserLayout,
-    meta: { requiresGuest: true },
     children: [
       {
         path: '/',
@@ -28,10 +27,9 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: AdminLayout,
-
     children: [
       {
-        path: 'Homeadmin',
+        path: 'admin/:tab/:action?',
         name: 'Homeadmin-page',
         component: Homeadmin,
         meta: { requiresAdmin: true }
@@ -46,7 +44,6 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/',
-    meta: { requiresGuest: true },
     component: MainLayout,
     children: [
       {

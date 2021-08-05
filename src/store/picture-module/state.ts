@@ -1,13 +1,13 @@
 import { PictureDto } from 'src/services/rest-api';
 
 export interface IPicture {
-  createPicture: PictureDto;
+  activePicture: PictureDto;
   pictures: PictureDto[];
 }
 
 function state(): IPicture {
   return {
-    createPicture: {
+    activePicture: {
       id: '',
       url: '',
       name: '',

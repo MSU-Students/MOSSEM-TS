@@ -33,9 +33,7 @@ import {
     @ApiResponse({ status: 200, isArray: true, type: InstrumentDto })
     @Get()
     async findAll(): Promise<InstrumentDto[]> {
-      return (await this.instrumentService.findAll()).map((g) => {
-        return { ...g, stacks: undefined };
-      });
+      return (await this.instrumentService.findAll());
     }
   
     @ApiOperation({

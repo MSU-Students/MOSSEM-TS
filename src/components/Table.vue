@@ -50,12 +50,12 @@
             rounded
             color="primary"
             label="Update"
-            @click="showDialog(props.row)"
+            @click="editItem(props.row)"
           />
         </q-td>
       </q-tr>
       <q-tr v-show="props.expand" :props="props">
-        <q-td colspan="100%" style="white-space: none !important;">
+        <q-td colspan="100%" style="white-space: none !important">
           <div class="q-pa-md">
             <q-video
               style="max-width: 580px; width: 100%"
@@ -66,7 +66,7 @@
             <div
               v-else-if="
                 title.toLowerCase() == 'songs' &&
-                  typeof props.row.url == 'string'
+                typeof props.row.url == 'string'
               "
               class="row"
             >
@@ -119,15 +119,15 @@ import { mapState, mapActions } from 'vuex';
     ...mapState('instrument', ['instruments']),
     ...mapState('picture', ['pictures']),
     ...mapState('song', ['songs']),
-    ...mapState('equipment', ['equipments'])
+    ...mapState('equipment', ['equipments']),
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
     ...mapActions('uiNav', ['addInstrumentPopups']),
     ...mapActions('uiNav', ['addPicturePopups']),
     ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('uiNav', ['addEquipmentPopups'])
-  }
+    ...mapActions('uiNav', ['addEquipmentPopups']),
+  },
 })
 export default class List extends Vue {
   // @Prop({ type: Boolean, required: true }) readonly loading!: boolean;
@@ -147,23 +147,9 @@ export default class List extends Vue {
     return helperService.convertUrl(url);
   }
 
-  async showDialog(payload: any) {
-    if (this.title.toLowerCase() == 'dance') {
-      this.$emit('view', { ...payload, onUpdate: true });
-      this.addDancePopups(true);
-    } else if (this.title.toLowerCase() == 'instruments') {
-      this.$emit('view', { ...payload, onUpdate: true });
-      this.addInstrumentPopups(true);
-    } else if (this.title.toLowerCase() == 'pictures') {
-      this.$emit('view', { ...payload, onUpdate: true });
-      this.addPicturePopups(true);
-    } else if (this.title.toLowerCase() == 'equipments') {
-      this.$emit('view', { ...payload, onUpdate: true });
-      this.addEquipmentPopups(true);
-    } else {
-      this.$emit('view', { ...payload, onUpdate: true });
-      this.addSongPopups(true);
-    }
+  async editItem(payload: any) {
+    this.$emit('view', { payload: payload, isUpdating: true });
+    await this.$router.push('/admin/' + this.title.toLowerCase() + '/edit');
   }
 }
 </script>

@@ -15,11 +15,20 @@
             align="justify"
             narrow-indicator
           >
-            <q-tab name="dance" label="Dances" />
-            <q-tab name="instruments" label="Instruments" />
-            <q-tab name="pictures" label="Gallery" />
-            <q-tab name="songs" label="Songs" />
-            <q-tab name="equipments" label="Equipments" />
+            <q-route-tab name="dance" label="Dances" to="/admin/dance" />
+            <q-route-tab
+              name="instruments"
+              label="Instruments"
+              to="/admin/instruments"
+            />
+            <q-route-tab name="pictures" label="Gallery" to="/admin/galery" />
+            <q-route-tab name="songs" label="Songs" to="/admin/songs" exact />
+            <q-route-tab
+              name="equipments"
+              label="Equipments"
+              to="/admin/equipments"
+            />
+            <q-route-tab name="uploads" label="Uploads" to="/admin/uploads" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="dance">
@@ -66,6 +75,44 @@
                 @view="view"
               />
             </q-tab-panel>
+            <q-tab-panel name="uploads">
+              <q-table
+                title="Uploads"
+                :data="uploads"
+                :columns="columnsUploads"
+                no-data-label="No active uploads"
+              >
+                <template v-slot:body="props">
+                  <q-tr :props="props">
+                    <q-td key="title" :props="props">
+                      {{ props.row.title }}
+                    </q-td>
+                    <q-td key="filename" :props="props">
+                      {{ props.row.filename }}
+                    </q-td>
+                    <q-td key="type" :props="props">
+                      <q-badge color="blue">
+                        {{ props.row.type }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="progress" :props="props">
+                      <q-circular-progress
+                        :value="props.row.progress"
+                        size="40px"
+                        show-value
+                        color="light-blue"
+                        :thickness="0.35"
+                        :min="0"
+                        :max="100"
+                        class="q-ma-md"
+                      >
+                        {{ props.row.progress }}%
+                      </q-circular-progress>
+                    </q-td>
+                  </q-tr>
+                </template>
+              </q-table>
+            </q-tab-panel>
           </q-tab-panels>
         </q-card>
 
@@ -75,14 +122,14 @@
             color="primary"
             :label="tab"
             icon="add"
-            @click="showDialog()"
+            @click="createItem()"
           />
         </q-page-sticky>
-        <AddInstrumentDialog :payload="payload" @clearData="clearData" />
-        <AddDanceDialog :payload="payload" @clearData="clearData" />
-        <AddPictureDialog :payload="payload" @clearData="clearData" />
-        <AddEquipmentDialog :payload="payload" @clearData="clearData" />
-        <AddSongDialog :payload="payload" @clearData="clearData" />
+        <AddInstrumentDialog :data="data" @clearData="clearData" />
+        <AddDanceDialog :data="data" @clearData="clearData" />
+        <AddPictureDialog :data="data" @clearData="clearData" />
+        <AddEquipmentDialog :data="data" @clearData="clearData" />
+        <AddSongDialog :data="data" @clearData="clearData" />
       </q-page>
     </q-scroll-area>
   </transition>
@@ -102,8 +149,9 @@ import {
   InstrumentDto,
   PictureDto,
   SongDto,
-  EquipmentDto
+  EquipmentDto,
 } from 'src/services/rest-api';
+import { IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   components: {
@@ -112,14 +160,15 @@ import {
     AddPictureDialog,
     AddSongDialog,
     AddEquipmentDialog,
-    Table
+    Table,
   },
   computed: {
     ...mapState('dance', ['dances']),
     ...mapState('instrument', ['instruments']),
     ...mapState('picture', ['pictures']),
     ...mapState('song', ['songs']),
-    ...mapState('equipment', ['equipments'])
+    ...mapState('equipment', ['equipments']),
+    ...mapState('uploads', ['uploads']),
   },
   methods: {
     ...mapActions('dance', ['getAllDances']),
@@ -127,14 +176,17 @@ import {
     ...mapActions('picture', ['getAllPictures']),
     ...mapActions('song', ['getAllSongs']),
     ...mapActions('equipment', ['getAllEquipments']),
-    ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('uiNav', ['addInstrumentPopups']),
-    ...mapActions('uiNav', ['addPicturePopups']),
-    ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('uiNav', ['addEquipmentPopups'])
-  }
+    ...mapActions('uiNav', [
+      'addDancePopups',
+      'addInstrumentPopups',
+      'addPicturePopups',
+      'addSongPopups',
+      'addEquipmentPopups',
+    ]),
+  },
 })
 export default class Homeadmin extends Vue {
+  uploads!: IUploadFile[];
   dances!: DanceDto[];
   instruments!: InstrumentDto[];
   pictures!: PictureDto[];
@@ -152,7 +204,10 @@ export default class Homeadmin extends Vue {
   addEquipmentPopups!: (show: boolean) => void;
   tab = 'dance';
   loading = false;
-  payload = {};
+  data: { payload: any; isUpdating: boolean } = {
+    payload: undefined,
+    isUpdating: false,
+  };
   // dances
   columnsinstrument = [
     {
@@ -160,29 +215,29 @@ export default class Homeadmin extends Vue {
       align: 'center',
       label: 'Date aquired',
       field: 'dateaquired',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'name',
       align: 'center',
       label: 'Name',
       field: 'name',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'status',
       align: 'center',
       label: 'Status',
       field: 'status',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'quantity',
       align: 'center',
       label: 'Quantity',
       field: 'quantity',
-      sortable: true
-    }
+      sortable: true,
+    },
   ];
   columnssong = [
     {
@@ -190,29 +245,29 @@ export default class Homeadmin extends Vue {
       align: 'center',
       label: 'Song writer',
       field: 'songwriter',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'name',
       align: 'center',
       label: 'Name',
       field: 'name',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'performedplaces',
       align: 'center',
       label: 'Performed places',
       field: 'performedplaces',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'datecreated',
       align: 'center',
       label: 'Date created',
       field: 'datecreated',
-      sortable: true
-    }
+      sortable: true,
+    },
   ];
   columnsequipment = [
     {
@@ -220,29 +275,29 @@ export default class Homeadmin extends Vue {
       align: 'center',
       label: 'Date aquired',
       field: 'dateaquired',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'name',
       align: 'center',
       label: 'Name',
       field: 'name',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'status',
       align: 'center',
       label: 'Status',
       field: 'status',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'quantity',
       align: 'center',
       label: 'Quantity',
       field: 'quantity',
-      sortable: true
-    }
+      sortable: true,
+    },
   ];
   columns = [
     {
@@ -250,15 +305,45 @@ export default class Homeadmin extends Vue {
       align: 'center',
       label: 'Name',
       field: 'name',
-      sortable: true
+      sortable: true,
     },
     {
       name: 'description',
       align: 'center',
       label: 'Description',
       field: 'description',
-      sortable: true
-    }
+      sortable: true,
+    },
+  ];
+  columnsUploads = [
+    {
+      name: 'title',
+      align: 'center',
+      label: 'Title',
+      field: 'title',
+      sortable: true,
+    },
+    {
+      name: 'filename',
+      align: 'center',
+      label: 'File name',
+      field: 'filename',
+      sortable: true,
+    },
+    {
+      name: 'type',
+      align: 'center',
+      label: 'File Type',
+      field: 'type',
+      sortable: true,
+    },
+    {
+      name: 'progress',
+      align: 'center',
+      label: 'Progress',
+      field: 'progress',
+      sortable: true,
+    },
   ];
   dataDances: DanceDto[] = [];
   dataInstruments: InstrumentDto[] = [];
@@ -298,30 +383,18 @@ export default class Homeadmin extends Vue {
     this.dataEquipments = this.equipments;
     await this.getAllSongs();
     this.dataSongs = this.songs;
-    console.log(this.dataSongs);
   }
 
-  async showDialog() {
-    if (this.tab.toLowerCase() == 'dance') {
-      this.addDancePopups(true);
-    } else if (this.tab.toLowerCase() == 'instruments') {
-      this.addInstrumentPopups(true);
-    } else if (this.tab.toLowerCase() == 'pictures') {
-      this.addPicturePopups(true);
-    } else if (this.tab.toLowerCase() == 'equipments') {
-      this.addEquipmentPopups(true);
-    } else {
-      this.addSongPopups(true);
-    }
+  async createItem() {
+    await this.$router.push('/admin/' + this.tab + '/new');
   }
 
   clearData(val: any) {
-    this.payload = val;
+    this.data = val;
   }
 
-  view(payload: any) {
-    console.log(payload);
-    this.payload = payload;
+  view(data: { payload: any; isUpdating: boolean }) {
+    this.data = data;
   }
 }
 </script>

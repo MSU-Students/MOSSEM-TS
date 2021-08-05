@@ -61,7 +61,7 @@
                 class="radius"
                 label="Login"
                 text-color="white"
-                to="login"
+                to="/admin/login"
               >
                 <q-tooltip
                   anchor="bottom middle"

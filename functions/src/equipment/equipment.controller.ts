@@ -35,9 +35,7 @@ export class EquipmentController {
   @ApiResponse({ status: 200, isArray: true, type: EquipmentDto })
   @Get()
   async findAll(): Promise<EquipmentDto[]> {
-    return (await this.equipmentService.findAll()).map((g) => {
-      return { ...g, stacks: undefined };
-    });
+    return (await this.equipmentService.findAll());
   }
 
   @ApiOperation({

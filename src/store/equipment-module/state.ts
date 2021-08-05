@@ -1,13 +1,13 @@
 import { EquipmentDto } from 'src/services/rest-api';
 
 export interface IEquipment {
-  createEquipment: EquipmentDto;
+  activeEquipment: EquipmentDto;
   equipments: EquipmentDto[];
 }
 
 function state(): IEquipment {
   return {
-    createEquipment: {
+    activeEquipment: {
       id: '',
       url: '',
       name: '',

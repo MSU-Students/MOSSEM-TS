@@ -1,17 +1,17 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
-import uiNav from './ui-navigation-module';
-import { UiNavStateInterface } from './ui-navigation-module/state';
 import dance from './dance-module';
 import instrument from './instrument-module';
 import equipment from './equipment-module';
 import song from './song-module';
 import picture from './picture-module';
+import uploads from './upload-module';
 import { IDance } from './dance-module/state';
 import { IInstrument } from './instrument-module/state';
 import { IPicture } from './picture-module/state';
 import { ISong } from './song-module/state';
 import { IEquipment } from './equipment-module/state';
+import { IUploadStates } from './upload-module/state';
 
 /*
  * If not building with SSR mode, you can
@@ -25,7 +25,7 @@ export interface StateInterface {
   instrument: IInstrument;
   song: ISong;
   equipment: IEquipment;
-  uiNav: UiNavStateInterface;
+  uploads: IUploadStates;
 }
 
 export default store(function({ Vue }) {
@@ -38,7 +38,7 @@ export default store(function({ Vue }) {
       instrument,
       equipment,
       song,
-      uiNav,
+      uploads
     },
 
     // enable strict mode (adds overhead!)
