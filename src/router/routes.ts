@@ -27,10 +27,9 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: AdminLayout,
-
     children: [
       {
-        path: 'Homeadmin',
+        path: 'admin/:page',
         name: 'Homeadmin-page',
         component: Homeadmin,
         meta: { requiresAdmin: true }
