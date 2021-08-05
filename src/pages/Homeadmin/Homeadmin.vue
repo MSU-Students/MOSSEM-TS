@@ -15,12 +15,12 @@
             align="justify"
             narrow-indicator
           >
-            <q-tab name="dance" label="Dances" />
-            <q-tab name="instruments" label="Instruments" />
-            <q-tab name="pictures" label="Gallery" />
-            <q-tab name="songs" label="Songs" />
-            <q-tab name="equipments" label="Equipments" />
-            <q-tab name="uploads" label="Uploads" />
+            <q-route-tab name="dance" label="Dances" to="/admin/dance" exact />
+            <q-route-tab name="instruments" label="Instruments" to="/admin/instruments" exact  />
+            <q-route-tab name="pictures" label="Gallery" to="/admin/galery" exact   />
+            <q-route-tab name="songs" label="Songs" to="/admin/songs" exact   />
+            <q-route-tab name="equipments" label="Equipments" to="/admin/equipments" exact   />
+            <q-route-tab name="uploads" label="Uploads" to="/admin/uploads" exact   />
           </q-tabs>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="dance">
@@ -168,11 +168,7 @@ import { IUploadFile } from 'src/store/upload-module/state';
     ...mapActions('picture', ['getAllPictures']),
     ...mapActions('song', ['getAllSongs']),
     ...mapActions('equipment', ['getAllEquipments']),
-    ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('uiNav', ['addInstrumentPopups']),
-    ...mapActions('uiNav', ['addPicturePopups']),
-    ...mapActions('uiNav', ['addSongPopups']),
-    ...mapActions('uiNav', ['addEquipmentPopups'])
+    ...mapActions('uiNav', ['addDancePopups', 'addInstrumentPopups', 'addPicturePopups', 'addSongPopups', 'addEquipmentPopups'])
   }
 })
 export default class Homeadmin extends Vue {

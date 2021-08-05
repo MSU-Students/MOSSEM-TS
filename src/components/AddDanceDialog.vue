@@ -59,7 +59,6 @@
         <q-dialog v-model="checkerror" auto-close seamless position="top">
           <q-card style="width: 350px">
             <q-linear-progress :value="1" color="white" />
-
             <q-card-section class="bg-white ">
               <div>
                 <div class="text-weight-bold text-red text-center">
