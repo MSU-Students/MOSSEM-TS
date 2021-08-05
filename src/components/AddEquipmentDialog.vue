@@ -131,7 +131,6 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
   computed: {
   },
   methods: {
-    ...mapActions('uiNav', ['addEquipmentPopups']),
     ...mapActions('equipment', [
       'createEquipment',
       'updateEquipment',
@@ -146,7 +145,6 @@ export default class AddEquipmentDialog extends Vue {
     return /^\/admin\/equipments\/(edit|new)$/.exec(this.$route.path) != null;
   }
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
-  addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
   updateEquipment!: (payload: any) => Promise<void>;
   getAllEquipments!: () => Promise<void>;
@@ -204,19 +202,18 @@ export default class AddEquipmentDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.resetForm();
         } else {
-          throw 'Something wrong!';
+          throw 'No image uploaded!';
         }
       }
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
-        caption: error.message
+        caption: error.message || error
       });
     } finally {
-      this.addEquipmentPopups(false);
+      this.closeDialog();
     }
   }
 
@@ -239,13 +236,14 @@ export default class AddEquipmentDialog extends Vue {
       });
       this.resetForm();
       await this.getAllEquipments();
-      this.addEquipmentPopups(false);
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
         caption: error.message || error
       });
+    } finally {
+      this.closeDialog();
     }
   }
   resetForm() {

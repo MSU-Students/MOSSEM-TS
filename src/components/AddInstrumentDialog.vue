@@ -146,7 +146,6 @@ export default class AddInstrumentDialog extends Vue {
     return /^\/admin\/instruments\/(edit|new)$/.exec(this.$route.path) != null;
   }
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
-  addInstrumentPopups!: (show: boolean) => void;
   createInstrument!: (payload: InstrumentDto) => Promise<void>;
   updateInstrument!: (payload: any) => Promise<void>;
   getAllInstruments!: () => Promise<void>;
@@ -201,9 +200,8 @@ export default class AddInstrumentDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.resetForm();
         } else {
-          throw 'No file uploaded';
+          throw 'No image uploaded';
         }
       } catch (error) {
         this.$q.notify({
@@ -212,7 +210,7 @@ export default class AddInstrumentDialog extends Vue {
           caption: error.message || error
         });
       } finally {
-        await this.$router.replace('/admin/instruments');
+        await this.closeDialog();
       }
     }
   }

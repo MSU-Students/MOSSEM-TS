@@ -94,7 +94,6 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
   computed: {
   },
   methods: {
-    ...mapActions('uiNav', ['addDancePopups']),
     ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances']),
     ...mapActions('uploads', ['uploadFile'])
   }
@@ -106,7 +105,6 @@ export default class AddDanceDialog extends Vue {
   get ShowDanceDialog(): boolean {
     return /^\/admin\/dance\/(edit|new)$/.exec(this.$route.path) != null;
   }
-  addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
   updateDance!: (payload: any) => Promise<void>;
   getAllDances!: () => Promise<void>;
@@ -150,14 +148,12 @@ export default class AddDanceDialog extends Vue {
       this.loading = false;
     } else {
       await this.createDance(this.dance);
-      this.addDancePopups(false);
       this.$q.notify({
         type: 'positive',
         message: 'Upload Success!'
       });
-      this.restForm();
       this.loading = false;
-      await this.$router.replace('/admin/dance');
+      this.closeDialog();
     }
   }
   async editDance() {
@@ -165,13 +161,11 @@ export default class AddDanceDialog extends Vue {
     try {
       await this.updateDance(this.dance);
       await this.getAllDances();
-      this.addDancePopups(false);
       this.$q.notify({
         type: 'positive',
         message: 'Edited Successfully!'
       });
       this.loading = false;
-      this.restForm();
     } catch (error) {
       this.$q.notify({
         type: 'negative',
@@ -179,7 +173,7 @@ export default class AddDanceDialog extends Vue {
       });
       this.loading = false;
     } finally {
-      await this.$router.replace('/admin/dance');
+      await this.closeDialog();
     }
   }
   private restForm() {

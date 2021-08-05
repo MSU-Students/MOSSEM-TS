@@ -97,10 +97,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapActions } from 'vuex';
 
 @Component({
-  computed: {
-  },
   methods: {
-    ...mapActions('uiNav', ['addPicturePopups']),
     ...mapActions('picture', [
       'createPicture',
       'updatePicture',
@@ -117,7 +114,6 @@ export default class AddPictureDialog extends Vue {
   }
   shouldShow = false;
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
-  addPicturePopups!: (show: boolean) => void;
   createPicture!: (payload: PictureDto) => Promise<void>;
   updatePicture!: (payload: PictureDto) => Promise<void>;
   getAllPictures!: () => Promise<void>;
@@ -150,7 +146,6 @@ export default class AddPictureDialog extends Vue {
       this.picture.description == ''
     ) {
       this.checkerror = true;
-      this.addPicturePopups(false);
     } else {
       const res = await this.uploadFile({
         file: this.file, 
@@ -168,16 +163,16 @@ export default class AddPictureDialog extends Vue {
             type: 'positive',
             message: 'Upload Success!'
           });
-          this.resetForm();
         } else {
           throw 'No image uploaded';
         }
-        this.addPicturePopups(false);
       } catch (error) {
         this.$q.notify({
           type: 'negative',
           message: 'Something wrong!'
         });
+      } finally {
+        await this.closeDialog();
       }
     }
   }
@@ -211,20 +206,21 @@ export default class AddPictureDialog extends Vue {
       });
       this.resetForm();
       await this.getAllPictures();
-      this.addPicturePopups(false);
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
         caption: error.message || error
       });
+    } finally {
+      await this.closeDialog();
     }
   }
 
   async closeDialog() {
     this.checkerror = false;
     this.resetForm();
-    await this.$router.replace('/admin/gallery')
+    await this.$router.replace('/admin/gallery');
   }
 }
 </script>

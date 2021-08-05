@@ -133,7 +133,6 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
   computed: {
   },
   methods: {
-    ...mapActions('uiNav', ['addSongPopups']),
     ...mapActions('song', ['createSong', 'updateSong', 'getAllSongs']),
     ...mapActions('uploads', ['uploadFile'])
   }
@@ -144,7 +143,6 @@ export default class AddSongDialog extends Vue {
     return /^\/admin\/songs\/(edit|new)$/.exec(this.$route.path) != null;
   };
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
-  addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
   updateSong!: (payload: any) => Promise<void>;
   getAllSongs!: () => Promise<void>;
@@ -213,7 +211,7 @@ export default class AddSongDialog extends Vue {
         caption: error.message
       });
     } finally {
-      this.addSongPopups(false);
+      this.closeDialog();
     }
   }
 
@@ -245,15 +243,15 @@ export default class AddSongDialog extends Vue {
         type: 'positive',
         message: 'Edited Successfully!'
       });
-      this.resetForm();
       await this.getAllSongs();
     } catch (error) {
-      debugger;
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
         caption: error.message
       });
+    } finally {
+      this.closeDialog();
     }
   }
 
