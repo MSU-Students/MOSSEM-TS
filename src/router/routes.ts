@@ -16,7 +16,6 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: UserLayout,
-    meta: { requiresGuest: true },
     children: [
       {
         path: '/',
@@ -46,7 +45,6 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/',
-    meta: { requiresGuest: true },
     component: MainLayout,
     children: [
       {

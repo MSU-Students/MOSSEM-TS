@@ -124,8 +124,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
-import uploadService from 'src/services/upload.service';
 import { EquipmentDto } from 'src/services/rest-api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
@@ -137,12 +137,14 @@ import { EquipmentDto } from 'src/services/rest-api';
       'createEquipment',
       'updateEquipment',
       'getAllEquipments'
-    ])
+    ]),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddEquipmentDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: EquipmentDto, isUpdating: boolean};
   ShowEquipmentDialog!: boolean;
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
   updateEquipment!: (payload: any) => Promise<void>;
@@ -160,7 +162,7 @@ export default class AddEquipmentDialog extends Vue {
     status: ''
   };
 
-  file: any = [];
+  file: File = new File([], 'Select File');
 
   fileChoose(val: any) {
     this.file = val;
@@ -183,11 +185,16 @@ export default class AddEquipmentDialog extends Vue {
       ) {
         this.checkerror = true;
       } else {
-        const resUrl: any = await uploadService.uploadFile(
-          this.file,
-          'equipment'
+        const res = await this.uploadFile(
+          {
+            file: this.file,
+            type: 'image',
+            title: this.equipment
+          }
+
         );
-        if (typeof resUrl == 'string' || resUrl.name != 'FirebaseError') {
+        const resUrl = res.url;
+        if (typeof resUrl == 'string') {
           await this.createEquipment({
             ...this.equipment,
             url: resUrl
@@ -205,21 +212,19 @@ export default class AddEquipmentDialog extends Vue {
             quantity: '',
             status: ''
           };
-          this.file = [];
+          this.file = new File([], 'Select File');
         } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
+          throw 'Something wrong!';
         }
       }
-      this.addEquipmentPopups(false);
     } catch (error) {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
         caption: error.message
       });
+    } finally {
+      this.addEquipmentPopups(false);
     }
   }
 

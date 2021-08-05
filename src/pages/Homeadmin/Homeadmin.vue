@@ -20,6 +20,7 @@
             <q-tab name="pictures" label="Gallery" />
             <q-tab name="songs" label="Songs" />
             <q-tab name="equipments" label="Equipments" />
+            <q-tab name="uploads" label="Uploads" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="dance">
@@ -66,6 +67,44 @@
                 @view="view"
               />
             </q-tab-panel>
+            <q-tab-panel name="uploads">
+              <q-table
+                title="Uploads"
+                :data="uploads"
+                :columns="columnsUploads"
+                no-data-label="No active uploads"
+              >
+                <template v-slot:body="props">
+                  <q-tr :props="props">
+                    <q-td key="title" :props="props">
+                      {{ props.row.title }}
+                    </q-td>
+                    <q-td key="filename" :props="props">
+                      {{ props.row.filename }}
+                    </q-td>
+                    <q-td key="type" :props="props">
+                      <q-badge color="blue">
+                        {{ props.row.type }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="progress" :props="props">
+                      <q-circular-progress
+                        :value="props.row.progress"
+                        size="40px"
+                        show-value
+                        
+                        color="light-blue"
+                        :thickness="0.35"
+                        :min="0" :max="100"
+                        class="q-ma-md"
+                      >
+                        {{ props.row.progress }}%
+                      </q-circular-progress>
+                    </q-td>
+                  </q-tr>
+                </template>
+              </q-table>
+            </q-tab-panel>
           </q-tab-panels>
         </q-card>
 
@@ -104,6 +143,7 @@ import {
   SongDto,
   EquipmentDto
 } from 'src/services/rest-api';
+import { IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   components: {
@@ -119,7 +159,8 @@ import {
     ...mapState('instrument', ['instruments']),
     ...mapState('picture', ['pictures']),
     ...mapState('song', ['songs']),
-    ...mapState('equipment', ['equipments'])
+    ...mapState('equipment', ['equipments']),
+    ...mapState('uploads', ['uploads'])
   },
   methods: {
     ...mapActions('dance', ['getAllDances']),
@@ -135,6 +176,7 @@ import {
   }
 })
 export default class Homeadmin extends Vue {
+  uploads!: IUploadFile[];
   dances!: DanceDto[];
   instruments!: InstrumentDto[];
   pictures!: PictureDto[];
@@ -260,6 +302,36 @@ export default class Homeadmin extends Vue {
       sortable: true
     }
   ];
+  columnsUploads = [
+    {
+      name: 'title',
+      align: 'center',
+      label: 'Title',
+      field: 'title',
+      sortable: true
+    },
+    {
+      name: 'filename',
+      align: 'center',
+      label: 'File name',
+      field: 'filename',
+      sortable: true
+    },
+    {
+      name: 'type',
+      align: 'center',
+      label: 'File Type',
+      field: 'type',
+      sortable: true
+    },
+    {
+      name: 'progress',
+      align: 'center',
+      label: 'Progress',
+      field: 'progress',
+      sortable: true
+    },
+  ];
   dataDances: DanceDto[] = [];
   dataInstruments: InstrumentDto[] = [];
   dataPictures: PictureDto[] = [];
@@ -298,7 +370,6 @@ export default class Homeadmin extends Vue {
     this.dataEquipments = this.equipments;
     await this.getAllSongs();
     this.dataSongs = this.songs;
-    console.log(this.dataSongs);
   }
 
   async showDialog() {

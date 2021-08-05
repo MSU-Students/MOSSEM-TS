@@ -128,11 +128,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import { SongDto } from 'src/services/rest-api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
+import { debug } from 'util';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowSongDialog']),
-    ...mapState('uploads', ['uploads'])
+    ...mapState('uiNav', ['ShowSongDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
@@ -142,9 +142,8 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 })
 export default class AddSongDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: SongDto, isUpdating: boolean};
-  uploads!: IUploadFile[];
   ShowSongDialog!: boolean;
-  uploadFile!:(payload:{file: File, type: FileTypes}) => Promise<IUploadFile>;
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
   updateSong!: (payload: any) => Promise<void>;
@@ -163,14 +162,14 @@ export default class AddSongDialog extends Vue {
     performedplaces: ''
   };
 
-  file?: File;
+  file: File = new File([], 'Select File');
 
   fileChoose(val: File) {
     this.file = val;
   }
 
   showDialog() {
-    this.song = { ...this.data.payload, url: '' };
+    this.song = { ...this.data.payload };
   }
 
   hideDialog() {
@@ -185,11 +184,11 @@ export default class AddSongDialog extends Vue {
         this.song.description == ''
       ) {
         this.checkerror = true;
-        this.addSongPopups(false);
-      } else if (this.file) {
+      } else if (this.file.size) {
         const upload = await this.uploadFile({
           file: this.file,
-          type: 'audio'
+          type: 'audio',
+          title: this.song.name
         })
         const resUrl = upload.url; 
         if (typeof resUrl == 'string') {
@@ -210,14 +209,10 @@ export default class AddSongDialog extends Vue {
             songwriter: '',
             performedplaces: ''
           };
-          this.file = undefined;
+          this.file = new File([], 'Select File');
         } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-        this.addSongPopups(false);
+          throw 'Something wrong!';
+        }        
       }
     } catch (error) {
       this.$q.notify({
@@ -225,55 +220,40 @@ export default class AddSongDialog extends Vue {
         message: 'Something wrong!',
         caption: error.message
       });
+    } finally {
+      this.addSongPopups(false);
     }
   }
 
   async editSong() {
     try {
-      if (this.file) {
+      if (this.file.size) {
         const upload = await this.uploadFile({
           file: this.file,
-          type: 'audio'
+          type: 'audio',
+          title: this.song.name
         })
-        const resUrl = upload.url; 
-        if (typeof resUrl == 'string') {
-          await this.updateSong({
-            ...this.song,
-            url: resUrl
-          });
-          this.$q.notify({
-            type: 'positive',
-            message: 'Edited Successfully!'
-          });
-          this.song = {
-            id: '',
-            url: '',
-            name: '',
-            description: '',
-            datecreated: '',
-            songwriter: '',
-            performedplaces: ''
-          };
-        } else {
-          this.$q.notify({
-            type: 'negative',
-            message: 'Something wrong!'
-          });
-        }
-      } else {
-        await this.updateSong({
-          ...this.song,
-          url: this.data.payload.url
-        });
-        this.$q.notify({
-          type: 'positive',
-          message: 'Edited Successfully!'
-        });
-      }
-
+        this.song.url = upload.url;
+      } 
+      await this.updateSong({
+        ...this.song
+      });
+      this.$q.notify({
+        type: 'positive',
+        message: 'Edited Successfully!'
+      });
+      this.song = {
+        id: '',
+        url: '',
+        name: '',
+        description: '',
+        datecreated: '',
+        songwriter: '',
+        performedplaces: ''
+      };
       await this.getAllSongs();
-      this.addSongPopups(false);
     } catch (error) {
+      debugger;
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',

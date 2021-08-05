@@ -5,6 +5,9 @@ export interface IUploadFile {
   type: FileTypes;
   progress: number; //0 - 100
   url: string;
+  title: string;
+  pause: Function;
+  resume: Function;
 }
 
 export interface IUploadStates {

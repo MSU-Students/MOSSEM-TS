@@ -89,18 +89,22 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { mapState, mapActions } from 'vuex';
 import { DanceDto } from 'src/services/rest-api/api';
+import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
+
 @Component({
   computed: {
     ...mapState('uiNav', ['ShowDanceDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
-    ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances'])
+    ...mapActions('dance', ['createDance', 'updateDance', 'getAllDances']),
+    ...mapActions('uploads', ['uploadFile'])
   }
 })
 export default class AddDanceDialog extends Vue {
   // vuex
   @Prop({ type: Object, default: {} }) readonly data!: { payload: DanceDto, isUpdating: boolean};
+  uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   ShowDanceDialog!: boolean;
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
@@ -110,19 +114,21 @@ export default class AddDanceDialog extends Vue {
   checkerror = false;
   shouldShow = false;
   loading = false;
-  dance: any = {
+  dance: DanceDto = {
     id: '',
     url: '',
     name: '',
     description: ''
   };
-  file: any = [];
+  file: File = new File([], 'Select File');
   fileChoose(val: any) {
     this.file = val;
   }
 
+
+
   showDialog() {
-    this.dance = this.data.payload;
+    this.dance = this.data.payload || this.dance;
   }
 
   hideDialog() {

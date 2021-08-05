@@ -4,29 +4,28 @@ import { StateInterface } from '../index';
 import { FileTypes, IUploadFile, IUploadStates } from './state';
 
 const actions: ActionTree<IUploadStates, StateInterface> = {
-  async uploadFile(context, payload: {file: File, type: FileTypes}) {
+  async uploadFile(context, payload: {file: File, type: FileTypes, title:string}) {
+    var latestUploadIndex = 0;
+    const info = await uploadService.uploadFile(payload.file, payload.type , (percentage) => {
+      context.commit('updateProgress', {
+        index: latestUploadIndex,
+        progress: percentage
+      })
+    });
     const upload : IUploadFile = {
       content: payload.file,
       filename: payload.file.name,
       progress: 0,
       type: payload.type,
-      url: '',
+      title: payload.title,
+      url: info.url,
+      pause: info.pause,
+      resume: info.resume
     }
     context.commit('uploadFile', upload);
-    const latestUpload = context.state.uploads.length - 1;
-    const resUrl: string = await uploadService.uploadFile(payload.file, payload.type , (percentage) => {
-      context.commit('updateProgress', {
-        index: latestUpload,
-        progress: percentage
-      })
-    });
-    context.commit('updateProgress', {
-      index: latestUpload,
-      progress: 100,
-      url: resUrl
-    })
-    return context.state.uploads[latestUpload];
-  }
+    latestUploadIndex = context.state.uploads.length - 1;
+    return context.state.uploads[latestUploadIndex];
+  } 
 };
 
 export default actions;
