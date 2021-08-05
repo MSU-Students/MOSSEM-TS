@@ -75,10 +75,6 @@
             </q-card-section>
           </transition>
         </q-card>
-        <q-tooltip anchor="top left" self="center right" :offset="[10, 10]">
-          <strong>Hover Here!</strong>
-          (<q-icon name="keyboard_arrow_left"/>)
-        </q-tooltip>
       </template>
     </div>
   </q-page>

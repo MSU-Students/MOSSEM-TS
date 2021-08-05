@@ -1,3 +1,4 @@
+
 <template>
   <q-layout class="bg-img" view="hHh LpR fFf">
     <!-- header -->
@@ -55,18 +56,19 @@
         </q-toolbar>
       </q-header>
     </transition>
+    
     <q-drawer
       v-model="drawer"
       show-if-above
-      :mini="miniState"
-      @mouseover="miniState = false"
-      @mouseout="miniState = true"
       :height="100"
       :width="250"
       :breakpoint="500"
       elevated
+      overlay
     >
-      <q-scroll-area class="fullscreen drawer-bg text-white">
+    
+      <q-scroll-area class="fullscreen bg-img1 text-white">
+        <transition appear enter-active-class="animated fadeIn">
         <div>
           <q-list padding>
             <div>
@@ -185,6 +187,7 @@
             <q-separator />
           </q-list>
         </div>
+        </transition>
       </q-scroll-area>
     </q-drawer>
 
@@ -235,14 +238,19 @@ export default class MainLayout extends Vue {
 
 <style scoped>
 .my-menu-link {
-  background: linear-gradient(to top, #68130288 1%, #8b8373a2 64%);
+  background: linear-gradient(90deg, rgba(104, 19, 2, 0.63) 0%, rgba(104,19,2,0) 44%, rgba(255,255,255,0.3039454770891854) 100%);
 }
 .my-menu-link-title {
-  background: linear-gradient(to top, #e483047c 1%, #e483047c 64%);
+  background: linear-gradient(to top, #e4830433 1%, #e483042f 64%);
 }
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;
+}
+.bg-img1 {
+  background-image: url('~assets/background/BackGroundBlur.jpg');
+  padding: 0px;
+  box-shadow: 0 0 0 1000px rgb(0 0 0 / 25%) inset;
 }
 .header-bg {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.082), rgba(7, 7, 7, 0.73)), url('~assets/background/TribalPattern.jpg');
@@ -250,7 +258,7 @@ export default class MainLayout extends Vue {
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
 .drawer-bg {
-  background-image: linear-gradient(to right, rgba(245, 246, 252, 0.267), rgba(0, 0, 0, 0.459)), url('~assets/background/TribalPattern.jpg');
+  background-image: linear-gradient(to right, rgba(245, 246, 252, 0.267), rgba(0, 0, 0, 0.459));
   background-position-y: center;
   box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
