@@ -41,6 +41,8 @@
                     /> -->
                     <q-media-player
                       class="q-mt-sm"
+                      radius="1rem"
+                      :show-big-play-button="true"
                       type="audio"
                       color="white"
                       background-color="orange-6"

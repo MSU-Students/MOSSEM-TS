@@ -6,23 +6,23 @@ import {
   Param,
   Post,
   Put,
-  UploadedFile,
-  UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
-import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import {
+  ApiBearerAuth,
   ApiBody,
-  ApiConsumes,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
-import { UploadDto } from '../dto/upload.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DanceDto } from '../dto/dance.dto';
 import { DanceService } from './dance.service';
 
 @Controller('dance')
 export class DanceController {
   constructor(private readonly danceService: DanceService) {}
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiBody({ type: DanceDto })
   @ApiOperation({ summary: 'Add new dance', operationId: 'AddDance' })
   @ApiResponse({ status: 200, type: DanceDto })
@@ -53,6 +53,8 @@ export class DanceController {
     return this.danceService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Delete dance with id {id}',
     operationId: 'DeleteDance',
@@ -63,6 +65,8 @@ export class DanceController {
     return this.danceService.deleteOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'update dance', operationId: 'UpdateDance' })
   @ApiBody({ type: DanceDto })
   @Put(':id')

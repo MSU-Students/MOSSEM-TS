@@ -153,7 +153,7 @@ export default class AddDanceDialog extends Vue {
         message: 'Upload Success!'
       });
       this.loading = false;
-      this.closeDialog();
+      await this.closeDialog();
     }
   }
   async editDance() {

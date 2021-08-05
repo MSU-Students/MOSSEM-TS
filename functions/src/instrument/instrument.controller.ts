@@ -6,18 +6,23 @@ import {
     Param,
     Post,
     Put,
+    UseGuards,
   } from '@nestjs/common';
   import {
+    ApiBearerAuth,
     ApiBody,
     ApiOperation,
     ApiResponse,
   } from '@nestjs/swagger';
+  import { JwtAuthGuard } from '../auth/jwt-auth.guard';
   import { InstrumentDto } from '../dto/instrument.dto';
   import { InstrumentService } from './instrument.service';
   
   @Controller('instrument')
   export class InstrumentController {
     constructor(private readonly instrumentService: InstrumentService) {}
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @ApiBody({ type: InstrumentDto })
     @ApiOperation({ summary: 'Add new instrument', operationId: 'AddInstrument' })
     @ApiResponse({ status: 200, type: InstrumentDto })
@@ -46,6 +51,8 @@ import {
       return this.instrumentService.findOne(id);
     }
   
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({
       summary: 'Delete instrument with id {id}',
       operationId: 'DeleteInstrument',
@@ -55,7 +62,9 @@ import {
     async deleteOne(@Param('id') id: string): Promise<InstrumentDto> {
       return this.instrumentService.deleteOne(id);
     }
-  
+    
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'update instrument', operationId: 'UpdateInstrument' })
     @ApiBody({ type: InstrumentDto })
     @Put(':id')

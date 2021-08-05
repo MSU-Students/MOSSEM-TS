@@ -6,18 +6,23 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PictureDto } from '../dto/picture.dto';
 import { PictureService } from './picture.service';
 
 @Controller('picture')
 export class PictureController {
   constructor(private readonly pictureService: PictureService) {}
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiBody({ type: PictureDto })
   @ApiOperation({ summary: 'Add new picture', operationId: 'AddPicture' })
   @ApiResponse({ status: 200, type: PictureDto })
@@ -46,6 +51,8 @@ export class PictureController {
     return this.pictureService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Delete picture with id {id}',
     operationId: 'DeletePicture',
@@ -56,6 +63,8 @@ export class PictureController {
     return this.pictureService.deleteOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'update picture', operationId: 'UpdatePicture' })
   @ApiBody({ type: PictureDto })
   @Put(':id')

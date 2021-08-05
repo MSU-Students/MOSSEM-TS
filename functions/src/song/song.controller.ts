@@ -6,18 +6,23 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { SongDto } from '../dto/song.dto';
 import { SongService } from './song.service';
 
 @Controller('song')
 export class SongController {
   constructor(private readonly songService: SongService) {}
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiBody({ type: SongDto })
   @ApiOperation({ summary: 'Add new song', operationId: 'AddSong' })
   @ApiResponse({ status: 200, type: SongDto })
@@ -46,6 +51,8 @@ export class SongController {
     return this.songService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Delete song with id {id}',
     operationId: 'DeleteSong',
@@ -56,13 +63,15 @@ export class SongController {
     return this.songService.deleteOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'update song', operationId: 'UpdateSong' })
-    @ApiBody({ type: SongDto })
-    @Put(':id')
-    async update(
-      @Param('id') id: string,
-      @Body() player: SongDto,
-    ): Promise<SongDto> {
-      return this.songService.update(id, player);
-    }
+  @ApiBody({ type: SongDto })
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() player: SongDto,
+  ): Promise<SongDto> {
+    return this.songService.update(id, player);
+  }
 }

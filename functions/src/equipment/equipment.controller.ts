@@ -6,20 +6,24 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiBody,
-  ApiConsumes,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { EquipmentDto } from '../dto/equipment.dto';
 import { EquipmentService } from './equipment.service';
 
 @Controller('equipment')
 export class EquipmentController {
   constructor(private readonly equipmentService: EquipmentService) {}
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiBody({ type: EquipmentDto })
   @ApiOperation({ summary: 'Add new equipment', operationId: 'AddEquipment' })
   @ApiResponse({ status: 200, type: EquipmentDto })
@@ -48,6 +52,8 @@ export class EquipmentController {
     return this.equipmentService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Delete equipment with id {id}',
     operationId: 'DeleteEquipment',
@@ -58,6 +64,8 @@ export class EquipmentController {
     return this.equipmentService.deleteOne(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'update equipment', operationId: 'UpdateEquipment' })
   @ApiBody({ type: EquipmentDto })
   @Put(':id')

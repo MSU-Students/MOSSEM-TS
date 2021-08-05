@@ -211,7 +211,7 @@ export default class AddSongDialog extends Vue {
         caption: error.message
       });
     } finally {
-      this.closeDialog();
+      await this.closeDialog();
     }
   }
 
@@ -251,7 +251,7 @@ export default class AddSongDialog extends Vue {
         caption: error.message
       });
     } finally {
-      this.closeDialog();
+      await this.closeDialog();
     }
   }
 

@@ -4,7 +4,7 @@ class HelperService {
     const match = url.match(regExp);
 
     const id = match && match[2].length === 11 ? match[2] : '';
-    return `https://youtube.com/embed/${id}`;
+    return id && `https://youtube.com/embed/${id}` || url;
   }
 }
 

@@ -213,7 +213,7 @@ export default class AddEquipmentDialog extends Vue {
         caption: error.message || error
       });
     } finally {
-      this.closeDialog();
+      await this.closeDialog();
     }
   }
 
@@ -243,7 +243,7 @@ export default class AddEquipmentDialog extends Vue {
         caption: error.message || error
       });
     } finally {
-      this.closeDialog();
+      await this.closeDialog();
     }
   }
   resetForm() {

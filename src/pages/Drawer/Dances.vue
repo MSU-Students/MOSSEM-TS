@@ -58,11 +58,11 @@
           </q-carousel-slide>
         </q-carousel>
       </transition>
-      <template v-for="(dance, index) in dances">
+      <template v-for="dance in dances">
         <q-card
           class="bg-img radius"
           v-if="dance.name == slide"
-          :key="index"
+          :key="dance.id"
           style="width: 80vw"
           ><transition appear enter-active-class="animated fadeIn">
             <q-card-section>
@@ -75,7 +75,7 @@
             </q-card-section>
           </transition>
         </q-card>
-        <q-tooltip anchor="top left" self="center right" :offset="[10, 10]">
+        <q-tooltip :key="dance.id" anchor="top left" self="center right" :offset="[10, 10]">
           <strong>Hover Here!</strong>
           (<q-icon name="keyboard_arrow_left"/>)
         </q-tooltip>

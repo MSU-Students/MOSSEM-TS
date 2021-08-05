@@ -1,6 +1,12 @@
 import { restApi } from './rest-api.service';
 
 class AuthService {
+  async getProfile() {
+    const response = await restApi.getProfile();
+    if (response.status == 200) {
+      return response.data;
+    }
+  }
   async loginUser(username: string, password: string, userType?: string) {
     const response = (await restApi.login(username, password, userType)) as any;
     if (response.status == 201) {
@@ -14,8 +20,6 @@ class AuthService {
 
   async logoutUser() {
     localStorage.removeItem('access-token');
-    // const response = await restApi.logout();
-    // return response;
   }
 }
 

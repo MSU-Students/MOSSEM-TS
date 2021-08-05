@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
 import { Store } from 'vuex';
-import { StateInterface } from '../store';
+import { StateInterface, $store } from '../store';
 import routes from './routes';
 
 /*
@@ -15,38 +15,41 @@ export default route<Store<StateInterface>>(function({ Vue }) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
     routes,
-
-    // Leave these as is and change from quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
   });
 
   Router.beforeEach((to, from, next) => {
-    const session = localStorage.getItem('access-token');
     if (to.matched.some(record => record.meta.requiresGuest)) {
-      if (session != null) {
+      const isAuth = $store.ref?.state.auth.currentUser;
+      if (isAuth) {
         next({
-          path: '/admin',
-          query: {
-            redirect: to.fullPath
-          }
+          path: '/admin/dance'
         });
       } else {
         next();
       }
     } else if (to.matched.some(record => record.meta.requiresAdmin)) {
-      if (session == null) {
+      $store.ref?.dispatch('auth/authUser').then(()=> {
+        const isAuth = $store.ref?.state.auth.currentUser;
+        if (!isAuth) {
+          next({
+            path: '/login',
+            query: {
+              redirect: to.fullPath
+            }
+          });
+        } else {
+          next();
+        }
+      }).catch(()=> {
         next({
           path: '/login',
           query: {
             redirect: to.fullPath
           }
         });
-      } else {
-        next();
-      }
+      });
     } else {
       next();
     }
