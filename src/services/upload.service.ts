@@ -10,18 +10,19 @@ class UploadService {
         //next
         const percentage =  100.0 * value.bytesTransferred / value.totalBytes;
         cb?.call(this, Math.round(percentage));
-        
-        storageRef.snapshot.ref.getDownloadURL().then((url:string) => {
-          resolve({
-            url: url,
-            pause: () => {
-              return storageRef.pause();
-            },
-            resume: () => {
-              return storageRef.resume();
-            }
-          });
-        }).catch(reject);
+        if (percentage > 0) {
+          storageRef.snapshot.ref.getDownloadURL().then((url:string) => {
+            resolve({
+              url: url,
+              pause: () => {
+                return storageRef.pause();
+              },
+              resume: () => {
+                return storageRef.resume();
+              }
+            });
+          }).catch(reject);
+        }
       }, (error) => {
         reject(error);
       }, () => {

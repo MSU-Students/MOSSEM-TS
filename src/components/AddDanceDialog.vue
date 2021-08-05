@@ -86,13 +86,12 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { DanceDto } from 'src/services/rest-api/api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowDanceDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addDancePopups']),
@@ -104,7 +103,9 @@ export default class AddDanceDialog extends Vue {
   // vuex
   @Prop({ type: Object, default: {} }) readonly data!: { payload: DanceDto, isUpdating: boolean};
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
-  ShowDanceDialog!: boolean;
+  get ShowDanceDialog(): boolean {
+    return /^\/admin\/dance\/(edit|new)$/.exec(this.$route.path) != null;
+  }
   addDancePopups!: (show: boolean) => void;
   createDance!: (payload: DanceDto) => Promise<void>;
   updateDance!: (payload: any) => Promise<void>;
@@ -156,6 +157,7 @@ export default class AddDanceDialog extends Vue {
       });
       this.restForm();
       this.loading = false;
+      await this.$router.replace('/admin/dance');
     }
   }
   async editDance() {
@@ -176,6 +178,8 @@ export default class AddDanceDialog extends Vue {
         message: 'Something wrong!'
       });
       this.loading = false;
+    } finally {
+      await this.$router.replace('/admin/dance');
     }
   }
   private restForm() {
@@ -187,10 +191,10 @@ export default class AddDanceDialog extends Vue {
     };
   }
 
-  closeDialog() {
-    this.addDancePopups(false);
+  async closeDialog() {    
     this.checkerror = false;
     this.restForm();
+    await this.$router.replace('/admin/dance');
   }
 }
 </script>

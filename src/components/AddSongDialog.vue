@@ -125,13 +125,12 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { SongDto } from 'src/services/rest-api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowSongDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addSongPopups']),
@@ -141,7 +140,9 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 })
 export default class AddSongDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: SongDto, isUpdating: boolean};
-  ShowSongDialog!: boolean;
+  get ShowSongDialog(): boolean {
+    return /^\/admin\/songs\/(edit|new)$/.exec(this.$route.path) != null;
+  };
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addSongPopups!: (show: boolean) => void;
   createSong!: (payload: SongDto) => Promise<void>;
@@ -256,10 +257,10 @@ export default class AddSongDialog extends Vue {
     }
   }
 
-  closeDialog() {
-    this.addSongPopups(false);
+  async closeDialog() {
     this.checkerror = false;
     this.resetForm();
+    await this.$router.replace('/admin/songs')
   }
 }
 </script>

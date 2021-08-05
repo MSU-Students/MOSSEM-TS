@@ -5,7 +5,7 @@ import { FileTypes, IUploadFile, IUploadStates } from './state';
 
 const actions: ActionTree<IUploadStates, StateInterface> = {
   async uploadFile(context, payload: {file: File, type: FileTypes, title:string}) {
-    let latestUploadIndex = 0;
+    let latestUploadIndex = context.state.uploads.length;
     const info = await uploadService.uploadFile(payload.file, payload.type , (percentage) => {
       context.commit('updateProgress', {
         index: latestUploadIndex,

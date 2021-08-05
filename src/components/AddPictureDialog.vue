@@ -94,11 +94,10 @@
 import { PictureDto } from 'src/services/rest-api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowPictureDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addPicturePopups']),
@@ -113,7 +112,9 @@ import { mapState, mapActions } from 'vuex';
 export default class AddPictureDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: PictureDto, isUpdating: boolean};
 
-  ShowPictureDialog!: boolean;
+  get ShowPictureDialog(): boolean {
+    return /^\/admin\/gallery\/(edit|new)$/.exec(this.$route.path) != null;
+  }
   shouldShow = false;
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addPicturePopups!: (show: boolean) => void;
@@ -220,10 +221,10 @@ export default class AddPictureDialog extends Vue {
     }
   }
 
-  closeDialog() {
-    this.addPicturePopups(false);
+  async closeDialog() {
     this.checkerror = false;
     this.resetForm();
+    await this.$router.replace('/admin/gallery')
   }
 }
 </script>

@@ -1,7 +1,5 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
-import uiNav from './ui-navigation-module';
-import { UiNavStateInterface } from './ui-navigation-module/state';
 import dance from './dance-module';
 import instrument from './instrument-module';
 import equipment from './equipment-module';
@@ -27,7 +25,6 @@ export interface StateInterface {
   instrument: IInstrument;
   song: ISong;
   equipment: IEquipment;
-  uiNav: UiNavStateInterface;
   uploads: IUploadStates;
 }
 
@@ -41,7 +38,6 @@ export default store(function({ Vue }) {
       instrument,
       equipment,
       song,
-      uiNav,
       uploads
     },
 

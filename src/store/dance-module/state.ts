@@ -1,13 +1,13 @@
 import { DanceDto } from 'src/services/rest-api';
 
 export interface IDance {
-  createDance: DanceDto;
+  activeDance: DanceDto;
   dances: DanceDto[];
 }
 
 function state(): IDance {
   return {
-    createDance: {
+    activeDance: {
       id: '',
       url: '',
       name: '',

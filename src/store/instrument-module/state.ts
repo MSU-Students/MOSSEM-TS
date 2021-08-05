@@ -1,13 +1,13 @@
 import { InstrumentDto } from 'src/services/rest-api';
 
 export interface IInstrument {
-  createInstrument: InstrumentDto;
+  activeInstrument: InstrumentDto;
   instruments: InstrumentDto[];
 }
 
 function state(): IInstrument {
   return {
-    createInstrument: {
+    activeInstrument: {
       id: '',
       url: '',
       name: '',

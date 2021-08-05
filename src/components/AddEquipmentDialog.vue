@@ -123,13 +123,12 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { EquipmentDto } from 'src/services/rest-api';
 import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 
 @Component({
   computed: {
-    ...mapState('uiNav', ['ShowEquipmentDialog'])
   },
   methods: {
     ...mapActions('uiNav', ['addEquipmentPopups']),
@@ -143,7 +142,9 @@ import { FileTypes, IUploadFile } from 'src/store/upload-module/state';
 })
 export default class AddEquipmentDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: EquipmentDto, isUpdating: boolean};
-  ShowEquipmentDialog!: boolean;
+  get ShowEquipmentDialog(): boolean {
+    return /^\/admin\/equipments\/(edit|new)$/.exec(this.$route.path) != null;
+  }
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
   addEquipmentPopups!: (show: boolean) => void;
   createEquipment!: (payload: EquipmentDto) => Promise<void>;
@@ -259,10 +260,10 @@ export default class AddEquipmentDialog extends Vue {
     };
     this.file = new File([], 'Select File');
   }
-  closeDialog() {
-    this.addEquipmentPopups(false);
+  async closeDialog() {
     this.checkerror = false;
     this.resetForm();
+    await this.$router.replace('/admin/equipments')
   }
 }
 </script>

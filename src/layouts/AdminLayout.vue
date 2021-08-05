@@ -25,7 +25,7 @@
             </q-menu>
           </q-btn>
           <q-btn
-            v-if="$route.path != '/Homeadmin'"
+            v-if="$route.path != '/admin'"
             flat
             class="radius"
             icon="home"

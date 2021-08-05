@@ -25,7 +25,6 @@ export default route<Store<StateInterface>>(function({ Vue }) {
 
   Router.beforeEach((to, from, next) => {
     const session = localStorage.getItem('access-token');
-    console.log(session, 'session');
     if (to.matched.some(record => record.meta.requiresGuest)) {
       if (session != null) {
         next({
