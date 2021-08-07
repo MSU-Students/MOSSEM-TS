@@ -100,7 +100,7 @@ export default class Login extends Vue {
     try {
       this.loading = true;
       await authService.loginUser(this.username, this.password);
-      await this.$router.replace('/admin/login');
+      await this.$router.replace('/admin/dance');
       this.$q.notify({
         type: 'positive',
         message: 'Login Successfully!',

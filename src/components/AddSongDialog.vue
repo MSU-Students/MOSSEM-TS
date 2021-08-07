@@ -210,11 +210,10 @@ export default class AddSongDialog extends Vue {
       this.$q.notify({
         type: 'negative',
         message: 'Something wrong!',
-        caption: error.message
       });
     } finally {
-      this.addSongPopups(false);
-    }
+        await this.$router.replace('/admin/songs');
+      }
   }
 
   private resetForm() {

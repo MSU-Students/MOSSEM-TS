@@ -58,9 +58,8 @@
         <q-td colspan="100%" style="white-space: none !important">
           <div class="q-pa-md">
             <q-video
-              style="max-width: 580px; width: 100%"
+              style="height: 30vw; width: 100% ,"
               v-if="title.toLowerCase() == 'dance'"
-              class="absolute-full"
               :src="convertUrl(props.row.url)"
             />
             <div

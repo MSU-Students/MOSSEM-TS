@@ -51,7 +51,7 @@
                   style="max-width: 1000px"
                 >
                   <q-dialog v-model="viewdetails" seamless position="left">
-                    <q-card style="width: 350px" class="bg-grey">
+                    <q-card style="width: 350px" class="eqp-bg">
                       <q-btn
                         dense
                         color="white"
@@ -181,6 +181,10 @@ export default class Equipment extends Vue {
 </script>
 
 <style scoped>
+.eqp-bg {
+   background-color: rgb(104 19 2 / 40%);
+  backdrop-filter: blur(3px);
+}
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 10px;

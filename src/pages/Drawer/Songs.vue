@@ -83,7 +83,7 @@
                   style="max-width: 1000px"
                 >
                   <q-dialog v-model="viewdetails" seamless position="right">
-                    <q-card style="width: 350px" class="bg-grey">
+                    <q-card style="width: 350px" class="song-bg">
                       <q-btn dense flat color="white" icon="close" v-close-popup>
                         <q-tooltip content-class="bg-white text-primary"
                           >Close</q-tooltip
@@ -165,6 +165,10 @@ export default class Song extends Vue {
 </script>
 
 <style scoped>
+.song-bg {
+   background-color: rgb(104 19 2 / 40%);
+  backdrop-filter: blur(3px);
+}
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 10px;
