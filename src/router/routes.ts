@@ -18,10 +18,11 @@ const routes: RouteConfig[] = [
     component: UserLayout,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'landing-page',
         component: Landingpage
-      }
+      },
+     
     ]
   },
   {
@@ -34,7 +35,7 @@ const routes: RouteConfig[] = [
         component: Homeadmin,
         meta: { requiresAdmin: true }
       },
-      {
+       {
         path: 'login',
         name: 'login-page',
         component: Login,

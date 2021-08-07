@@ -51,9 +51,10 @@
                   style="max-width: 1000px"
                 >
                   <q-dialog v-model="viewdetails" seamless position="left">
-                    <q-card style="width: 350px" class="bg-white">
+                    <q-card style="width: 350px" class="eqp-bg">
                       <q-btn
                         dense
+                        color="white"
                         flat
                         icon="close"
                         v-close-popup
@@ -62,7 +63,7 @@
                           >Close</q-tooltip
                         >
                       </q-btn>
-                      <q-card-section class="bg-img ">
+                      <q-card-section class="header-bg ">
                         <div>
                           <div
                             class="text-h3 text-center text-shadow text-white text-capitalize q-mt-sm q-mb-xs"
@@ -180,11 +181,20 @@ export default class Equipment extends Vue {
 </script>
 
 <style scoped>
+.eqp-bg {
+   background-color: rgb(104 19 2 / 40%);
+  backdrop-filter: blur(3px);
+}
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 10px;
 }
 .text-shadow {
   text-shadow: 1px 1px 6px #000000;
+}
+.header-bg {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.082), rgba(7, 7, 7, 0.73)), url('~assets/background/TribalPattern.jpg');
+  background-position: center;
+  box-shadow: 0 0 0 1000px rgb(0 0 0 / 45%) inset;
 }
 </style>

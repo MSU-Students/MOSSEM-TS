@@ -113,7 +113,7 @@ export default class AddPictureDialog extends Vue {
   @Prop({ type: Object, default: {} }) readonly data!: { payload: PictureDto, isUpdating: boolean};
 
   get ShowPictureDialog(): boolean {
-    return /^\/admin\/gallery\/(edit|new)$/.exec(this.$route.path) != null;
+    return /^\/admin\/pictures\/(edit|new)$/.exec(this.$route.path) != null;
   }
   shouldShow = false;
   uploadFile!:(payload:{file: File, type: FileTypes, title: string}) => Promise<IUploadFile>;
@@ -150,7 +150,6 @@ export default class AddPictureDialog extends Vue {
       this.picture.description == ''
     ) {
       this.checkerror = true;
-      this.addPicturePopups(false);
     } else {
       const res = await this.uploadFile({
         file: this.file, 
@@ -172,12 +171,14 @@ export default class AddPictureDialog extends Vue {
         } else {
           throw 'No image uploaded';
         }
-        this.addPicturePopups(false);
       } catch (error) {
         this.$q.notify({
           type: 'negative',
           message: 'Something wrong!'
         });
+      }
+      finally {
+        await this.$router.replace('/admin/pictures');
       }
     }
   }

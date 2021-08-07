@@ -1,7 +1,7 @@
 <template>
   <q-layout class="bg-img" view="hHh LpR fFf">
     <transition appear enter-active-class="animated fadeInDown">
-      <q-header elevated class="bg-transparent">
+      <q-header elevated class="admin-bg">
         <q-toolbar>
           <q-toolbar-title>Admin Page</q-toolbar-title>
           <q-btn
@@ -75,6 +75,10 @@ export default class extends Vue {
 </script>
 
 <style scoped>
+.admin-bg {
+   background-color: rgb(104 19 2 / 40%);
+  backdrop-filter: blur(3px);
+}
 .bg-img {
   background-image: url('~assets/background/BackGroundBlur.jpg');
   padding: 0px;

@@ -21,7 +21,7 @@
               label="Instruments"
               to="/admin/instruments"
             />
-            <q-route-tab name="pictures" label="Gallery" to="/admin/galery" />
+            <q-route-tab name="pictures" label="Gallery" to="/admin/gallery" />
             <q-route-tab name="songs" label="Songs" to="/admin/songs" exact />
             <q-route-tab
               name="equipments"

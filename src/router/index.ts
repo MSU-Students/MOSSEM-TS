@@ -28,7 +28,7 @@ export default route<Store<StateInterface>>(function({ Vue }) {
     if (to.matched.some(record => record.meta.requiresGuest)) {
       if (session != null) {
         next({
-          path: '/admin',
+          path: '/admin/dance',
           query: {
             redirect: to.fullPath
           }

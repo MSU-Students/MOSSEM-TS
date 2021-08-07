@@ -216,8 +216,8 @@ export default class AddEquipmentDialog extends Vue {
         caption: error.message
       });
     } finally {
-      this.addEquipmentPopups(false);
-    }
+        await this.$router.replace('/admin/equipments');
+      }
   }
 
   async editEquipment() {

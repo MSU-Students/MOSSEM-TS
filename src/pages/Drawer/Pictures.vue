@@ -33,13 +33,13 @@
         transition-hide="fade"
         @hide="showImage = false"
       >
-        <q-card class="bg-transparent text-white">
+        <q-card class="pic-bg text-white">
           <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
 
           <q-card-section class="q-pt-none text-center">
-            <img :src="dialogData.url" style="max-width: 100%" />
+            <img :src="dialogData.url" style="max-width: 100%" class="shadow-10"/>
             <div class="text-h2">{{ dialogData.name }}</div>
             <div class="text-subtitle2">{{ dialogData.description }}</div>
           </q-card-section>
@@ -86,6 +86,10 @@ export default class Picture extends Vue {
 </script>
 
 <style scoped>
+.pic-bg {
+   background-color: rgb(104 19 2 / 40%);
+  backdrop-filter: blur(3px);
+}
 .example-item {
   height: 290px;
   width: 290px;
