@@ -115,8 +115,10 @@ export default class Dance extends Vue {
 
   async mounted() {
     this.$refs.bar.start();
-    const dance = await this.getAllDances();
-    this.slide = dance[0].name;
+    const dances = await this.getAllDances();
+    if (dances.length) {
+      this.slide = dances[0].name;
+    }
     this.$refs.bar.stop();
   }
 
