@@ -6,6 +6,7 @@ import MainLayout from 'src/layouts/MainLayout.vue';
 import Login from 'src/pages/auth/Login.vue';
 import Homeadmin from 'src/pages/Homeadmin/Homeadmin.vue';
 import Dances from 'src/pages/Drawer/Dances.vue';
+import SearchResult from 'src/pages/Drawer/SearchResult.vue';
 import Instruments from 'src/pages/Drawer/Instruments.vue';
 import Songs from 'src/pages/Drawer/Songs.vue';
 import Pictures from 'src/pages/Drawer/Pictures.vue';
@@ -48,6 +49,10 @@ const routes: RouteConfig[] = [
     component: MainLayout,
     children: [
       {
+        path: 'Search',
+        name: 'Search-page',
+        component: SearchResult
+      },{
         path: 'Dances',
         name: 'Dances-page',
         component: Dances

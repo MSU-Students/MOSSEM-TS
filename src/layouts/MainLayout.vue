@@ -41,6 +41,16 @@
               </q-btn>
             </q-menu>
           </q-btn>
+          <q-input
+            outlined
+            dense
+            v-model="keywords"
+            rounded
+            color="white"
+            input-class="text-white"
+            placeholder="Search"
+            @keydown.enter="searchContent"
+          />
           <q-btn
             outline
             class="radius"
@@ -226,9 +236,14 @@ export default class MainLayout extends Vue {
   miniState = true;
   link = '';
   text = '';
+  keywords = '';
 
   async logout() {
     await authService.logoutUser();
+  }
+  searchContent() {
+    console.log('searching.....')
+    this.$router.push("/Search");
   }
 }
 </script>
