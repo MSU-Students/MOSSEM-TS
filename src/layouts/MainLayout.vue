@@ -41,16 +41,34 @@
               </q-btn>
             </q-menu>
           </q-btn>
-          <q-input
-            outlined
-            dense
+          <q-select
+            class="q-pa-sm"
             v-model="keywords"
+            dense
             rounded
-            color="white"
+            outlined
+            clearable
+            use-input
+            hide-selected
+            fill-input
+            input-debounce="0"
             input-class="text-white"
-            placeholder="Search"
-            @keydown.enter="searchContent"
-          />
+            color="white"
+            label="Search"
+            dropdown-icon=""
+            :loading="loading"
+            :options="searchResult"
+            @filter-abort="abortFilterFn"
+            style="width: 250px"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
           <q-btn
             outline
             class="radius"
@@ -228,22 +246,40 @@
 
 <script lang="ts">
 import authService from 'src/services/auth.service';
+import { PictureDto } from 'src/services/rest-api';
+import { ISearchResult, ISearchState } from 'src/store/search-module/state';
 import { Vue, Component } from 'vue-property-decorator';
+import { mapState, mapActions } from 'vuex';
 
-@Component({})
+@Component({
+  computed: {
+    ...mapState('search', ['result'])
+  },
+  methods: {
+    ...mapActions('search', ['searchFromAll'])
+  }
+})
 export default class MainLayout extends Vue {
+  result!: ISearchResult[];
+  searchFromAll!: (keyword: string) => Promise<void>;
   drawer = false;
   miniState = true;
+  loading = false;
   link = '';
   text = '';
   keywords = '';
+  searchResult: ISearchResult[] = [];
 
   async logout() {
     await authService.logoutUser();
   }
-  searchContent() {
-    console.log('searching.....')
-    this.$router.push("/Search");
+
+  async searchContent() {
+    this.loading = true;
+    console.log('searching.....', this.keywords);
+    await this.searchFromAll(this.keywords);
+    this.searchResult = this.result;
+    this.loading = false;
   }
 }
 </script>

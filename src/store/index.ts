@@ -6,7 +6,7 @@ import equipment from './equipment-module';
 import song from './song-module';
 import picture from './picture-module';
 import uploads from './upload-module';
-import result from './search-module';
+import search from './search-module';
 import { IDance } from './dance-module/state';
 import { IInstrument } from './instrument-module/state';
 import { IPicture } from './picture-module/state';
@@ -42,7 +42,7 @@ export default store(function({ Vue }) {
       equipment,
       song,
       uploads,
-      result
+      search
     },
 
     // enable strict mode (adds overhead!)
